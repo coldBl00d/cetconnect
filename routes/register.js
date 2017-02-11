@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
 
 	console.log("I got the name: "+ req.body.name);
+	res.json({'status':'200'});
 
 });
 
