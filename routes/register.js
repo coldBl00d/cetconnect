@@ -1,12 +1,12 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router();	
 var path = require('path');
 /* GET home page. */
 
 var appDir = path.dirname(require.main.filename);
 
 router.use(express.static(path.resolve(appDir,'public/controllers')));
-router.use(express.static(path.resolve(appDir,'public/css')));
+//router.use(express.static(path.resolve(appDir,'public/css')));
 
 router.get('/', function(req, res, next) {
   
