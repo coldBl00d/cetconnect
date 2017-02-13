@@ -1,12 +1,12 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router();	
 var path = require('path');
 /* GET home page. */
 
 var appDir = path.dirname(require.main.filename);
 
 router.use(express.static(path.resolve(appDir,'public/controllers')));
-router.use(express.static(path.resolve(appDir,'public/css')));
+//router.use(express.static(path.resolve(appDir,'public/css')));
 
 router.get('/', function(req, res, next) {
   
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   var fileName = 'index.html';
   res.sendFile(fileName, options, function (err) {
     if (err) {
-      //console.log(options.root+"/register.html");
+      //console.log(options.root+"/index.html");
       next(err);
     } else {
       console.log('Sent:', fileName);
