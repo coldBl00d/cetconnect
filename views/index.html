@@ -1,0 +1,46 @@
+<!doctype html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Getting Started</title>
+		<script src="js/jquery.js"></script>
+		<script src="js/styleLogin.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/controller.js"></script>
+		<script src="js/angular-route.min.js"></script>
+
+	  <link rel="stylesheet" href="css/styles.css" >
+	</head>
+
+	<body>
+<!--------------------------------->
+		<hgroup>
+			<h1>CET Connect</h1>
+		</hgroup>
+		<form ng-controller="loginController">
+			<div class="group">
+				<input type="text" ng-model="formModel.admissionNumber"><span class="highlight"></span><span class="bar"></span>
+				<label>Admission Number</label>
+			</div>
+			<div class="group">
+				<input type="password" ng-model="formModel.passwordLogin"><span class="highlight"></span><span class="bar"></span>
+				<label>Password</label>
+			</div>
+			<button type="button" class="button buttonBlue" ng-click="login()">Login
+				<div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+			</button>
+		</form>
+		<footer>
+			<img src="res/lo.gif"></a>
+		</footer>
+
+		<div class="container">
+			<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+			<div ng-view></div>
+		</div>
+
+<!--------------------------------->
+	</body>
+
+</html>
