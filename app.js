@@ -57,7 +57,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(2000);
+app.listen(3000);
 
 console.log('App running at 3000');
 console.log(__dirname, "/views/index.html");

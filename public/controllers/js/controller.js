@@ -1,5 +1,6 @@
 var application=angular.module("myApp",['ngRoute']);
 
+
 application.config(function($routeProvider){
 	$routeProvider
 	.when('/',{
@@ -23,17 +24,19 @@ application.config(function($routeProvider){
 	});
 })
 
-application.controller("loginController",function($scope,$http,$location,$rootScope){
+application.controller("loginCon",function($scope,$http,$location,$rootScope){
 	$scope.formModel={};
 	$scope.login=function(){
 		console.log($scope.formModel);
-		$http.post("http://localhost:3000/index",$scope.formModel)
+		$http.post("http://localhost:3000/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
-					$rootScope.loggedIn=true;
-					$location.path("/dashboard");
-			},function(){
-				alert("Invalid Credentials");
-				console.log("errorOccured :(  !!!!!");
+                    console.log(response);
+                    if (response.data.status == '200'){
+					   $rootScope.loggedIn=true;
+                        $location.path("/dashboard");
+                    }
+			},function(err){
+				console.log("Something went wrong when sending the data");
 			});
 	};
 });
