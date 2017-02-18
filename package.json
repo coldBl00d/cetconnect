@@ -6,12 +6,17 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.16.0",
-    "cookie-parser": "~1.4.3",
+    "body-parser": "^1.16.1",
+    "cookie-parser": "^1.4.3",
     "debug": "~2.6.0",
     "express": "^4.14.1",
     "jade": "~1.11.0",
-    "morgan": "~1.7.0",
+    "mongoose": "^4.8.3",
+    "morgan": "^1.8.1",
     "serve-favicon": "~2.3.2"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/coldBl00d/cetconnect.git",
+  "author": "coldblood <akhilrajr94@gmail.com>",
+  "license": "MIT"
 }

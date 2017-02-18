@@ -9,7 +9,7 @@ router.use(express.static(path.resolve(appDir,'public/controllers')));
 //router.use(express.static(path.resolve(appDir,'public/css')));
 
 router.get('/', function(req, res, next) {
-  
+  console.log("Inside Index Route");
   var options = {
     root: path.resolve(appDir, 'views')
   };

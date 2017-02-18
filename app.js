@@ -4,13 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-<<<<<<< HEAD
+
 var mongoose = require('mongoose');
-var register = require('./routes/register');
-=======
+//var register = require('./routes/register');
 
 var index = require('./routes/index');
->>>>>>> kk
 var users = require('./routes/users');
 
 var app = express();
@@ -27,11 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/index', index);
+app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-<<<<<<< HEAD
+
 
 mongoose.connect('localhost:27017/test', function(err){
     if (err){
@@ -41,8 +39,7 @@ mongoose.connect('localhost:27017/test', function(err){
     }
 });
 
-=======
->>>>>>> kk
+
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -60,7 +57,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000);
+app.listen(2000);
 
 console.log('App running at 3000');
 console.log(__dirname, "/views/index.html");
