@@ -28,7 +28,7 @@ application.config(function($routeProvider){
 
 application.controller("loginCon",function($scope,$http,$location,$rootScope){
 	console.log("In my controller");
-	$scope.formModel={};
+	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
 		console.log($scope.formModel);
 		$http.post("http://localhost:3000/",$scope.formModel)
