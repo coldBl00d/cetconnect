@@ -2,9 +2,10 @@ var application=angular.module("myApp",['ngRoute']);
 
 
 application.config(function($routeProvider){
-	$routeProvider
+	console.log("Routing...");
+    $routeProvider
 	.when('/',{
-		templateUrl:'login.html'
+		templateUrl:'html/login.html'
 	})
 	.when('/dashboard',{
 		resolve:{
@@ -14,17 +15,19 @@ application.config(function($routeProvider){
 				}
 			}
 		},
-		templateUrl:'dashboard.html'
+		templateUrl:'html/dashboard.html'
 	})
 	.when('/login',{
-		templateUrl:'login.html'
+		templateUrl:'html/login.html'
 	})
 	.otherwise({
 		redirectTo:'/'
 	});
 })
 
+
 application.controller("loginCon",function($scope,$http,$location,$rootScope){
+	console.log("In my controller");
 	$scope.formModel={};
 	$scope.login=function(){
 		console.log($scope.formModel);

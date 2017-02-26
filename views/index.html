@@ -4,11 +4,12 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Getting Started</title>
-		<script src="js/jquery.js"></script>
+		<script src="fDependency/jQuery/jquery.js"></script>
 		<script src="js/styleLogin.js"></script>
-		<script src="js/angular.min.js"></script>
-		<script src="js/controller.js"></script>
-		<script src="js/angular-route.min.js"></script>
+		<script src="fDependency/angular/angular.min.js"></script>
+		<script src="controllers/controller.js"></script>
+		<script src="fDependency/angular/angular-route.min.js"></script>
+		
   	<link rel="stylesheet" href="css/styles.css" >
 
 		<!-- mouse parallax effect -->
@@ -18,18 +19,18 @@
 	</head>
 
 	<body>
-<!--------------------------------->
 
-<div id="background" class="mouse-bg"></div>
-		<div class="container" ng-app="myApp" >
-			<div ng-view ng-app="myApp"> </div>
+
+		<div id="background" class="mouse-bg"></div>
+		<div class="container" ng-app = "myApp" >
+			<div ng-view> </div>
 		</div>
 
 
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="background_responsive/mouse.parallax.js"></script>
-<!--------------------------------->
+
 	</body>
 
 </html>

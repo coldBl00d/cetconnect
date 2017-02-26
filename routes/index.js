@@ -6,8 +6,7 @@ var userModel = require("../models/users");
 
 var appDir = path.dirname(require.main.filename);
 
-router.use(express.static(path.resolve(appDir,'public/controllers')));
-//router.use(express.static(path.resolve(appDir,'public/css')));
+//router.use(express.static(path.resolve(appDir,'public/controllers')));
 
 router.get('/', function(req, res, next) {
 

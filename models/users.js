@@ -15,6 +15,11 @@ var userSchema = new mongoose.Schema({
 	password : {
 		type : String, 
 		required : true
+	},
+
+	msgToken : {
+		type : String,
+		unique : true
 	}
 
 });
@@ -22,6 +27,12 @@ var userSchema = new mongoose.Schema({
 userSchema.methods.identify = function (){
 	console.log("Name: " + this.name);
 	console.log("UserId: "+ this.userid);
+}
+
+userSchema.methods.hasToken = function () {
+	if(this.msgToken) 
+		return true;
+	else return false;
 }
 
 var userModel = mongoose.model ('user', userSchema);
