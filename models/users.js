@@ -25,6 +25,11 @@ var userSchema = new mongoose.Schema({
 	subChannels: {
 		type: Array,
 		default: ['all']
+	},
+
+	adminOf : {
+		type:Array,
+		default:['all']
 	}
 
 });

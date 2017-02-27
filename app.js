@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-
+app.use('/broadcast',broadcast);
 
 mongoose.connect('localhost:27017/test', function(err){
     if (err){
