@@ -2,7 +2,6 @@ var application=angular.module("myApp",['ngRoute']);
 
 
 application.config(function($routeProvider){
-	console.log("Routing...");
     $routeProvider
 	.when('/',{
 		templateUrl:'html/login.html'
@@ -28,6 +27,7 @@ application.config(function($routeProvider){
 
 application.controller("loginCon",function($scope,$http,$location,$rootScope){
 	console.log("In my controller");
+	$rootScope.showsidebar=true;
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
 		console.log($scope.formModel);
@@ -45,10 +45,19 @@ application.controller("loginCon",function($scope,$http,$location,$rootScope){
 });
 
 
+/*sidebar routing controller*/
+
+application.controller('sidebarcontroller', function($scope,$location){
+
+	
+
+});
+
 /* Dashboard controllers */
 
 application.controller('broadcastViewController', function($scope, $rootScope){
 
+	$rootScope.showsidebar=false;
 	var broadcast = { sender:"Akhil", message:"Hey there kids", timestamp:"32 minutes ago"}
 	$scope.broadcastCollection = [broadcast];
 
