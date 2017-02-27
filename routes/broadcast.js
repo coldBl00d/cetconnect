@@ -7,6 +7,7 @@ var userModel = require("../models/users");
 
 var header = "[BROADCAST]";
 var payload = {};
+
 router.post('/', function(req,res,next){
 
     payload = req.body.payload;
