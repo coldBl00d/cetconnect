@@ -9,6 +9,7 @@
 		<script src="fDependency/angular/angular.min.js"></script>
 		<script src="fDependency/angular/angular-route.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/3.6.10/firebase.js"></script>
+		<script src="js/angularfire.min.js"></script>
 		
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -63,8 +64,8 @@
 					</div>
 				</form>
 				<ul class="nav menu">
-					<li class="active"><a href="index.html"><svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</a></li>
-					<li><a><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>Channels</a></li>
+					<li class="active"><a ng-click="changeView('broadcast')"><svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</a></li>
+					<li><a ng-click="changeView('channels')"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>Channels</a></li>
 					<li><a><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg>Messages</a></li>
 					<li><a><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Request Broadcast</a></li>
 					<li class="parent ">

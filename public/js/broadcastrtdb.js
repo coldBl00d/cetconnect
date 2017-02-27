@@ -9,4 +9,4 @@ var config = {
 firebase.initializeApp(config);
 
 var rtdb = firebase.database();
-var broadcastReference = firebase.database().ref('channel/' + 'all' + '/broadcasts');
+
