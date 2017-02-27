@@ -30,6 +30,7 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.identify = function (){
+	console.log("User Document\n");
 	console.log("Name: " + this.name);
 	console.log("UserId: "+ this.userid);
 }
