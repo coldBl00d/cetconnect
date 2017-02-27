@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var http = require('http');
 
 
 //var register = require('./routes/register');
@@ -40,7 +41,9 @@ mongoose.connect('localhost:27017/test', function(err){
 
 
 
-app.listen(process.env.PORT|3000);
+http.createServer(app).listen(process.env.PORT, function() {
+	console.log("Guestbook started at port 3000");
+});
 
 console.log('App running at 3000');
 
