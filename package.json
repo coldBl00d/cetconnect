@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./app.js"
   },
   "dependencies": {
     "angular": "^1.6.2",
@@ -19,7 +19,10 @@
     "morgan": "^1.8.1",
     "serve-favicon": "~2.3.2"
   },
-  "main": "index.js",
+  "engines": {
+    "node":"4.2.x"
+  },
+  "main": "app.js",
   "repository": "https://github.com/coldBl00d/cetconnect.git",
   "author": "coldblood <akhilrajr94@gmail.com>",
   "license": "MIT"
