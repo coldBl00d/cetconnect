@@ -1,10 +1,11 @@
 var application=angular.module("myApp",['ngRoute']);
-
+var broadcastsLocal = [];
 
 application.config(function($routeProvider){
     $routeProvider
 	.when('/',{
-		templateUrl:'html/login.html'
+		templateUrl:'html/login.html',
+		
 	})
 	.when('/dashboard',{
 		resolve:{
@@ -14,7 +15,8 @@ application.config(function($routeProvider){
 				}
 			}
 		},
-		templateUrl:'html/dashboard.html'
+		templateUrl:'html/dashboard.html',
+		css:'styles/bootstrap.min.css'
 	})
 	.when('/login',{
 		templateUrl:'html/login.html'
@@ -49,17 +51,32 @@ application.controller("loginCon",function($scope,$http,$location,$rootScope){
 
 application.controller('sidebarcontroller', function($scope,$location){
 
-	
+
 
 });
 
 /* Dashboard controllers */
 
 application.controller('broadcastViewController', function($scope, $rootScope){
-
+	
+	
 	$rootScope.showsidebar=false;
-	var broadcast = { sender:"Akhil", message:"Hey there kids", timestamp:"32 minutes ago"}
-	$scope.broadcastCollection = [broadcast];
+	$scope.broadcastCollection = [];
+	broadcastReference.on('value', function(snapshot){ 
+			$scope.broadcastCollection = snapshot.val();
+			// snapshot.forEach(function (child) {
+
+			// 	var temp = {};
+			// 	temp.senderid = child.val().sender;
+			// 	temp.message = child.val().message;
+			// 	temp.timestamp = child.val().timestamp;
+			// 	$scope.broadcastCollection.push(temp);
+			
+			// });
+			$scope.$apply();
+			console.log($scope.broadcastCollection);
+	});
 
 
 });
+
