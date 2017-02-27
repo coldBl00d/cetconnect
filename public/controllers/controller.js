@@ -43,3 +43,14 @@ application.controller("loginCon",function($scope,$http,$location,$rootScope){
 			});
 	};
 });
+
+
+/* Dashboard controllers */
+
+application.controller('broadcastViewController', function($scope, $rootScope){
+
+	var broadcast = { sender:"Akhil", message:"Hey there kids", timestamp:"32 minutes ago"}
+	$scope.broadcastCollection = [broadcast];
+
+
+});
