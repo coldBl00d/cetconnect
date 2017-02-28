@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "angular": "^1.6.2",
+    "angular-route": "^1.6.2",
+    "angular-ui-router": "^0.4.2",
     "angularfire": "^2.3.0",
     "body-parser": "^1.16.1",
     "cookie-parser": "^1.4.3",
@@ -20,7 +22,7 @@
     "serve-favicon": "~2.3.2"
   },
   "engines": {
-    "node":"4.2.x"
+    "node": "4.2.x"
   },
   "main": "app.js",
   "repository": "https://github.com/coldBl00d/cetconnect.git",

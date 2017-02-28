@@ -37,7 +37,17 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular@^1.6.2:
+angular-route@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.6.2.tgz#95a349de2e73674f3dd783bb21e8d7b3fc526312"
+
+angular-ui-router@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/angular-ui-router/-/angular-ui-router-0.4.2.tgz#b6aed1ca69a683c82e3992898eabd4ba15868608"
+  dependencies:
+    angular "^1.0.8"
+
+angular@^1.0.8, angular@^1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.2.tgz#d0b677242ac4bf9ae81424297c6320973af4bb5a"
 
