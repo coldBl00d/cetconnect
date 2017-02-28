@@ -6,10 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Getting Started</title>
 
-		<link ng-href="css/bootstrap.min.css" rel='stylesheet'>
-		<link ng-href="css/styles.css" rel='stylesheet'>
 		
+		
+
 		<script src="fDependency/angular/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
 		<script src="fDependency/angular/angular-route.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/3.6.10/firebase.js"></script>
 		<script src="js/angularfire.min.js"></script>
@@ -18,7 +19,8 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/lumino.glyphs.js"></script>
 
-		
+		<link href="css/bootstrap.min.css" rel='stylesheet'>
+		<link href="css/styles.css" rel='stylesheet'>		
 
 		<script src="js/broadcastrtdb.js"></script>
 		<script src="controllers/controller.js"></script>
@@ -70,7 +72,7 @@
 				</form>
 				<ul class="nav menu">
 					<li class="active"><a ng-click="changeView('broadcast')"><svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</a></li>
-					<li><a ng-click="changeView('channels')"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>Channels</a></li>
+					<li><a ng-click="changeView('channel')"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>Channels</a></li>
 					<li><a><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg>Messages</a></li>
 					<li><a><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Request Broadcast</a></li>
 					<li class="parent ">
@@ -102,17 +104,14 @@
 			</div><!--/.sidebar-->
 
 
-			<div ng-view> 
+			<ui-view> 
 				
-			</div>
+			</ui-view>
 		</div>
-
-
 		
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		
-
 	</body>
 
 </html>

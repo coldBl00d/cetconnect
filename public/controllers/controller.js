@@ -3,23 +3,27 @@ var broadcastsLocal = [];
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
-	 $urlRouterProvider.otherwise({
-		 redirectTo:'/'
-	 }).state("login",{
-		 url:"/",
-		 templateUrl:'html/login.html'
+	 $urlRouterProvider.otherwise("login");
+	 
+	 $stateProvider.state("login",{
+		 url:"/login",
+		 templateUrl:'html/login.html',
+		 controller:'loginCon'
 	 })
 	 .state('dashboard', {
 		 url:'/dashboard',
 		 templateUrl:'html/broadcast.html',
+		 controller:'broadcastViewController'
 	 })
 	 .state('broadcast', {
 		 url:'/broadcast',
-		 templateUrl:'html/broadcast.html'
+		 templateUrl:'html/broadcast.html',
+		 controller:'broadcastViewController'
 	 }).state('channel',{
 		 url:'/channel',
-		 templateUrl:'html/channels.html'
-	 }) 
+		 templateUrl:'html/channels.html',
+		 controller:''
+	 }); 
 	 
 }]);
 
@@ -81,11 +85,11 @@ application.controller("loginCon",function($scope,$http,$location,$rootScope){
 
 /*sidebar routing controller*/
 
-application.controller('sidebarcontroller', function($scope,$location){
+application.controller('sidebarcontroller', function($scope,$location,$state){
 	var header = "[sidebasrcontroller]";
 	$scope.changeView = function(view){
 		console.log(header, "changing view to "+ view);
-		$location.path('/'+view);
+	$state.go(view);
 	}
 
 });
