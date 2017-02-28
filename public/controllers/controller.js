@@ -1,5 +1,4 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
-var broadcastsLocal = [];
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
@@ -11,7 +10,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 controller:'loginCon'
 	 })
 	 .state('dashboard', {
-		 url:'/dashboard',
+		
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 })
@@ -28,42 +27,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 }]);
 
 
-
-
-
-// application.config(function($routeProvider){
-//     $routeProvider
-// 	.when('/',{
-// 		templateUrl:'html/login.html',
-		
-// 	})
-// 	.when('/dashboard',{
-// 		resolve:{
-// 			"check":function($location,$rootScope){
-// 				if(!$rootScope.loggedIn){
-// 					$location.path('/');
-// 				}
-// 			}
-// 		},
-// 		templateUrl:'html/broadcast.html',
-// 		css:'styles/bootstrap.min.css'
-// 	})
-// 	.when('/login',{
-// 		templateUrl:'html/login.html'
-// 	})
-// 	.when('/channels',{
-// 		templateUrl:'html/channels.html'
-// 	})
-// 	.when('/broadcast', {
-// 		templateUrl:'html/broadcast.html'
-// 	})
-// 	.otherwise({
-// 		redirectTo:'/'
-// 	});
-// });
-
-
-application.controller("loginCon",function($scope,$http,$location,$rootScope){
+application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
 	$rootScope.showsidebar=true;
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
@@ -74,7 +38,7 @@ application.controller("loginCon",function($scope,$http,$location,$rootScope){
                     console.log(response);
                     if (response.data.status == '200'){
 					   $rootScope.loggedIn=true;
-                        $location.path("/dashboard");
+                       $state.go("dashboard");
                     }
 			},function(err){
 				console.log("Something went wrong when sending the data");

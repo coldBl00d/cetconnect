@@ -6,46 +6,65 @@ var rtdb = firebaseadmin.database();
 var userModel = require("../models/users");
 
 var header = "[BROADCAST]";
-var payload = {};
 
 router.post('/', function(req,res,next){
-
+    response = res;
     payload = req.body.payload;
     if(payload.adminApproved){
         sendBroadcast(payload);
-        res.status(200).send();
+        res.send(200).end();
     }else{
         userModel.findOne({userid:payload.senderid})
         .exec()
-        .then(databaseCallback)
-        .catch(errorCallBack);
-        res.status(200).send();
-    }
+        .then(function(user) {
+                console.log(user);
+                var flag =0;
+                if(user){
+                    for(var i =0; i< user.adminOf.length; i++){
+                    // console.log(user.adminOf[i]+"::::"+payload.channel);
+                        if(user.adminOf[i] == payload.channel){
+                            flag =1;
+                            console.log(header, "user verified, sending payload");
+                            sendBroadcast(payload);
+                            return res.status(200).end();
+                        }
+                    }
+                    if (flag==0)
+                        console.log(header,"user "+payload.senderid + "is not an admin for channel "+ payload.channel);
+                        res.status(403).end();
+                }else{
+                    console.log(header,"user "+payload.senderid +" is not part of the system");
+                    res.status(404).end();
+                }
 
+        })
+        .catch(errorCallBack);
+    }
 
 });
 
-function databaseCallback (user){
+/*function databaseCallback (user){
+    
     console.log(user);
     var flag =0;
     if(user){
         for(var i =0; i< user.adminOf.length; i++){
-            console.log(user.adminOf[i]+"::::"+payload.channel);
+           // console.log(user.adminOf[i]+"::::"+payload.channel);
             if(user.adminOf[i] == payload.channel){
                 flag =1;
                 console.log(header, "user verified, sending payload");
                 sendBroadcast(payload);
-                //res.status(200).send();
+                return response.status(200).end();
             }
         }
         if (flag==0)
             console.log(header,"user "+payload.senderid + "is not an admin for channel "+ payload.channel);
-        //res.status(403).send();
+            response.status(403).end();
     }else{
         console.log(header,"user "+payload.senderid +" is not part of the system");
-       // res.status(404).send();
+         return response.status(404).end();
     }
-}
+}*/
 
 function errorCallBack(err){
     console.log(header,"Database failure when finding the user identifyin the user who send the broadcast");

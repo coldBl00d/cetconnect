@@ -19,17 +19,16 @@ var userSchema = new mongoose.Schema({
 
 	msgToken : {
 		type : String,
-		unique : true
 	},
 
 	subChannels: {
 		type: Array,
-		default: ['all']
+		default: [],
 	},
 
 	adminOf : {
 		type:Array,
-		default:['all']
+		default:['all'],
 	}
 
 });

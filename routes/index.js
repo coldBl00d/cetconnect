@@ -30,18 +30,6 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
     console.log ("In post")
      
-       /* var temp = new userModel();
-        temp.name = "JHON DOE";
-        temp.userid="s1111";
-        temp.password="1111";
-        temp.save (function(err){
-            if (err){
-                console.log("ERROR: Index.js \n MESSAGE: User could not be added to the database, this could be because jhon doe was added before hand. This code should be run only once");
-            }else{
-                console.log("Log: Index.js \n MESSAGE: Jhon doe added, now comment out the code that added him");
-            }
-        });
-    */
     var currentUser =  {
         userid:req.body.admissionNumber,
         password:req.body.passwordLogin
