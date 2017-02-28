@@ -1,36 +1,62 @@
-var application=angular.module("myApp",['ngRoute','firebase']);
+var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
 var broadcastsLocal = [];
 
-application.config(function($routeProvider){
-    $routeProvider
-	.when('/',{
-		templateUrl:'html/login.html',
+application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+
+	 $urlRouterProvider.otherwise({
+		 redirectTo:'/'
+	 }).state("login",{
+		 url:"/",
+		 templateUrl:'html/login.html'
+	 })
+	 .state('dashboard', {
+		 url:'/dashboard',
+		 templateUrl:'html/broadcast.html',
+	 })
+	 .state('broadcast', {
+		 url:'/broadcast',
+		 templateUrl:'html/broadcast.html'
+	 }).state('channel',{
+		 url:'/channel',
+		 templateUrl:'html/channels.html'
+	 }) 
+	 
+}]);
+
+
+
+
+
+// application.config(function($routeProvider){
+//     $routeProvider
+// 	.when('/',{
+// 		templateUrl:'html/login.html',
 		
-	})
-	.when('/dashboard',{
-		resolve:{
-			"check":function($location,$rootScope){
-				if(!$rootScope.loggedIn){
-					$location.path('/');
-				}
-			}
-		},
-		templateUrl:'html/broadcast.html',
-		css:'styles/bootstrap.min.css'
-	})
-	.when('/login',{
-		templateUrl:'html/login.html'
-	})
-	.when('/channels',{
-		templateUrl:'html/channels.html'
-	})
-	.when('/broadcast', {
-		templateUrl:'html/broadcast.html'
-	})
-	.otherwise({
-		redirectTo:'/'
-	});
-})
+// 	})
+// 	.when('/dashboard',{
+// 		resolve:{
+// 			"check":function($location,$rootScope){
+// 				if(!$rootScope.loggedIn){
+// 					$location.path('/');
+// 				}
+// 			}
+// 		},
+// 		templateUrl:'html/broadcast.html',
+// 		css:'styles/bootstrap.min.css'
+// 	})
+// 	.when('/login',{
+// 		templateUrl:'html/login.html'
+// 	})
+// 	.when('/channels',{
+// 		templateUrl:'html/channels.html'
+// 	})
+// 	.when('/broadcast', {
+// 		templateUrl:'html/broadcast.html'
+// 	})
+// 	.otherwise({
+// 		redirectTo:'/'
+// 	});
+// });
 
 
 application.controller("loginCon",function($scope,$http,$location,$rootScope){
