@@ -95,7 +95,8 @@ function sendBroadcast(payload){
         message:payload.message,
         sender:payload.sendername,
         timestamp:payload.timestamp,
-        senderid:payload.senderid
+        senderid:payload.senderid,
+        channel:payload.channel
     });
 
 }
