@@ -1,7 +1,7 @@
 /// <reference path="/node_modules/firebase/firebase-database.js" />
 var express = require('express');
 var path = require('path');
-//var favicon = require('serve-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -35,7 +35,7 @@ var options ={
     pass:'somesomepassword'
 }
 
-mongoose.connect('ds115870.mlab.com:15870/test9847',options, function(err){
+mongoose.connect('localhost:27017/test', function(err){
     if (err){
         console.log("Database connection failed");
     }else{
@@ -46,8 +46,8 @@ mongoose.connect('ds115870.mlab.com:15870/test9847',options, function(err){
 
 
 
-http.createServer(app).listen(process.env.PORT, function() {
-	console.log("CET CONNECT running at "+process.env.PORT );
+http.createServer(app).listen(process.env.PORT| 3000, function() {
+	console.log("CET CONNECT running at 3000" );
 });
 
 console.log('App running at 3000');
