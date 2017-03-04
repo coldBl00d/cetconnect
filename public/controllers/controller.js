@@ -1,5 +1,24 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
 
+var channels = [
+		{
+			name:'All',
+			subbed:false
+		},
+		{
+			name:'CSE',
+			subbed:true
+		},
+		{
+			name:'IEEE',
+			subbed:false
+		},
+		{
+			name:'Robocet',
+			subbed:true
+		}
+	];
+
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
 	 $urlRouterProvider.otherwise("login");
@@ -61,6 +80,7 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray){
 	
+	$scope.channels= channels;
 	$rootScope.showsidebar=false;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
@@ -74,14 +94,14 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	});
 
 	/*filter selected in the broadcast page*/
-	$scope.filterSelected = function(filterName){
-		$scope.currentFilter = filterName;
+	$scope.filterSelected = function(channel){
+		$scope.currentFilter = channel.name;
 		if($scope.currentFilter == 'All'){
 			/*load broadcast from today for all the subbed channels*/
 			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
 		}else{
 			/*load recent ones for all the selected channel*/
-			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+filterName.toLowerCase()+'/broadcasts'));
+			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel.name.toLowerCase()+'/broadcasts'));
 			return;
 		}
 	}
@@ -92,24 +112,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 
 application.controller('channelsController', function($scope, $rootScope){
 
-	var channels = [
-		{
-			name:'All',
-			subbed:false
-		},
-		{
-			name:'CSE',
-			subbed:true
-		},
-		{
-			name:'IEEE',
-			subbed:false
-		},
-		{
-			name:'Robocet',
-			subbed:true
-		}
-	]
+	
 	$scope.channels = channels;
 
 });

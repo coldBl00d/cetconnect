@@ -27,14 +27,12 @@
 							</div>
 							<div class="col-md-6">
 										<div class="dropdown pull-right" style="padding:15px">
-												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border-color: #0995f9;min-width: 90px" ng-init="currentFilter='All'"ng-bind="currentFilter">
-													filter_place_holder
+												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border-color: #0995f9;min-width: 90px" ng-init="currentFilter='All'">
+													{{currentFilter}}
 													<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-													<li class=""><a ng-click=filterSelected('All')>All</a></li>
-													<li class=""><a ng-click=filterSelected('CSE')>CSE</a></li>
-													<li class=""><a ng-click=filterSelected('IEEE')>IEEE</a></li>
+													<li ng-repeat="channel in channels"><a ng-click=filterSelected(channel)>{{channel.name}}</a></li>
 													<li role="separator" class="divider stock"></li>
 													<li><a href="">Separated link</a></li>
 												</ul>
