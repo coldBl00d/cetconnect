@@ -30,7 +30,12 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/broadcast',broadcast);
 
-mongoose.connect('localhost:27017/test', function(err){
+var options ={
+    user:"coldBl00d",
+    pass:'somesomepassword'
+}
+
+mongoose.connect('ds115870.mlab.com:15870/test9847',options, function(err){
     if (err){
         console.log("Database connection failed");
     }else{
