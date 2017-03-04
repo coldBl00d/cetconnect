@@ -20,7 +20,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 }).state('channels',{
 		 url:'/channels',
 		 templateUrl:'html/channels.html',
-		 controller:''
+		 controller:'channelsController'
 	 }); 
 	 
 }]);
@@ -90,3 +90,26 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 
 });
 
+application.controller('channelsController', function($scope, $rootScope){
+
+	var channels = [
+		{
+			name:'All',
+			subbed:false
+		},
+		{
+			name:'CSE',
+			subbed:true
+		},
+		{
+			name:'IEEE',
+			subbed:false
+		},
+		{
+			name:'Robocet',
+			subbed:true
+		}
+	]
+	$scope.channels = channels;
+
+});

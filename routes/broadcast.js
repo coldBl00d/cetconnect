@@ -51,9 +51,10 @@ router.post('/', function(req,res,next){
                             return res.status(200).end();
                         }
                     }
-                    if (flag==0)
+                    if (flag==0){
                         console.log(header,"user "+payload.senderid + "is not an admin for channel "+ payload.channel);
                         res.status(403).end();
+                    }
                 }else{
                     console.log(header,"user "+payload.senderid +" is not part of the system");
                     res.status(404).end();
