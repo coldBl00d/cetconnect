@@ -786,13 +786,13 @@ h1.page-header {
 
 /*Chat Widget*/
 
-.chat ul {
+.chatul {
 	list-style: none;
 	margin: -15px;
 	padding: 15px;
 }
 
-.chat ul li {
+.chatulli {
 	margin-bottom: 10px;
 	padding: 15px 5px;
 	border-bottom: 1px solid #eee;

@@ -10,7 +10,6 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 controller:'loginCon'
 	 })
 	 .state('dashboard', {
-		
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 })
@@ -66,6 +65,10 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var broadcast_reference = firebase.database().ref('channel/all').child('broadcasts');
 	$scope.broadcastCollection = $firebaseArray(broadcast_reference);
 	
+	/* called when the data is loaded into the broadcastCollection */
+	$scope.broadcastCollection.$loaded().then(function(){
+		console.log($scope.broadcastCollection);
+	});
 });
 
 

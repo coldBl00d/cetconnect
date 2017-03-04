@@ -18,13 +18,38 @@
 		<div class="row">
 			<div class="col-md-10">
 				<div class="panel panel-default chat">
-					<div class="panel-heading" id="accordion"><svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</div>
-					<div class="panel-body">
-						<ul ng-repeat="broadcast in broadcastCollection">
+					<div style="padding-left:15px; padding-right:15px">
+						<div class="row" >
+							<div class="col-md-6 col-xs-6" >
+								<div class="panel-heading" id="accordion" style=""><svg class="glyph stroked sound on" ><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</div>
+							</div>
+							<div class="col-md-6">
+										<div class="dropdown pull-right" style="padding:15px">
+												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+													Dropdown
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
+													<li class="stock chat"><a href="#">All</a></li>
+													<li class="stock"><a href="#">CSE</a></li>
+													<li class="stock"><a href="#">IEEE</a></li>
+													<li role="separator" class="divider stock"></li>
+													<li><a href="#">Separated link</a></li>
+												</ul>
+										</div>
+				
+								
+							</div>
+						</div>
+					</div>
+					
 
-							<li class="left clearfix">
+					<div class="panel-body">
+						<ul ng-repeat="broadcast in broadcastCollection" class="chatul">
+
+							<li class="left clearfix chatulli">
 								<span class="chat-img pull-left">
-									<img src="http://placehold.it/80/30a5ff/fff" alt="Channel Avatar" class="img-circle" />
+									<img src="/res/icon_place_holder.png" style="width:66px;height:66px" alt="Channel Avatar" class="img-circle" />
 								</span>
 								<div class="chat-body clearfix">
 									<div class="header">

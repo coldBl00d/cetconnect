@@ -43,29 +43,6 @@ router.post('/', function(req,res,next){
 
 });
 
-/*function databaseCallback (user){
-    
-    console.log(user);
-    var flag =0;
-    if(user){
-        for(var i =0; i< user.adminOf.length; i++){
-           // console.log(user.adminOf[i]+"::::"+payload.channel);
-            if(user.adminOf[i] == payload.channel){
-                flag =1;
-                console.log(header, "user verified, sending payload");
-                sendBroadcast(payload);
-                return response.status(200).end();
-            }
-        }
-        if (flag==0)
-            console.log(header,"user "+payload.senderid + "is not an admin for channel "+ payload.channel);
-            response.status(403).end();
-    }else{
-        console.log(header,"user "+payload.senderid +" is not part of the system");
-         return response.status(404).end();
-    }
-}*/
-
 function errorCallBack(err){
     console.log(header,"Database failure when finding the user identifyin the user who send the broadcast");
 }
