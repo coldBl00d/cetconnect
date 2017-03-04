@@ -46,8 +46,8 @@ mongoose.connect('ds115870.mlab.com:15870/test9847',options, function(err){
 
 
 
-http.createServer(app).listen(process.env.PORT| 3000, function() {
-	console.log("CET CONNECT running at 3000" );
+http.createServer(app).listen(process.env.PORT, function() {
+	console.log("CET CONNECT running at "+process.env.PORT );
 });
 
 console.log('App running at 3000');
