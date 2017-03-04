@@ -1,0 +1,29 @@
+<DOCTYPE html> 
+
+<html> 
+
+    <head> 
+        <title> 
+            Broadcast Form
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src="html/broadcastForm/bform.js"></script>
+    </head>
+
+
+    <body> 
+        <div ng-app="bform" ng-controller="bformController"> 
+            Sender Name:
+            <input type="text" ng-model="bForm.sendername"> <br>
+            Sender Id:
+            <input type="text" ng-model="bForm.senderid"> <br>
+            Message:
+            <input type="text" ng-model="bForm.message"> <br>
+            Channel:
+            <input type="text" ng-model="bForm.channel"> <br>
+            <button ng-click="send()">Send</button>
+        </div>
+
+    </body>
+
+</html>
