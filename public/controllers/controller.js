@@ -62,13 +62,31 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray){
 	
 	$rootScope.showsidebar=false;
-	var broadcast_reference = firebase.database().ref('channel/all').child('broadcasts');
+	var today = new Date();
+	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
+	console.log(todayString);
+	var broadcast_reference = firebase.database().ref('today/'+todayString);
 	$scope.broadcastCollection = $firebaseArray(broadcast_reference);
 	
 	/* called when the data is loaded into the broadcastCollection */
 	$scope.broadcastCollection.$loaded().then(function(){
 		console.log($scope.broadcastCollection);
 	});
-});
 
+	/*filter selected in the broadcast page*/
+	$scope.filterSelected = function(filterName){
+		$scope.currentFilter = filterName;
+		if($scope.currentFilter == 'All'){
+			/*load broadcast from today for all the subbed channels*/
+			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
+		}else{
+			/*load recent ones for all the selected channel*/
+			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+filterName.toLowerCase()+'/broadcasts'));
+			return;
+		}
+	}
+
+
+
+});
 

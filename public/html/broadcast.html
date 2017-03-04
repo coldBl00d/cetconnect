@@ -21,20 +21,20 @@
 					<div style="padding-left:15px; padding-right:15px">
 						<div class="row" >
 							<div class="col-md-6 col-xs-6" >
-								<div class="panel-heading" id="accordion" style=""><svg class="glyph stroked sound on" ><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</div>
+								<div class="panel-heading" id="accordion"><svg class="glyph stroked sound on" ><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</div>
 							</div>
 							<div class="col-md-6">
 										<div class="dropdown pull-right" style="padding:15px">
-												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border-color: #0995f9;">
-													Dropdown
+												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border-color: #0995f9;min-width: 90px" ng-init="currentFilter='All'"ng-bind="currentFilter">
+													filter_place_holder
 													<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-													<li class="stock chat"><a href="#">All</a></li>
-													<li class="stock"><a href="#">CSE</a></li>
-													<li class="stock"><a href="#">IEEE</a></li>
+													<li class=""><a ng-click=filterSelected('All')>All</a></li>
+													<li class=""><a ng-click=filterSelected('CSE')>CSE</a></li>
+													<li class=""><a ng-click=filterSelected('IEEE')>IEEE</a></li>
 													<li role="separator" class="divider stock"></li>
-													<li><a href="#">Separated link</a></li>
+													<li><a href="">Separated link</a></li>
 												</ul>
 										</div>
 				
