@@ -51,7 +51,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
 		console.log($scope.formModel);
-		$http.post("http://localhost:3000/",$scope.formModel)
+		$http.post("http://blooming-reaches-58473.herokuapp.com/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     console.log(response);
                     if (response.data.status == '200'){
