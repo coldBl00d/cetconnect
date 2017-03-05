@@ -2,3 +2,11 @@ domain.com/
 
 1) 210 -- login successful 
 2) 410 -- login failed
+I'm only present in coldblood
+
+
+/channel
+1)420 -- payload not formatted correctly field could be empty channelName or admin
+2)421 -- channel name already exist choose some another name
+3)422 -- user selected as admin is not part of the system check the userid selected for admin 
+4)423 -- mongobd failed to add channel try again.

@@ -1,0 +1,28 @@
+<DOCTYPE html> 
+
+<html> 
+
+    <head> 
+        <title> 
+            Broadcast Form
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src="html/addChannel/addChannel.js"></script>
+    </head>
+
+
+    <body> 
+        <div ng-app="channelApp" ng-controller="channelAdmin">
+
+            <div> 
+                Channel Name:
+                <input type="text" ng-model="cForm.channelName"> <br>
+                Admin:
+                <input type="text" ng-model="cForm.admin"> <br>
+                <button ng-click="send()">Send</button> <br>
+            </div>
+        </div>
+
+    </body>
+
+</html>

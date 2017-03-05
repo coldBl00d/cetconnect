@@ -1,0 +1,66 @@
+{ 
+    "channelName" : "CSE", 
+    "subscribers" : [
+        "s1304", 
+        "s1301", 
+        "s1111"
+    ], 
+    "admins" : [
+        "s1111"
+    ]
+},
+{ 
+    "channelName" : "RoboCET", 
+    "subscribers" : [
+        "s1301", 
+        "s1302", 
+        "s1303"
+    ], 
+    "admins" : [
+        "s1111", 
+        "s1301"
+    ]
+},
+{  
+    "channelName" : "IEEE", 
+    "subscribers" : [
+        "s1302", 
+        "s1303", 
+        "s1304", 
+        "s1305"
+    ], 
+    "admins" : [
+        "s1305", 
+        "s1304"
+    ]
+},
+{  
+    "channelName" : "CGPU", 
+    "subscribers" : [
+        "s1304", 
+        "s1305"
+    ], 
+    "admins" : [
+        "s1305"
+    ]
+},
+{ 
+    
+    "channelName" : "CycleClub", 
+    "subscribers" : [
+        "s1301", 
+        "s1305"
+    ], 
+    "admins" : [
+        "s1301"
+    ]
+},
+{ 
+    "channelName" : "Electrical", 
+    "admins" : [
+        "s1111"
+    ], 
+    "subscribers" : [
+        ""
+    ], 
+}

@@ -13,7 +13,7 @@ var http = require('http');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var broadcast = require('./routes/broadcast');
-
+var channel = require('./routes/channels.js');
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/broadcast',broadcast);
+app.use('/channel',channel);
 
 var options ={
     user:"coldBl00d",
