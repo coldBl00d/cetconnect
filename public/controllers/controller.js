@@ -117,5 +117,4 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 
 application.controller('channelsController', function($scope, $rootScope){
 	$scope.channels = channels;
-
 });
