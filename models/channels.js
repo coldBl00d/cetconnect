@@ -19,6 +19,6 @@ var channelSchema = new mongoose.Schema({
 
 });
 
-var channelModel = mongoose.model ('user', userSchema);
+var channelModel = mongoose.model ('channel', channelSchema);
 
 module.exports = channelModel; 
