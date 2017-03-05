@@ -1,7 +1,7 @@
 var channelModel = require('../models/channels');
 var firebaseadmin = require('../firebase-admin.js');
 var rtdb = firebaseadmin.database();
-
+var userHelper = require('./userHelper');
 var header = "[channelHelper]";
 var channelListURI = "channelList/";
 var channelHelper = {};
@@ -35,6 +35,36 @@ channelHelper.addBareboneChannel = function(channelId, admin, callback){
             callback(true);
         }
     })
+}
+
+channelHelper.subbed= function(userid, channelName, callback){
+
+    userHelper.ifUser(userid, function(result, user){
+        if(!result){
+            callback(422);
+            return;
+        }else {
+            user.subbedChannels.push(channelName);
+            user.save();
+            callback(200);
+            return;
+        }
+    });
+
+}
+
+channelHelper.unsubbed = function(userId, channelName, callback){
+    userHelper.ifUser(userId, function(result, user){
+        if(!result){
+            callback(422);
+            return;
+        }else { 
+            user.subbedChannels.remove(channelName);
+            user.save();
+            callback(200);
+            return;
+        }
+    });
 }
 
 function addChannelToFirebaseList(channelId){
