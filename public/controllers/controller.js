@@ -17,7 +17,9 @@ var channels = [
 			name:'Robocet',
 			subbed:true
 		}
-	];
+];
+
+var userName,userId, subbed, adminOf; 
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
@@ -54,8 +56,10 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 		$http.post("http://localhost:3000/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     console.log(response);
-                    if (response.data.status == '200'){
+                    if (response.status == 210){
 					   $rootScope.loggedIn=true;
+					   userName = response.data.name;
+					   userId = response.data.userId;
                        $state.go("dashboard");
                     }
 			},function(err){

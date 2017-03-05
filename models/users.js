@@ -17,11 +17,15 @@ var userSchema = new mongoose.Schema({
 		required : true
 	},
 
-	msgToken : {
-		type : String,
+	token1 : {
+		type : String
 	},
 
-	subChannels: {
+	token2: {
+		type :String
+	},
+
+	subbedChannels: {
 		type: Array,
 		default: [],
 	},
