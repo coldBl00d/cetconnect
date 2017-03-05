@@ -15,7 +15,6 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 controller:'broadcastViewController'
 	 })
 	 .state('broadcast', {
-		 url:'/broadcast',
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 }).state('channels',{

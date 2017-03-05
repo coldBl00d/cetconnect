@@ -19,7 +19,7 @@
 							<span class="glyphicon glyphicon-bullhorn" style="padding-right: 6px; padding-left: 6px" aria-hidden="true"></span>
 								{{channel.channelName}}
 							<label class="switch pull-right">
-								<input type="checkbox" ng-checked=false>
+								<input type="checkbox" ng-checked="channel.status" ng-model="channel.status">
 								<div class="slider round"></div>
 							</label>
 						</div>

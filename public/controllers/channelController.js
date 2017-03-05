@@ -10,7 +10,23 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 	var firebase_channels = $firebaseArray(channelListRef);
 	$scope.channels_for_view = firebase_channels;
 	firebase_channels.$loaded().then(function(){
-	
+		console.log(firebase_channels);
+		var userChannels = $rootScope.currentUser.subChannels;
+		setToggles(userChannels, firebase_channels);
 	});
 
 });
+
+
+
+function setToggles(userChannels, firebase_channels){
+	for(var i=0; i<userChannels.length; i++){
+		firebase_channels.forEach(function(channel){
+			console.log(channel.channelName+"===??"+userChannels[i]);
+			if(channel.channelName == userChannels[i]){
+				console.log("Setting true");
+				channel.status = true;
+			}
+		});
+	}
+}
