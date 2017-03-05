@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
+var application=angular.module("myApp",['ngAnimate','ngRoute','firebase','ui.router']);
 
 var channels = [
 		{
@@ -23,7 +23,8 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 
 	 $urlRouterProvider.otherwise("login");
 	 
-	 $stateProvider.state("login",{
+	 $stateProvider
+	 .state("login",{
 		 url:"/login",
 		 templateUrl:'html/login.html',
 		 controller:'loginCon'
