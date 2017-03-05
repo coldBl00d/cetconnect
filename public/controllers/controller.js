@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngAnimate','ngRoute','firebase','ui.router']);
+var application=angular.module("myApp",['ngAnimate','ngRoute','firebase','ui.router','luegg.directives']);
 
 var channels = [
 		{
@@ -106,7 +106,6 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			return;
 		}
 	}
-
 
 
 });
