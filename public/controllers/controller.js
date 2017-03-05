@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
+var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
 
 var channels = [
 		{
@@ -17,15 +17,14 @@ var channels = [
 			name:'Robocet',
 			subbed:true
 		}
-];
-
-var userName,userId, subbed, adminOf; 
+	];
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
 	 $urlRouterProvider.otherwise("login");
 	 
-	 $stateProvider.state("login",{
+	 $stateProvider
+	 .state("login",{
 		 url:"/login",
 		 templateUrl:'html/login.html',
 		 controller:'loginCon'
@@ -56,10 +55,8 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 		$http.post("http://localhost:3000/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     console.log(response);
-                    if (response.status == 210){
+                    if (response.data.status == '200'){
 					   $rootScope.loggedIn=true;
-					   userName = response.data.name;
-					   userId = response.data.userId;
                        $state.go("dashboard");
                     }
 			},function(err){
@@ -82,7 +79,7 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 
 /* Dashboard controllers */
 
-application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray){
+application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray,$timeout, $anchorScroll, $location){
 	
 	$scope.channels= channels;
 	$rootScope.showsidebar=false;
@@ -109,5 +106,17 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			return;
 		}
 	}
+	// scroll bar at the end of list --use $(timeout,anchorScroll,location)
+	$timeout(function() {
+      $location.hash('end');
+      $anchorScroll();
+    })
+
 });
 
+application.controller('channelsController', function($scope, $rootScope){
+
+	
+	$scope.channels = channels;
+
+});
