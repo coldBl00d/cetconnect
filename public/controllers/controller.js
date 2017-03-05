@@ -57,7 +57,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
                     console.log(response);
                     if (response.status == 210){
 					   $rootScope.loggedIn=true;
-                       $state.go("dashboard");
+                       $state.go("broadcast");
                     }
 			},function(err){
 				console.log("Something went wrong when sending the data");
@@ -79,7 +79,7 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 
 /* Dashboard controllers */
 
-application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray,$timeout, $anchorScroll, $location){
+application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location){
 	
 	$scope.channels= channels;
 	$rootScope.showsidebar=false;
@@ -91,7 +91,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	
 	/* called when the data is loaded into the broadcastCollection */
 	$scope.broadcastCollection.$loaded().then(function(){
-		console.log($scope.broadcastCollection);
+      	$anchorScroll();
 	});
 
 	/*filter selected in the broadcast page*/
@@ -100,23 +100,22 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 		if($scope.currentFilter == 'All'){
 			/*load broadcast from today for all the subbed channels*/
 			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
+			$scope.broadcastCollection.$loaded().then(function(){
+      			$anchorScroll();
+			});
 		}else{
 			/*load recent ones for all the selected channel*/
 			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel.name.toLowerCase()+'/broadcasts'));
+			$scope.broadcastCollection.$loaded().then(function(){
+      			$anchorScroll();
+			});
 			return;
 		}
 	}
-	// scroll bar at the end of list --use $(timeout,anchorScroll,location)
-	$timeout(function() {
-      $location.hash('end');
-      $anchorScroll();
-    })
-
+	
 });
 
 application.controller('channelsController', function($scope, $rootScope){
-
-	
 	$scope.channels = channels;
 
 });
