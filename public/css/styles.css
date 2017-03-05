@@ -995,35 +995,3 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
-
-/*  ng-repeat animation Broadcast filter */
-.animate-enter, 
-.animate-leave
-{ 
-    -webkit-transition: 1650ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -moz-transition: 1650ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -ms-transition: 1650ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -o-transition: 1650ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    transition: 1650ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    position: relative;
-    display: block;
-} 
- 
-.animate-enter.animate-enter-active, 
-.animate-leave {
-    opacity: 1;
-    bottom: 0;
-    height: 30px;
-}
- 
-.animate-leave.animate-leave-active,
-.animate-enter {
-    opacity: 0;
-    bottom: -50px;
-    height: 0px;
-}
-
-
-
-/*    */

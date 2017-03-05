@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngAnimate','ngRoute','firebase','ui.router','luegg.directives']);
+var application=angular.module("myApp",['ngRoute','firebase','ui.router']);
 
 var channels = [
 		{
@@ -23,8 +23,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 
 	 $urlRouterProvider.otherwise("login");
 	 
-	 $stateProvider
-	 .state("login",{
+	 $stateProvider.state("login",{
 		 url:"/login",
 		 templateUrl:'html/login.html',
 		 controller:'loginCon'
@@ -106,6 +105,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			return;
 		}
 	}
+
 
 
 });
