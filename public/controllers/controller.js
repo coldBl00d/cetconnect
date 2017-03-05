@@ -55,7 +55,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 		$http.post("http://localhost:3000/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     console.log(response);
-                    if (response.data.status == '200'){
+                    if (response.status == 210){
 					   $rootScope.loggedIn=true;
                        $state.go("dashboard");
                     }

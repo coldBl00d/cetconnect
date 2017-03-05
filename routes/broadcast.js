@@ -43,7 +43,7 @@ router.post('/', function(req,res,next){
                      console.log(header,"User found...");
                      console.log(header, "Proceeding to find if he is admin");
                     for(var i =0; i< user.adminOf.length; i++){
-                    // console.log(user.adminOf[i]+"::::"+payload.channel);
+                     //console.log(user.adminOf[i].name+"::::"+payload.channel);
                         if(user.adminOf[i] == payload.channel){
                             flag =1;
                             console.log(header, "user verified as admin, sending payload");
