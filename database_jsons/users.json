@@ -1,0 +1,54 @@
+{
+	"name": "Abhilash Balakrishnan",
+	"userid": "s1301",
+	"password": "hello",
+	"adminOf": ["robocet","cycleclub"], 
+	"subbedChannels": ["ieee","robocet","ieee"],
+	"token1":"",
+	"token2":""
+},
+{
+	"name": "Adithya Kiran Padmalayan",
+	"userid": "s1302",
+	"password": "hello",
+	"adminOf": [], 
+	"subbedChannels": ["robocet","ieee"],
+	"token1":"",
+	"token2":""
+},
+{
+	"name": "Ajit Kumar",
+	"userid": "s1303",
+	"password": "hello",
+	"adminOf": [], 
+	"subbedChannels": ["robocet","ieee"],
+	"token1":"",
+	"token2":""
+},
+{
+	"name": "Akhil Raj R",
+	"userid": "s1304",
+	"password": "hello" ,
+	"adminOf": ["cse","ieee"], 
+	"subbedChannels": ["cse","ieee","cgpu"],
+	"token1":"",
+	"token2":""
+},
+{
+	"name": "Akshay Harshakumar",
+	"userid": "s1305",
+	"password": "yello",
+	"adminOf": ["ieee","cgpu"], 
+	"subbedChannels": ["ieee","cgpu","cycleclub"],
+	"token1":"",
+	"token2":""
+},
+{
+	"name": "Krishnakumar C.N",
+	"userid": "s1111",
+	"password": "1111",
+	"adminOf": ["cse","robocet"], 
+	"subbedChannels": ["robocet","cse"],
+	"token1":"",
+	"token2":""
+}
