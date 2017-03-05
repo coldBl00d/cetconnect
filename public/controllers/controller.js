@@ -1,24 +1,5 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
 
-var channels = [
-		{
-			name:'All',
-			subbed:false
-		},
-		{
-			name:'CSE',
-			subbed:true
-		},
-		{
-			name:'IEEE',
-			subbed:false
-		},
-		{
-			name:'Robocet',
-			subbed:true
-		}
-	];
-
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
 	 $urlRouterProvider.otherwise("login");
@@ -38,7 +19,6 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 }).state('channels',{
-		 url:'/channels',
 		 templateUrl:'html/channels.html',
 		 controller:'channelsController'
 	 }); 
@@ -51,12 +31,12 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	$rootScope.showsidebar=true;
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
-		console.log($scope.formModel);
 		$http.post("http://localhost:3000/",$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
-                    console.log(response);
                     if (response.status == 210){
 					   $rootScope.loggedIn=true;
+					   $rootScope.currentUser = response.data;
+					   console.log($rootScope.currentUser);
                        $state.go("broadcast");
                     }
 			},function(err){
@@ -81,7 +61,6 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location){
 	
-	$scope.channels= channels;
 	$rootScope.showsidebar=false;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
@@ -115,6 +94,3 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	
 });
 
-application.controller('channelsController', function($scope, $rootScope){
-	$scope.channels = channels;
-});

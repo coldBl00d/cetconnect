@@ -56,7 +56,7 @@ function login(user, res){
                 'userId':user.userid,
                 'name':user.name,
                 'adminOf':user.adminOf,
-                'subChannels':user.subChannels
+                'subChannels':user.subbedChannels
             }
             console.log("Sending data back")
             return res.status(210).json(user_response).end();
