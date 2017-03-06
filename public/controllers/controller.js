@@ -101,7 +101,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			$anchorScroll();
 		}else{
 			/*load recent ones for all the selected channel*/
-			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts'));
+			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts').limitToLast(50));
 			firebaseCollection.$loaded().then(function(){
 				$scope.broadcastCollection = firebaseCollection;
 				$anchorScroll();
