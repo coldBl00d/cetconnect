@@ -10,7 +10,7 @@ channelHelper.ifChannel = function (channelId, callback){
     channelModel.findOne({channelName:channelId})
             .then(function(channel){
                 if(channel){
-                    callback(true);
+                    callback(channel);
                 }else{
                     callback(false);
                 }
@@ -19,6 +19,17 @@ channelHelper.ifChannel = function (channelId, callback){
                 callback(false);
             });
 }
+
+// channelHelper.findChannel = function(channelId, callback){
+//     channelModel.findOne({channelName:channelId})
+//                 .then(function(channel){
+//                     if(channel){
+//                         callback(channel);
+//                     }else{
+//                         callback(false);
+//                     }
+//                 })
+// }
 
 channelHelper.addBareboneChannel = function(channelId, admin, callback){
     addChannelToFirebaseList(channelId);
@@ -44,10 +55,20 @@ channelHelper.subbed= function(userid, channelName, callback){
             callback(422);
             return;
         }else {
-            user.subbedChannels.push(channelName);
-            user.save();
-            callback(200);
-            return;
+            this.ifChannel(channelName, function(result){
+                if(result){
+                    result.subscribers.push(userid);
+                    result.save();
+                    user.subbedChannels.push(channelName);
+                    user.save();
+                    callback(200);
+                    return;
+                }else{
+                    callback(422);
+                    return;
+                }
+            });
+            
         }
     });
 
@@ -58,11 +79,21 @@ channelHelper.unsubbed = function(userId, channelName, callback){
         if(!result){
             callback(422);
             return;
-        }else { 
-            user.subbedChannels.remove(channelName);
-            user.save();
-            callback(200);
-            return;
+        }else {
+            this.ifChannel(channelName, function(result){
+                if(result){
+                    result.subscribers.remove(userid);
+                    result.save();
+                    user.subbedChannels.remove(channelName);
+                    user.save();
+                    callback(200);
+                    return;
+                }else{
+                    callback(422);
+                    return;
+                }
+            }); 
+           
         }
     });
 }
