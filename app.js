@@ -36,6 +36,8 @@ var options ={
     pass:'somesomepassword'
 }
 
+//mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847
+
 mongoose.connect('localhost:27017/test', function(err){
     if (err){
         console.log("Database connection failed");

@@ -1,9 +1,9 @@
 var userModel = require('../models/users');
-
+var header ='[userhelper]'
 var userHelper = {};
 
-userHelper.ifUser = function (userid, callback){
-    userModel.findOne({userid:userid})
+userHelper.ifUser = function (userId, callback){
+    userModel.findOne({userid:userId})
             .then(function(user){
                 if(user){
                     callback(true, user);
@@ -11,7 +11,7 @@ userHelper.ifUser = function (userid, callback){
                     callback(false, user);
                 }
             }).catch(function(err) {
-                console.log("Userhelper crashed when looking for user with userid "+ userid );
+                console.log( header,"crashed when looking for user with userid " +err);
                 callback(false, null);
             });
 }

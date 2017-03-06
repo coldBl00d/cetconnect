@@ -16,20 +16,10 @@ channelHelper.ifChannel = function (channelId, callback){
                 }
             }).catch(function(err) {
                 console.log(header,"Crashed when looking for channel "+ channelId);
+                console.log(header,err);
                 callback(false);
             });
 }
-
-// channelHelper.findChannel = function(channelId, callback){
-//     channelModel.findOne({channelName:channelId})
-//                 .then(function(channel){
-//                     if(channel){
-//                         callback(channel);
-//                     }else{
-//                         callback(false);
-//                     }
-//                 })
-// }
 
 channelHelper.addBareboneChannel = function(channelId, admin, callback){
     addChannelToFirebaseList(channelId);
@@ -55,15 +45,17 @@ channelHelper.subbed= function(userid, channelName, callback){
             callback(422);
             return;
         }else {
-            this.ifChannel(channelName, function(result){
-                if(result){
-                    result.subscribers.push(userid);
-                    result.save();
+            channelHelper.ifChannel(channelName, function(channel){
+                if(channel){
+                    console.log(header, "Channel "+channelName+" found, Proceeding pushing user to channel");
+                    channel.subscribers.push(userid);
+                    channel.save();
                     user.subbedChannels.push(channelName);
                     user.save();
                     callback(200);
                     return;
                 }else{
+                    console.log(header,"Channel "+channelName+" not found in the database");
                     callback(422);
                     return;
                 }
@@ -80,10 +72,10 @@ channelHelper.unsubbed = function(userId, channelName, callback){
             callback(422);
             return;
         }else {
-            this.ifChannel(channelName, function(result){
-                if(result){
-                    result.subscribers.remove(userid);
-                    result.save();
+            channelHelper.ifChannel(channelName, function(channel){
+                if(channel){
+                    channel.subscribers.remove(userId);
+                    channel.save();
                     user.subbedChannels.remove(channelName);
                     user.save();
                     callback(200);
