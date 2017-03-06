@@ -19,9 +19,9 @@
 													<span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-													<li ng-repeat="channel in channels"><a ng-click=filterSelected(channel)>{{channel.name}}</a></li>
+													<li ng-repeat="channel in channels"><a ng-click=filterSelected(channel)>{{channel}}</a></li>
 													<li role="separator" class="divider stock"></li>
-													<li><a href="">Separated link</a></li>
+													<li><a ng-click=filterSelected('All')>All</a></li>
 												</ul>
 										</div>
 				

@@ -44,7 +44,7 @@ router.post('/', function(req,res,next){
                      console.log(header, "Proceeding to find if he is admin");
                     for(var i =0; i< user.adminOf.length; i++){
                      //make sure the channel name in payload is small case
-                        if(user.adminOf[i] == payload.channel.toLowerCase()){
+                        if(user.adminOf[i] == payload.channel){
                             flag =1;
                             console.log(header, "user verified as admin, sending payload");
                             sendBroadcast(payload);

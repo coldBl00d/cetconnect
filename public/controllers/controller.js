@@ -61,9 +61,9 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location){
 	
 	$rootScope.showsidebar=false;
+	$scope.channels=$rootScope.currentUser.subChannels;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
-	console.log(todayString);
 	var broadcast_reference = firebase.database().ref('today/'+todayString);
 	$scope.broadcastCollection = $firebaseArray(broadcast_reference);
 	
@@ -74,7 +74,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 
 	/*filter selected in the broadcast page*/
 	$scope.filterSelected = function(channel){
-		$scope.currentFilter = channel.name;
+		$scope.currentFilter = channel;
 		if($scope.currentFilter == 'All'){
 			/*load broadcast from today for all the subbed channels*/
 			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
@@ -83,7 +83,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			});
 		}else{
 			/*load recent ones for all the selected channel*/
-			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel.name.toLowerCase()+'/broadcasts'));
+			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts'));
 			$scope.broadcastCollection.$loaded().then(function(){
       			$anchorScroll();
 			});
