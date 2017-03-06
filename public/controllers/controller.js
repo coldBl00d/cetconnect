@@ -62,27 +62,43 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	
 	$rootScope.showsidebar=false;
 	$scope.channels=$rootScope.currentUser.subChannels;
+	var userSubbedChannels = $rootScope.currentUser.subChannels;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
 	var today_reference = firebase.database().ref('today/'+todayString);
-	var firebaseCollection = $firebaseArray(today_reference);
+	var firebaseCollection;
 	var toDisplay = [];
-	//$scope.broadcastCollection = $firebaseArray(today_reference);
-	/* called when the data is loaded into the broadcastCollection */
-	firebaseCollection.$loaded().then(function(){
+	
+	today_reference.once('value').then(function(dataSnapshot){
+		dataSnapshot.forEach(function(item){
+			for(var i=0; i<userSubbedChannels.length; i++){
+				if(userSubbedChannels[i]==item.val().channel){
+					toDisplay.push(item.val());
+					break;
+				}
+			}
+		});
 		$scope.broadcastCollection = toDisplay;
+		$scope.$apply();
 		$anchorScroll();
+	});
+	
+	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
+		for(var i=0; i<userSubbedChannels.length; i++){
+				if(userSubbedChannels[i]==childSnapshot.val().channel){
+					toDisplay.push(childSnapshot.val());
+					break;
+				}
+			}
+		$scope.$apply();
 	});
 
 	/*filter selected in the broadcast page*/
 	$scope.filterSelected = function(channel){
 		$scope.currentFilter = channel;
 		if($scope.currentFilter == 'All'){
-			/*load broadcast from today for all the subbed channels*/
-			firebaseCollection = $firebaseArray(today_reference);
-			firebaseCollection.$loaded().then(function(){
-				$scope.broadcastCollection = toDisplay;
-			});
+			$scope.broadcastCollection = toDisplay;
+			$anchorScroll();
 		}else{
 			/*load recent ones for all the selected channel*/
 			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts'));
@@ -95,4 +111,8 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	}
 	
 });
+
+function loadToday(fromFirebase, toDisplay, subList){
+	
+}
 
