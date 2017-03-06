@@ -48,9 +48,9 @@ channelHelper.subbed= function(userid, channelName, callback){
             channelHelper.ifChannel(channelName, function(channel){
                 if(channel){
                     console.log(header, "Channel "+channelName+" found, Proceeding pushing user to channel");
-                    channel.subscribers.push(userid);
+                    uniquePush(channel.subscribers, userid)
                     channel.save();
-                    user.subbedChannels.push(channelName);
+                    uniquePush(user.subbedChannels, channelName);
                     user.save();
                     callback(200);
                     return;
@@ -88,6 +88,21 @@ channelHelper.unsubbed = function(userId, channelName, callback){
            
         }
     });
+}
+
+function uniquePush(array, content){
+    var flag = true;
+    for(var i=0; i< array.length; i++){
+        if(array[i]==content){
+            flag= false;
+            break;
+        }
+    }
+
+    if(flag){
+        array.push(content);
+    }
+
 }
 
 function addChannelToFirebaseList(channelId){

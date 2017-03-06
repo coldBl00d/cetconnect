@@ -64,12 +64,14 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	$scope.channels=$rootScope.currentUser.subChannels;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
-	var broadcast_reference = firebase.database().ref('today/'+todayString);
-	$scope.broadcastCollection = $firebaseArray(broadcast_reference);
-	
+	var today_reference = firebase.database().ref('today/'+todayString);
+	var firebaseCollection = $firebaseArray(today_reference);
+	var toDisplay = [];
+	//$scope.broadcastCollection = $firebaseArray(today_reference);
 	/* called when the data is loaded into the broadcastCollection */
-	$scope.broadcastCollection.$loaded().then(function(){
-      	$anchorScroll();
+	firebaseCollection.$loaded().then(function(){
+		$scope.broadcastCollection = toDisplay;
+		$anchorScroll();
 	});
 
 	/*filter selected in the broadcast page*/
@@ -77,15 +79,16 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 		$scope.currentFilter = channel;
 		if($scope.currentFilter == 'All'){
 			/*load broadcast from today for all the subbed channels*/
-			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
-			$scope.broadcastCollection.$loaded().then(function(){
-      			$anchorScroll();
+			firebaseCollection = $firebaseArray(today_reference);
+			firebaseCollection.$loaded().then(function(){
+				$scope.broadcastCollection = toDisplay;
 			});
 		}else{
 			/*load recent ones for all the selected channel*/
-			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts'));
-			$scope.broadcastCollection.$loaded().then(function(){
-      			$anchorScroll();
+			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts'));
+			firebaseCollection.$loaded().then(function(){
+				$scope.broadcastCollection = firebaseCollection;
+				$anchorScroll();
 			});
 			return;
 		}
