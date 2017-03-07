@@ -75,18 +75,22 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var firebaseCollection;
 	var toDisplay = [];
 	
+
+	$scope.broadcastCollection = toDisplay;	
+
 	today_reference.once('value').then(function(dataSnapshot){
-		dataSnapshot.forEach(function(item){
-			for(var i=0; i<userSubbedChannels.length; i++){
-				if(userSubbedChannels[i]==item.val().channel){
-					toDisplay.push(item.val());
-					break;
+	
+			dataSnapshot.forEach(function(item){
+				for(var i=0; i<userSubbedChannels.length; i++){
+					if(userSubbedChannels[i]==item.val().channel){
+						toDisplay.push(item.val());
+						break;
+					}
 				}
-			}
-		});
-		$scope.broadcastCollection = toDisplay;
-		$scope.$apply();
-		$anchorScroll();
+			});
+			
+			$anchorScroll();
+		
 	});
 	
 	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
@@ -96,7 +100,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 					break;
 				}
 			}
-		$scope.$apply();
+		//$scope.$apply();
 	});
 
 	/*filter selected in the broadcast page*/
