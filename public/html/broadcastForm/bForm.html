@@ -21,14 +21,13 @@
                         <div class="form-group">
                             <label class="formLabel"> <span class="glyphicon glyphicon-user formIcon" ></span>User ID:</label>
                             <label class="formLabel">{{currentUser.userId}}</label>  
-                            <a class="btn btn-primary pull-right" style:"margin-top:18px">Admin</a> <br>
+                            <button id="adminIndicator" ng-disabled=true class="btn btn-danger pull-right" style:"margin-top:18px" ng-style="adminStyle">Admin</button> <br>
                             <label class="formLabel"><span class="glyphicon glyphicon-user formIcon"></span>Name:</label>
                             <label class="formLabel">{{currentUser.name}}</label>
                         </div>
                         <div class="form-group">
                             <label  style="float:left; padding-left:18px; padding-right:18px"><span class="glyphicon glyphicon-bullhorn formIcon"></span>Channel:</label>
-                           <select class="form-control" id="exampleSelect1" style="width:60%; margin-top: 12px">
-                                <option ng-repeat="channel in currentUser.subChannels">{{channel}}</option>
+                           <select class="form-control" id="exampleSelect1" style="width:60%; margin-top: 12px" ng-options="channel for channel in currentUser.subChannels" ng-model="channelName" ng-change="channelSelected(channelName)">
                           </select>
                        </div>
                        <div class="form-group">
