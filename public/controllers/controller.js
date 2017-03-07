@@ -1,7 +1,7 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
-
+	 
 	 $urlRouterProvider.otherwise("login");
 	 
 	 $stateProvider
@@ -32,6 +32,8 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
 	$rootScope.showsidebar=true;
+	$rootScope.currentUser = {};
+	$rootScope.currentUser.name = "User";
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
 		$http.post("http://localhost:3000/",$scope.formModel)
