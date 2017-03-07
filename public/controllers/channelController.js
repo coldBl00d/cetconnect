@@ -6,7 +6,7 @@ var channelListURI = 'channelList/'
 application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http){
 	console.log(header, "+++");
 	
-	var channelListRef = firebase.database().ref(channelListURI);
+	var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
 	var firebase_channels = $firebaseArray(channelListRef);
 	var userChannels = $rootScope.currentUser.subChannels;
 	$scope.channels_for_view = firebase_channels;

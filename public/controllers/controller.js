@@ -61,35 +61,58 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location){
 	
 	$rootScope.showsidebar=false;
+	$scope.channels=$rootScope.currentUser.subChannels;
+	var userSubbedChannels = $rootScope.currentUser.subChannels;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
-	console.log(todayString);
-	var broadcast_reference = firebase.database().ref('today/'+todayString);
-	$scope.broadcastCollection = $firebaseArray(broadcast_reference);
+	var today_reference = firebase.database().ref('today/'+todayString);
+	var firebaseCollection;
+	var toDisplay = [];
 	
-	/* called when the data is loaded into the broadcastCollection */
-	$scope.broadcastCollection.$loaded().then(function(){
-      	$anchorScroll();
+	today_reference.once('value').then(function(dataSnapshot){
+		dataSnapshot.forEach(function(item){
+			for(var i=0; i<userSubbedChannels.length; i++){
+				if(userSubbedChannels[i]==item.val().channel){
+					toDisplay.push(item.val());
+					break;
+				}
+			}
+		});
+		$scope.broadcastCollection = toDisplay;
+		$scope.$apply();
+		$anchorScroll();
+	});
+	
+	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
+		for(var i=0; i<userSubbedChannels.length; i++){
+				if(userSubbedChannels[i]==childSnapshot.val().channel){
+					toDisplay.push(childSnapshot.val());
+					break;
+				}
+			}
+		$scope.$apply();
 	});
 
 	/*filter selected in the broadcast page*/
 	$scope.filterSelected = function(channel){
-		$scope.currentFilter = channel.name;
+		$scope.currentFilter = channel;
 		if($scope.currentFilter == 'All'){
-			/*load broadcast from today for all the subbed channels*/
-			$scope.broadcastCollection = $firebaseArray(broadcast_reference);
-			$scope.broadcastCollection.$loaded().then(function(){
-      			$anchorScroll();
-			});
+			$scope.broadcastCollection = toDisplay;
+			$anchorScroll();
 		}else{
 			/*load recent ones for all the selected channel*/
-			$scope.broadcastCollection = $firebaseArray(firebase.database().ref('channel/'+channel.name.toLowerCase()+'/broadcasts'));
-			$scope.broadcastCollection.$loaded().then(function(){
-      			$anchorScroll();
+			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts').limitToLast(50));
+			firebaseCollection.$loaded().then(function(){
+				$scope.broadcastCollection = firebaseCollection;
+				$anchorScroll();
 			});
 			return;
 		}
 	}
 	
 });
+
+function loadToday(fromFirebase, toDisplay, subList){
+	
+}
 

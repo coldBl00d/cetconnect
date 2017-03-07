@@ -10,12 +10,13 @@ channelHelper.ifChannel = function (channelId, callback){
     channelModel.findOne({channelName:channelId})
             .then(function(channel){
                 if(channel){
-                    callback(true);
+                    callback(channel);
                 }else{
                     callback(false);
                 }
             }).catch(function(err) {
                 console.log(header,"Crashed when looking for channel "+ channelId);
+                console.log(header,err);
                 callback(false);
             });
 }
@@ -44,10 +45,22 @@ channelHelper.subbed= function(userid, channelName, callback){
             callback(422);
             return;
         }else {
-            user.subbedChannels.push(channelName);
-            user.save();
-            callback(200);
-            return;
+            channelHelper.ifChannel(channelName, function(channel){
+                if(channel){
+                    console.log(header, "Channel "+channelName+" found, Proceeding pushing user to channel");
+                    uniquePush(channel.subscribers, userid)
+                    channel.save();
+                    uniquePush(user.subbedChannels, channelName);
+                    user.save();
+                    callback(200);
+                    return;
+                }else{
+                    console.log(header,"Channel "+channelName+" not found in the database");
+                    callback(422);
+                    return;
+                }
+            });
+            
         }
     });
 
@@ -58,13 +71,38 @@ channelHelper.unsubbed = function(userId, channelName, callback){
         if(!result){
             callback(422);
             return;
-        }else { 
-            user.subbedChannels.remove(channelName);
-            user.save();
-            callback(200);
-            return;
+        }else {
+            channelHelper.ifChannel(channelName, function(channel){
+                if(channel){
+                    channel.subscribers.remove(userId);
+                    channel.save();
+                    user.subbedChannels.remove(channelName);
+                    user.save();
+                    callback(200);
+                    return;
+                }else{
+                    callback(422);
+                    return;
+                }
+            }); 
+           
         }
     });
+}
+
+function uniquePush(array, content){
+    var flag = true;
+    for(var i=0; i< array.length; i++){
+        if(array[i]==content){
+            flag= false;
+            break;
+        }
+    }
+
+    if(flag){
+        array.push(content);
+    }
+
 }
 
 function addChannelToFirebaseList(channelId){
