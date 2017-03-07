@@ -1,6 +1,5 @@
-var app = angular.module('bform',[]);
 
-app.controller('bformController',function($scope,$http) {
+application.controller('bformController',function($scope,$http) {
     $scope.bForm = {};
     $scope.bForm.adminApproved=false;
     $scope.send = function() {
