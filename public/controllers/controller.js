@@ -20,6 +20,10 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 }).state('channels',{
 		 templateUrl:'html/channels.html',
 		 controller:'channelsController'
+	 }).state('requestSendBroadcast',{
+		 url:'/broadcastsend',
+		 templateUrl:'html/broadcastForm/bForm.html',
+		 controller:'bformController'
 	 }); 
 	 
 }]);

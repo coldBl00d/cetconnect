@@ -24,6 +24,7 @@
 		<script src="js/rtdb-setup.js"></script>
 		<script src="controllers/controller.js"></script>
 		<script src="controllers/channelController.js"></script>
+		<script src="html/broadcastForm/bform.js"></script>
 
 	</head>
 
@@ -73,9 +74,9 @@
 
 					<li><a ng-click="changeView('channels')"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg>Channels</a></li>
 
-					<li><a><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg>Messages</a></li>
+					<li><a  ng-click="changeView()"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg>Messages</a></li>
 
-					<li><a><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Request Broadcast</a></li>
+					<li><a ng-click="changeView('requestSendBroadcast')"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" ></use></svg>Request Broadcast</a></li>
 
 					<li class="parent ">
 						<a href="">

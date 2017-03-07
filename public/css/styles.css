@@ -995,3 +995,12 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.formLabel {
+	padding: 18px;
+	padding-bottom: 0px;
+}
+
+.formIcon {
+	padding:6px;
+}
