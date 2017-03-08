@@ -79,11 +79,12 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	$scope.broadcastCollection = toDisplay;	
 
 	today_reference.once('value').then(function(dataSnapshot){
-	
+			toDisplay = [];
 			dataSnapshot.forEach(function(item){
 				for(var i=0; i<userSubbedChannels.length; i++){
 					if(userSubbedChannels[i]==item.val().channel){
 						toDisplay.push(item.val());
+						$scope.$apply();
 						break;
 					}
 				}
