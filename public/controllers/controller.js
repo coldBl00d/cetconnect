@@ -98,6 +98,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 		for(var i=0; i<userSubbedChannels.length; i++){
 				if(userSubbedChannels[i]==childSnapshot.val().channel){
 					toDisplay.push(childSnapshot.val());
+					$scope.$apply();
 					break;
 				}
 			}
@@ -122,8 +123,4 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	}
 	
 });
-
-function loadToday(fromFirebase, toDisplay, subList){
-	
-}
 

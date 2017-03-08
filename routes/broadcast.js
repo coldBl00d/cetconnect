@@ -4,6 +4,8 @@ var path = require('path');
 var firebaseadmin = require('../firebase-admin.js');
 var rtdb = firebaseadmin.database();
 var userModel = require("../models/users");
+var channelHelper = require('../helper/channelHelper');
+var userHelper = require('../helper/userHelper');
 
 var header = "[BROADCAST]";
 
@@ -19,6 +21,22 @@ router.get('/', function (req, res, next){
   res.sendFile(fileName, options, function (err) {
     if (err) {
       //console.log(options.root+"/index.html");
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+
+});
+
+router.get('/incomingRequest', function(req, res, next){
+  var options = {
+        root: path.resolve(appDir, 'public/html/incomingRequest')
+  };
+
+  var fileName = 'incomingRequest.html';
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
       next(err);
     } else {
       console.log('Sent:', fileName);
@@ -66,6 +84,37 @@ router.post('/', function(req,res,next){
 
 });
 
+router.post('/request', function(req, res, next){
+    var header = '[BROADCAST REQUEST]';
+    var payload = req.body.payload;
+
+    var userId = payload.userId;
+    var channel = payload.channel;
+
+    userHelper.ifUser(userId, function(result, user){
+        if(result){
+
+            console.log(header, "User "+ userId +" is validated, proceeding to check if the channel is valid");
+            channelHelper.ifChannel(channel, function(result){
+                if(result){
+                    console.log(header, "The channel "+ channel + " exist, proceeding to post to firebase");
+                    sendRequest(payload,res);
+                }else{
+                    console.log(header, "The channel "+ channel +" does not exist");
+                    return res.status(425).end();
+                }
+            });
+
+        }else{
+            console.log(header,"The user "+ payload.userName + " does not exist in the system");
+            return res.status(424).end();
+        }
+    })
+
+
+
+});
+
 function errorCallBack(err){
     console.log(err);
     console.log(header,"Database failure when finding the user identifyin the user who send the broadcast");
@@ -102,4 +151,33 @@ function sendBroadcast(payload){
 
 }
 
+function sendRequest(payload, res){
+    var header = '[sendBroadcast]';
+    var requestUri = '/request';
+    var requestReference = rtdb.ref(requestUri);
+    var key = requestReference.push({},function(err){
+        if(err){
+            console.log(header, "Writing key failed into firebase");
+            res.status(426).end();
+        }else{
+            console.log(header, "Writing key successfull into firebase");
+        }
+    }).key;
+
+    requestReference.child(key).set({
+        userId : payload.userId,
+        channel : payload.channel,
+        userName : payload.userName,
+        timestamp : payload.timestamp,
+        message : payload.message
+    }, function(err){
+        if(err){
+            console.log(header, "failed writing the data to firebase, you should probably delete the key");
+            res.status(427).end();
+        }else{
+            console.log(header, "Request succesffully posted to firebase");
+            res.status(200).end();
+        }
+    });
+}
 module.exports = router;
