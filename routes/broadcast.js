@@ -29,7 +29,7 @@ router.get('/', function (req, res, next){
 
 });
 
-router.get('/incomingRequest', function(req, res, next){
+router.get('/request', function(req, res, next){
   var options = {
         root: path.resolve(appDir, 'public/html/incomingRequest')
   };
