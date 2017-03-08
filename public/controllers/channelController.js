@@ -22,7 +22,7 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 						}else{
 							for(var i=0; i< userChannels.length; i++){
 								if(userChannels[i]==channelName){
-									delete userChannels[i];
+									userChannels.splice(i,1);
 								}
 							}
 						}
