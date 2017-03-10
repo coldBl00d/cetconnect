@@ -24,7 +24,11 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 url:'/broadcastsend',
 		 templateUrl:'html/broadcastForm/bForm.html',
 		 controller:'bformController'
-	 }); 
+	 }).state('requests',{
+		 templateUrl:'html/incomingRequest/incomingRequest.html',
+		 controller:'requestController'
+	 	}	
+	 ); 
 	 
 }]);
 
@@ -43,9 +47,12 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 					   $rootScope.currentUser = response.data;
 					   console.log($rootScope.currentUser);
                        $state.go("broadcast");
-                    }
+                    }else if(response.data.auth == false){
+						console.log(response);
+						alert("Check credentials");
+					}
 			},function(err){
-				console.log("Something went wrong when sending the data");
+				alert("Cant reach server");
 			});
 	};
 });

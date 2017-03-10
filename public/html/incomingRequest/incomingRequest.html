@@ -1,31 +1,3 @@
-<DOCTYPE html> 
-
-<html> 
-
-    <head> 
-        <title>Incoming Request</title>
-        <script src="../../modules/angular/angular.min.js"></script>
-		<script src="../../modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="../../modules/angular-route/angular-route.min.js"></script>
-		<script src="../../modules/firebase/firebase.js"></script>
-		<script src="../../modules/angularfire/angularfire.min.js"></script>
-		<script src="../../modules/jQuery/jquery-1.11.1.min.js"></script>
-		<script src="../../modules/bootstrap/bootstrap.min.js"></script>
-		<script src="../../modules/lumino_glyphs/lumino.glyphs.js"></script>
-		<script src="../../modules/angular-material/angular-material.min.js"></script>
-		<!-- scroll to bottom -->
-		<script src="../../modules/angular/scrollglue.js"></script>
-		
-		<link href="../css/bootstrap.min.css" rel='stylesheet'>
-		<link href="../css/styles.css" rel='stylesheet'>	
-
-		<script src="../js/rtdb-setup.js"></script>
-		<script src="../controllers/controller.js"></script>
-		<script src="../controllers/channelController.js"></script>
-		<script src="../html/broadcastForm/bform.js"></script>
-    </head>
-
-    <body ng-app="myapp">
 
         <div class="container"style="margin-top:18px;margin-bottom: 18px" ng-controller="requestController"> 
 
@@ -38,25 +10,37 @@
                           
                           <div class="panel-heading">
                                 <h3 class="panel-title">Broadcast Requests</h3>
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-default" style="padding-right: 24px; padding-top:9px;padding-left: 24px" ng-click='send()'>
+                                            <span class="glyphicon glyphicon-chevron-left"></span></button>
+                                        <button style=" padding-top:9px;padding-right: 24px; padding-left: 24px" type="button" class="btn btn-default"ng-click='request()'>
+                                            <span class="glyphicon glyphicon-chevron-right" ></span>
+                                        </button>
+                                </div>
                           </div>
                           
                           <div class="panel-body">
                                <ul class="list-group">
 				            	    <li class="list-group-item" style="font-size: 16px">
                                        <div class="form-group">
-                                            <label style="margin-bottom: 0px"> <span class="glyphicon glyphicon-user formIcon" ></span>Akhil Raj R</label> <br>
-                                            <label class="label-primary" style="margin-left: 6px;color:white;border-radius:10px;padding:2px; font-size: 12px">Computer Science</label>
-                                            <label class="label-primary" style=" margin-left: 3px;font-size: 12px;color:white;border-radius:10px;padding:2px">-S7-</label><br>
-                                            <label class="label-success" style="margin-left: 6px;color:white;border-radius:10px;padding:2px; font-size: 12px">Channel Name</label>
+                                            <label style="margin-bottom: 0px"> <span class="glyphicon glyphicon-user formIcon" ></span>{{request.userName}}</label> 
+                                            
+                                            <br>
+                                            <label class="label-primary" style="margin-left: 6px;color:white;border-radius:10px;padding:2px; font-size: 12px">{{request.userDepartment}}</label>
+                                            <label class="label-primary" style=" margin-left: 3px;font-size: 12px;color:white;border-radius:10px;padding:2px">{{request.userPost}}</label><br>
+                                            <label class="label-success" style="margin-left: 6px;color:white;border-radius:10px;padding:2px; font-size: 12px">{{request.channel}}</label>
                                         </div>
                                         <div class="form-group" style="border-style: solid;border-color: lightgrey;border-radius: 3px;padding: 10px;">
-                                            <p><b>Title of the Message</b></p>
-                                            <p> Removes the data at this Database location.Any data at child locations will also be deleted.The effect of the remove will be visible immediately and the corresponding event 'value' will be triggered. Synchronization of the remove to the Firebase servers will also be started, and the returned Promise will resolve when complete. If provided, the onComplete callback will be called asynchronously after synchronization has finished. </p>
+                                            <p><b>{{request.title}}</b></p>
+                                            <p>{{request.message}}</p>
                                         </div>
                                         <div class="form-group"  style="text-align: right">
                                                 <div class="btn-group" role="group" aria-label="...">
-                                                    <button type="button" class="btn btn-success" ng-click='send()'>Accept</button>
-                                                    <button type="button" class="btn btn-primary" ng-click='request()'>Reject</button>
+                                                    <button type="button" class="btn btn-success" style="padding-right: 24px; padding-top:9px;padding-left: 24px" ng-click='send()'>
+                                                        <span class="glyphicon glyphicon-ok"></span></button>
+                                                    <button style=" padding-top:9px;padding-right: 24px; padding-left: 24px" type="button" class="btn btn-primary"ng-click='request()'>
+                                                        <span class="glyphicon glyphicon-remove" ></span>
+                                                    </button>
                                                 </div>
                                         </div>
 					                </li>
@@ -73,7 +57,3 @@
             </div>
 
         </div>
-
-    </body>
-
-</html>

@@ -2,7 +2,11 @@
 application.controller('bformController',function($scope,$http,$rootScope) {
     $scope.bForm = {};
     $scope.bForm.adminApproved=false;
-    $scope.bForm.message='Enter your message here';
+    $scope.bForm.message='';
+    $scope.bForm.post=$rootScope.currentUser.post;
+    $scope.bForm.department=$rootScope.currentUser.department;
+
+
     $scope.channelSelected = function(channelName){channelSelected(channelName, $rootScope, $scope);}
     $scope.send = function () {send($rootScope, $scope,$http);}
     $scope.request = function() {request($rootScope, $scope, $http);}
@@ -21,7 +25,7 @@ function channelSelected(channelName, rootScope, scope){
 }
 
 function send($rootScope, $scope, $http){
-
+    console.log($scope.bForm);
     $scope.bForm.senderid = $rootScope.currentUser.userId;
     $scope.bForm.sendername = $rootScope.currentUser.name;
     console.log($scope.bForm.channel);

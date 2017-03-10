@@ -93,7 +93,6 @@ router.post('/request', function(req, res, next){
 
     userHelper.ifUser(userId, function(result, user){
         if(result){
-
             console.log(header, "User "+ userId +" is validated, proceeding to check if the channel is valid");
             channelHelper.ifChannel(channel, function(result){
                 if(result){
@@ -133,20 +132,26 @@ function sendBroadcast(payload){
     
     var referenceToToday = rtdb.ref('today/'+today+'/'+key);
 
-
     rtdb.ref('channel/'+channel+'/broadcasts/'+key).set({
-        message:payload.message,
+        senderid:payload.senderid,
         sender:payload.sendername,
-        timestamp: payload.timestamp,
-        senderid:payload.senderid
+        department: payload.department, 
+        post: payload.post,
+        title:payload.title,
+        message:payload.message,
+        timestamp: payload.timestamp
+        
     });
     
     referenceToToday.set({
-        message:payload.message,
-        sender:payload.sendername,
-        timestamp:payload.timestamp,
         senderid:payload.senderid,
-        channel:payload.channel
+        sender:payload.sendername,
+        department: payload.department, 
+        post: payload.post,
+        channel:payload.channel,
+        title:payload.title,
+        message:payload.message,  
+        timestamp:payload.timestamp
     });
 
 }
@@ -166,10 +171,13 @@ function sendRequest(payload, res){
 
     requestReference.child(key).set({
         userId : payload.userId,
-        channel : payload.channel,
         userName : payload.userName,
-        timestamp : payload.timestamp,
-        message : payload.message
+        department: payload.department, 
+        post: payload.post,
+        channel : payload.channel,
+        title: payload.title,
+        message : payload.message,
+        timestamp : payload.timestamp
     }, function(err){
         if(err){
             console.log(header, "failed writing the data to firebase, you should probably delete the key");
