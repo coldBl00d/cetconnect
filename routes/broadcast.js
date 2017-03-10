@@ -8,7 +8,6 @@ var channelHelper = require('../helper/channelHelper');
 var userHelper = require('../helper/userHelper');
 
 var header = "[BROADCAST]";
-
 var appDir = path.dirname(require.main.filename);
 
 router.get('/', function (req, res, next){
@@ -114,11 +113,14 @@ router.post('/request', function(req, res, next){
 
 });
 
+router.post('/request/accept', function(req, res, next){
+
+});
+
 function errorCallBack(err){
     console.log(err);
     console.log(header,"Database failure when finding the user identifyin the user who send the broadcast");
 }
-
 
 function sendBroadcast(payload){
     console.log(payload);
@@ -188,4 +190,5 @@ function sendRequest(payload, res){
         }
     });
 }
+
 module.exports = router;
