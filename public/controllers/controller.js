@@ -80,36 +80,20 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
 	var today_reference = firebase.database().ref('today/'+todayString);
 	var firebaseCollection;
-	var toDisplay = [];
+	var toDisplay=[];
 	
 
 	$scope.broadcastCollection = toDisplay;	
 
-	today_reference.once('value').then(function(dataSnapshot){
-			toDisplay = [];
-			dataSnapshot.forEach(function(item){
-				for(var i=0; i<userSubbedChannels.length; i++){
-					if(userSubbedChannels[i]==item.val().channel){
-						toDisplay.push(item.val());
-						$scope.$apply();
-						break;
-					}
-				}
-			});
-			
-			$anchorScroll();
-		
-	});
-	
 	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
+		console.log("onchild called");
 		for(var i=0; i<userSubbedChannels.length; i++){
 				if(userSubbedChannels[i]==childSnapshot.val().channel){
 					toDisplay.push(childSnapshot.val());
-					$scope.$apply();
 					break;
 				}
 			}
-		//$scope.$apply();
+		$scope.$apply();
 	});
 
 	/*filter selected in the broadcast page*/
