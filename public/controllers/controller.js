@@ -1,6 +1,19 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
 var address = 'http://localhost:3000/';
 
+
+application.factory('$validateLogin',function($rootScope,$window){
+
+	return function(){
+		if(!sessionStorage.getItem('loggedIn')){
+		 	$window.location.href = address;
+		}else{
+			$rootScope.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+		}
+	}
+
+});
+
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	 
 	 $urlRouterProvider.otherwise("login");
@@ -12,13 +25,16 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 controller:'loginCon'
 	 })
 	 .state('dashboard', {
+		 url:'/dashboard',
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 })
 	 .state('broadcast', {
+		 url:'/broadcast',
 		 templateUrl:'html/broadcast.html',
 		 controller:'broadcastViewController'
 	 }).state('channels',{
+		 url:'/channels',
 		 templateUrl:'html/channels.html',
 		 controller:'channelsController'
 	 }).state('requestSendBroadcast',{
@@ -26,6 +42,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 templateUrl:'html/broadcastForm/bForm.html',
 		 controller:'bformController'
 	 }).state('requests',{
+		 url:'/requests',
 		 templateUrl:'html/incomingRequest/incomingRequest.html',
 		 controller:'requestController'
 	 	}	
@@ -44,9 +61,11 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 		$http.post(address,$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
+					   var currentUser = packUser(response.data);
+					   sessionStorage.setItem('currentUser', currentUser);
+					   sessionStorage.setItem('loggedIn', true);
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
-					   console.log($rootScope.currentUser);
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
 						console.log(response);
@@ -58,6 +77,19 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	};
 });
 
+function packUser(user){
+	var pack =  {
+		'userId':user.userId,
+		'name':user.name, 
+		'department':user.department,
+		'post':user.post,
+		'adminOf':user.adminOf,
+		'subChannels':user.subChannels
+	}
+
+	return JSON.stringify(pack);
+
+}
 
 /*sidebar routing controller*/
 
@@ -72,8 +104,9 @@ application.controller('sidebarcontroller', function($scope,$location,$state){
 
 /* Dashboard controllers */
 
-application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location){
+application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location,$window,$validateLogin ){
 	
+	$validateLogin();
 	$rootScope.showsidebar=false;
 	$scope.channels=$rootScope.currentUser.subChannels;
 	var userSubbedChannels = $rootScope.currentUser.subChannels;

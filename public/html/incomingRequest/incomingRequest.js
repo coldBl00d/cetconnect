@@ -1,4 +1,6 @@
-application.controller('requestController', function($scope,$rootScope,$firebaseArray,$http){
+application.controller('requestController', function($scope,$rootScope,$firebaseArray,$http,$validateLogin){
+
+    $validateLogin();
 
     const requestUri = '/request';
     var requestRef = firebase.database().ref(requestUri);

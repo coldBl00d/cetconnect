@@ -1,5 +1,6 @@
 
-application.controller('bformController',function($scope,$http,$rootScope) {
+application.controller('bformController',function($scope,$http,$rootScope,$validateLogin) {
+    $validateLogin();
     $scope.bForm = {};
     $scope.bForm.adminApproved=false;
     $scope.bForm.message='';
