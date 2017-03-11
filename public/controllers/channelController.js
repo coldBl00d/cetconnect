@@ -14,7 +14,7 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 
 	$scope.subChanged = function(channelName, status){
 		var payload = packagePayload(channelName, status, $rootScope.currentUser.userId);
-		$http.post("http://localhost:3000/channel/subunsub",{payload:payload})
+		$http.post(address+"channel/subunsub",{payload:payload})
 			 .then(function(res){
 					if(res.status == 200){
 						if(status){

@@ -5,7 +5,7 @@ app.controller('channelAdmin',function($scope,$http) {
     $scope.send = function() {
         console.log("Sending channel data ");
         console.log($scope.cForm);
-        $http.post("http://localhost:3000/channel",{payload:$scope.cForm});
+        $http.post(address+"channel",{payload:$scope.cForm});
     }
     
 });

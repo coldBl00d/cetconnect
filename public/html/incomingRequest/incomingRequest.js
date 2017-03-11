@@ -1,4 +1,4 @@
-application.controller('requestController', function($scope,$rootScope,$firebaseArray){
+application.controller('requestController', function($scope,$rootScope,$firebaseArray,$http){
 
     const requestUri = '/request';
     var requestRef = firebase.database().ref(requestUri);
@@ -14,6 +14,7 @@ application.controller('requestController', function($scope,$rootScope,$firebase
     $scope.next = function(){next(requestCollection, $scope);}
     $scope.prev = function(){prev(requestCollection, $scope);}
     $scope.loaded = false;
+    $scope.accept = function(){accept($scope,$rootScope,$http);}
 
     firebaseCollection = $firebaseArray(requestRef);
     
@@ -39,7 +40,7 @@ application.controller('requestController', function($scope,$rootScope,$firebase
             console.log(indexToRemove);
             if(indexToRemove!=-1){
                 requestCollection.splice(indexToRemove, 1);
-                if(index>=indexToRemove) decIndex(index, requestCollection);
+                if(index>=indexToRemove) decIndex($scope, requestCollection);
                 $scope.request = requestCollection[index];
             }
         }
@@ -51,25 +52,26 @@ application.controller('requestController', function($scope,$rootScope,$firebase
 
 function accept($scope, $rootScope, $http){
     $scope.request.approvedBy = $rootScope.currentUser.userId;
-    $http.post("http://localhost:3000/broadcast/request/accept",{payload:$scope.request})
-         .then(function(respose){
+    var payload = makePayload($scope.request); 
+    $http.post(address+"broadcast/request/accept",{payload:payload})
+         .then(function(response){
              if(response.status == 200){
                  console.log('[IncommingRequestController]',"The request was accepted and posted to broadcast");
              }
-         })
+         });
 }
 
 function reject(){
 
 }
 
-function incIndex(index, collection){
+function incIndex($scope, collection){
      if(++$scope.index >= collection.length){
         $scope.index =0;
     }
 }
 
-function decIndex(index, colleciton){
+function decIndex($scope, colleciton){
     if(--$scope.index <0){
         $scope.index = firebaseCollection.length-1;
     }
@@ -93,4 +95,18 @@ function prev(firebaseCollection, $scope){
 
 function searchSubList(channel, subList){
     return subList.findIndex(function(item){return item==channel;}) != -1;
+}
+
+function makePayload(payload){
+    return {
+        'userId':payload.userId, 
+        'userName':payload.userName,
+        'key':payload.$id,
+        'channel':payload.channel,
+        'post':payload.post,
+        'title':payload.title,
+        'message':payload.message,
+        'approvedBy':payload.approvedBy,
+        'timestamp':payload.timestamp
+    }
 }

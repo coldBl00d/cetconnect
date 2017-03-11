@@ -1,4 +1,5 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
+var address = 'http://localhost:3000/';
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	 
@@ -40,7 +41,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	$rootScope.currentUser.name = "User";
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
-		$http.post("http://localhost:3000/",$scope.formModel)
+		$http.post(address,$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
 					   $rootScope.loggedIn=true;

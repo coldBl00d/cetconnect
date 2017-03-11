@@ -31,7 +31,7 @@ function send($rootScope, $scope, $http){
     console.log($scope.bForm.channel);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
-          $http.post("http://localhost:3000/broadcast",{payload:$scope.bForm});
+          $http.post(address+"broadcast",{payload:$scope.bForm});
     }else{
         console.log('No message here');
         alert("Check your message or channel");
@@ -42,9 +42,10 @@ function send($rootScope, $scope, $http){
 function request($rootScope, $scope, $http){
     $scope.bForm.userId = $rootScope.currentUser.userId;
     $scope.bForm.userName = $rootScope.currentUser.name;
+    console.log($scope.bForm);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
-          $http.post("http://localhost:3000/broadcast/request",{payload:$scope.bForm}).then(function(res){
+          $http.post(address+"broadcast/request",{payload:$scope.bForm}).then(function(res){
               if(res.status == 200){
                   alert ("Request Successfully posted");
               }else {

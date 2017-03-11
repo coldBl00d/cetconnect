@@ -114,47 +114,61 @@ router.post('/request', function(req, res, next){
 });
 
 router.post('/request/accept', function(req, res, next){
+    var header = '[request accept]';
+    var payload = req.body.payload;
+    var admin = payload.approvedBy;
+    userHelper.ifUser(admin, function(result, user){
+        if(result){
+            console.log(header, "Proposed admin exist in the system");
+            var adminOf = Array.from(user.adminOf);
+            var index = adminOf.findIndex(function(item){return item == payload.channel});
+            if(index!=-1){
+                console.log(header, "The proposed admin is indeed the admin of the channel");
+                console.log(payload);
+                acceptedRequest(payload);
+                res.status(200).json({message:"Broadcast approved"});
+            }else{
+                console.log(header, "Not an admin to accept this request");
+                res.status(400).json({message:"You are not an admin to accept this request"}).end();
+            }
+        }else{
+            console.log(header, "The admin does not exist in the system");
+            res.status(404).json({message:"You are not part of the system"}).end();
+        }
 
+    });
 });
+
+function acceptedRequest(payload){
+    sendBroadcast(payload);
+    removeRequest(payload.key);
+}
 
 function errorCallBack(err){
     console.log(err);
     console.log(header,"Database failure when finding the user identifyin the user who send the broadcast");
 }
 
+function removeRequest(key){
+    var requestUri = '/request/';
+    var requestRef = rtdb.ref(requestUri).child(key);
+    requestRef.remove();
+}
+
 function sendBroadcast(payload){
-    console.log(payload);
+    //console.log(payload);
     var channel = payload.channel;
     var referenceToBroadcast = rtdb.ref('channel/'+channel+'/broadcasts');
     var key = referenceToBroadcast.push().key;
-    var timestamp = new Date(payload.timestamp);
+    var timestamp = new Date();
     var today = timestamp.getDate()+ '-'+
                     timestamp.getMonth().toString() + '-'+
-                        timestamp.getFullYear().toString();
-    
+                        timestamp.getFullYear().toString();    
     var referenceToToday = rtdb.ref('today/'+today+'/'+key);
 
-    rtdb.ref('channel/'+channel+'/broadcasts/'+key).set({
-        senderid:payload.senderid,
-        sender:payload.sendername,
-        department: payload.department, 
-        post: payload.post,
-        title:payload.title,
-        message:payload.message,
-        timestamp: payload.timestamp
-        
-    });
-    
-    referenceToToday.set({
-        senderid:payload.senderid,
-        sender:payload.sendername,
-        department: payload.department, 
-        post: payload.post,
-        channel:payload.channel,
-        title:payload.title,
-        message:payload.message,  
-        timestamp:payload.timestamp
-    });
+
+    rtdb.ref('channel/'+channel+'/broadcasts/'+key).set(payload);
+    referenceToToday.set(payload);
 
 }
 
