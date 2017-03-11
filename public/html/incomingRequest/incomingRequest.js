@@ -38,10 +38,7 @@ application.controller('requestController', function($scope,$rootScope,$firebase
             if(firebaseCollection.length == 0) {$scope.loaded = false; $scope.noContent=true;}
             console.log('child_removed from requestCollection');
             var key = whatHappened.key;
-            var indexToRemove = requestCollection.findIndex(function(item){
-                console.log(item.message+"::"+item.$id+"::"+key);
-                return item.$id == key});
-            console.log(indexToRemove);
+            var indexToRemove = requestCollection.findIndex(function(item){return item.$id == key});
             if(indexToRemove!=-1){
                 requestCollection.splice(indexToRemove, 1);
                 if(index>=indexToRemove) decIndex($scope, requestCollection);
@@ -77,6 +74,7 @@ function incIndex($scope, collection){
 function decIndex($scope, collection){
     if(--$scope.index <0){
         $scope.index = collection.length-1;
+        if($scope.index < 0) $scope.index=0;
     }
 }
 

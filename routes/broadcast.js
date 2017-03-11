@@ -52,7 +52,7 @@ router.post('/', function(req,res,next){
         sendBroadcast(payload);
         res.send(200).end();
     }else{
-        userModel.findOne({userid:payload.senderid})
+        userModel.findOne({userid:payload.userId})
         .exec()
         .then(function(user) {
                 var flag =0;
@@ -69,11 +69,11 @@ router.post('/', function(req,res,next){
                         }
                     }
                     if (flag==0){
-                        console.log(header,"user "+payload.senderid + "is not an admin for channel "+ payload.channel);
+                        console.log(header,"user "+payload.userId + "is not an admin for channel "+ payload.channel);
                         res.status(403).end();
                     }
                 }else{
-                    console.log(header,"user "+payload.senderid +" is not part of the system");
+                    console.log(header,"user "+payload.userId +" is not part of the system");
                     res.status(404).end();
                 }
 
@@ -126,7 +126,7 @@ router.post('/request/accept', function(req, res, next){
                 console.log(header, "The proposed admin is indeed the admin of the channel");
                 console.log(payload);
                 acceptedRequest(payload);
-                res.status(200).json({message:"Broadcast approved"});
+                res.status(200).json({message:"Broadcast approved"}).end();
             }else{
                 console.log(header, "Not an admin to accept this request");
                 res.status(400).json({message:"You are not an admin to accept this request"}).end();
