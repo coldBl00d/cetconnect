@@ -142,6 +142,7 @@ router.post('/request/accept', function(req, res, next){
 function acceptedRequest(payload){
     sendBroadcast(payload);
     removeRequest(payload.key);
+
 }
 
 function errorCallBack(err){
