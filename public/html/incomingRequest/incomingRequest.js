@@ -15,23 +15,27 @@ application.controller('requestController', function($scope,$rootScope,$firebase
     $scope.prev = function(){prev(requestCollection, $scope);}
     $scope.loaded = false;
     $scope.accept = function(){accept($scope,$rootScope,$http);}
+    $scope.noContent = true;
 
     firebaseCollection = $firebaseArray(requestRef);
     
     firebaseCollection.$loaded().then(function(){
-        $scope.loaded = true;
+        if(firebaseCollection.length>0){ $scope.loaded = true; $scope.noContent = false;}
         $scope.request = requestCollection[0];
     });
 
     firebaseCollection.$watch(function(whatHappened){
+        if(firebaseCollection.length>0){ $scope.loaded = true; $scope.noContent = false;}
         if(whatHappened.event == "child_added"){
             var newChild = firebaseCollection.find(function(item){return item.$id == whatHappened.key});
             if(newChild){
                 if(searchSubList(newChild.channel, subList)){
                     requestCollection.push(newChild);
+                    $scope.request = requestCollection[$scope.index];
                 }
             }
         }else if(whatHappened.event == 'child_removed'){
+            if(firebaseCollection.length == 0) {$scope.loaded = false; $scope.noContent=true;}
             console.log('child_removed from requestCollection');
             var key = whatHappened.key;
             var indexToRemove = requestCollection.findIndex(function(item){
@@ -42,11 +46,10 @@ application.controller('requestController', function($scope,$rootScope,$firebase
                 requestCollection.splice(indexToRemove, 1);
                 if(index>=indexToRemove) decIndex($scope, requestCollection);
                 $scope.request = requestCollection[index];
+            
             }
         }
     });
-
-
 
 });
 
@@ -71,9 +74,9 @@ function incIndex($scope, collection){
     }
 }
 
-function decIndex($scope, colleciton){
+function decIndex($scope, collection){
     if(--$scope.index <0){
-        $scope.index = firebaseCollection.length-1;
+        $scope.index = collection.length-1;
     }
 }
 

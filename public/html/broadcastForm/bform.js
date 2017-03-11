@@ -26,8 +26,8 @@ function channelSelected(channelName, rootScope, scope){
 
 function send($rootScope, $scope, $http){
     console.log($scope.bForm);
-    $scope.bForm.senderid = $rootScope.currentUser.userId;
-    $scope.bForm.sendername = $rootScope.currentUser.name;
+    $scope.bForm.userId = $rootScope.currentUser.userId;
+    $scope.bForm.userName = $rootScope.currentUser.name;
     console.log($scope.bForm.channel);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
