@@ -113,22 +113,22 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
 	var today_reference = firebase.database().ref('today/'+todayString);
+	var firebaseToday = $firebaseArray(today_reference);
 	var firebaseCollection;
 	var toDisplay=[];
 	
 
-	$scope.broadcastCollection = toDisplay;	
-
-	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
-		console.log("onchild called");
-		for(var i=0; i<userSubbedChannels.length; i++){
-				if(userSubbedChannels[i]==childSnapshot.val().channel){
-					toDisplay.push(childSnapshot.val());
-					break;
+	firebaseToday.$watch(function(someThingHappened){
+		if(someThingHappened.event == 'child_added'){
+			var newChild = firebaseToday.find(function(item){return item.$id == someThingHappened.key;});
+			if(newChild){
+				if(searchSubList(newChild.channel, userSubbedChannels)){
+					toDisplay.push(newChild);
 				}
 			}
-		$scope.$apply();
-	});
+			$scope.broadcastCollection = toDisplay;	
+		}
+	})	
 
 	/*filter selected in the broadcast page*/
 	$scope.filterSelected = function(channel){
@@ -149,3 +149,6 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	
 });
 
+function searchSubList(channel, subList){
+    return subList.findIndex(function(item){return item==channel;}) != -1;
+}

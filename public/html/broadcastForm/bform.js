@@ -32,7 +32,7 @@ function send($rootScope, $scope, $http){
     console.log($scope.bForm.channel);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
-          $http.post(address+"broadcast",{payload:$scope.bForm});
+          $http.post(address+"broadcast",{payload:$scope.bForm}).then(function(res){if(res.status==200){alert("Broadcast posted")}});
     }else{
         console.log('No message here');
         alert("Check your message or channel");

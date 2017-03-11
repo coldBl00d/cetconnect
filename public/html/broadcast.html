@@ -40,13 +40,14 @@
 								</span>
 								<div class="chat-body clearfix">
 									<div class="header">
-										<strong class="primary-font">{{broadcast.userName}}</strong> <small class="text-muted">{{broadcast.timestamp}}</small>
+										<strong class="primary-font" ng-bind="broadcast.userName"></strong> <small class="text-muted" ng-bind="broadcast.timestamp"></small>
 									</div>
-									<p>
-										{{broadcast.message}}
+									<p><b ng-bind="broadcast.title"></b></p><br>
+									<p style="white-space: pre-wrap" ng-bind="broadcast.message">
 									</p>
 								</div>
 							</li>
+							
 						</ul>
 					</div>
 			
