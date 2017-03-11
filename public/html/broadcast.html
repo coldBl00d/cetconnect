@@ -40,8 +40,12 @@
 								</span>
 								<div class="chat-body clearfix">
 									<div class="header">
-										<strong class="primary-font" ng-bind="broadcast.userName"></strong> <small class="text-muted" ng-bind="broadcast.timestamp"></small>
+										<strong class="primary-font" ng-bind="broadcast.userName"></strong> <small class="text-muted" ng-bind="broadcast.timestamp"></small><br>
+										<label class="label-primary" style="color:white;border-radius:10px;padding:4px; font-size: 12px">{{broadcast.department}}</label>
+										<label class="label-primary" style="font-size: 12px;color:white;border-radius:10px;padding:4px">{{broadcast.post}}</label><br>
+										<label class="label-success" style="color:white;border-radius:10px;padding:4px; font-size: 12px">{{broadcast.channel}}</label>
 									</div>
+									<br>
 									<p><b ng-bind="broadcast.title"></b></p><br>
 									<p style="white-space: pre-wrap" ng-bind="broadcast.message">
 									</p>
