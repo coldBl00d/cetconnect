@@ -1,0 +1,59 @@
+
+        <div class="container"style="margin-top:18px;margin-bottom: 18px" ng-controller="requestController"> 
+
+            <div class="row">
+
+                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 col-xs-12 main" >
+
+                    
+                    <div class="panel panel-primary">
+                          
+                          <div class="panel-heading">
+                                <h3 class="panel-title">Broadcast Requests</h3>
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-default" style="padding-right: 24px; padding-top:9px;padding-left: 24px" ng-click='prev()'>
+                                            <span class="glyphicon glyphicon-chevron-left"></span></button>
+                                        <button style=" padding-top:9px;padding-right: 24px; padding-left: 24px" type="button" class="btn btn-default"ng-click='next()'>
+                                            <span class="glyphicon glyphicon-chevron-right" ></span>
+                                        </button>
+                                </div>
+                          </div>
+                          
+                          <div class="panel-body">
+                               <ul class="list-group">
+				            	    <li ng-if="loaded" class="list-group-item" style="font-size: 16px">
+                                       <div class="form-group">
+                                            <label style="margin-bottom: 0px"> <span class="glyphicon glyphicon-user formIcon" ></span>{{request.userName}}</label> 
+                                            <br>
+                                            <label class="label-primary" style="margin-left: 6px;color:white;border-radius:10px;padding:4px; font-size: 12px">{{request.department}}</label>
+                                            <label class="label-primary" style=" margin-left: 3px;font-size: 12px;color:white;border-radius:10px;padding:4px">{{request.post}}</label><br>
+                                            <label class="label-success" style="margin-left: 6px;color:white;border-radius:10px;padding:4px; font-size: 12px">{{request.channel}}</label>
+                                        </div>
+                                        <div class="form-group" style="border-style: solid;border-color: lightgrey;border-radius: 3px;padding: 10px;">
+                                            <p><b>{{request.title}}</b></p>
+                                            <p style="white-space: pre-wrap">{{request.message}}</p>
+                                        </div>
+                                        <div class="form-group"  style="text-align: right">
+                                                <div class="btn-group" role="group" aria-label="...">
+                                                    <button type="button" class="btn btn-success" style="padding-right: 24px; padding-top:9px;padding-left: 24px" ng-click='accept()'>
+                                                        <span class="glyphicon glyphicon-ok"></span></button>
+                                                    <button style=" padding-top:9px;padding-right: 24px; padding-left: 24px" type="button" class="btn btn-primary"ng-click='reject()'>
+                                                        <span class="glyphicon glyphicon-remove" ></span>
+                                                    </button>
+                                                </div>
+                                        </div>
+					                </li>
+				                </ul>
+                          </div>
+
+                          <div class="panel-footer"> </div>
+
+                    </div>
+                    
+
+                </div>
+
+
+            </div>
+
+        </div>

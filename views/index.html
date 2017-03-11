@@ -25,6 +25,8 @@
 		<script src="controllers/controller.js"></script>
 		<script src="controllers/channelController.js"></script>
 		<script src="html/broadcastForm/bform.js"></script>
+		<script src="html/incomingRequest/incomingRequest.js"></script>
+		
 
 	</head>
 
@@ -33,7 +35,7 @@
 
 		
 		<div class="" ng-app = "myApp" style="min-height: 100%" >
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="position: absolute">
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
@@ -49,7 +51,7 @@
 									<svg class="glyph stroked male-user">
 										<use xlink:href="#stroked-male-user"></use>								
 									</svg> 
-									Akhil Raj R
+									{{currentUser.name}}
 									<span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu" role="menu">
@@ -76,7 +78,9 @@
 
 					<li><a  ng-click="changeView()"><svg class="glyph stroked email"><use xlink:href="#stroked-email"></use></svg>Messages</a></li>
 
-					<li><a ng-click="changeView('requestSendBroadcast')"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" ></use></svg>Request Broadcast</a></li>
+					<li><a ng-click="changeView('requestSendBroadcast')"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil" ></use></svg>Send Broadcast</a></li>
+
+					<li><a ng-click="changeView('requests')"><svg class="glyph stroked key "><use xlink:href="#stroked-key"/></svg>Requests</a></li>
 
 					<li class="parent ">
 						<a href="">

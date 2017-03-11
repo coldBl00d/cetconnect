@@ -10,3 +10,11 @@ I'm only present in coldblood
 2)421 -- channel name already exist choose some another name
 3)422 -- user selected as admin is not part of the system check the userid selected for admin 
 4)423 -- mongobd failed to add channel try again.
+
+/broadcast/request 
+
+1)424 -- user who is requesting for broadcast does not exist in the system
+2)425 -- channel does not exist to which the user is trying to request for broadcast
+3)426 -- writing the key failed to firebase 
+4)427 -- writing data to firebase failed at set 
+5)200 -- every thing went alright 

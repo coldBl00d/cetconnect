@@ -40,10 +40,10 @@
 								</span>
 								<div class="chat-body clearfix">
 									<div class="header">
-										<strong class="primary-font" ng-bind="broadcast.sender">John Doe</strong> <small class="text-muted" ng-bind="broadcast.timestamp">32 mins ago</small>
+										<strong class="primary-font">{{broadcast.sender}}</strong> <small class="text-muted">{{broadcast.timestamp}}</small>
 									</div>
-									<p ng-bind="broadcast.message">
-										Place Holder 
+									<p>
+										{{broadcast.message}}
 									</p>
 								</div>
 							</li>

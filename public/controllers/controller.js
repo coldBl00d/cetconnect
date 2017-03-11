@@ -1,7 +1,8 @@
 var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
+var address = 'http://localhost:3000/';
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
-
+	 
 	 $urlRouterProvider.otherwise("login");
 	 
 	 $stateProvider
@@ -24,7 +25,11 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 url:'/broadcastsend',
 		 templateUrl:'html/broadcastForm/bForm.html',
 		 controller:'bformController'
-	 }); 
+	 }).state('requests',{
+		 templateUrl:'html/incomingRequest/incomingRequest.html',
+		 controller:'requestController'
+	 	}	
+	 ); 
 	 
 }]);
 
@@ -32,18 +37,23 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
 	$rootScope.showsidebar=true;
+	$rootScope.currentUser = {};
+	$rootScope.currentUser.name = "User";
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
-		$http.post("http://localhost:3000/",$scope.formModel)
+		$http.post(address,$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
 					   console.log($rootScope.currentUser);
                        $state.go("broadcast");
-                    }
+                    }else if(response.data.auth == false){
+						console.log(response);
+						alert("Check credentials");
+					}
 			},function(err){
-				console.log("Something went wrong when sending the data");
+				alert("Cant reach server");
 			});
 	};
 });
@@ -71,23 +81,13 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
 	var today_reference = firebase.database().ref('today/'+todayString);
 	var firebaseCollection;
-	var toDisplay = [];
+	var toDisplay=[];
 	
-	today_reference.once('value').then(function(dataSnapshot){
-		dataSnapshot.forEach(function(item){
-			for(var i=0; i<userSubbedChannels.length; i++){
-				if(userSubbedChannels[i]==item.val().channel){
-					toDisplay.push(item.val());
-					break;
-				}
-			}
-		});
-		$scope.broadcastCollection = toDisplay;
-		$scope.$apply();
-		$anchorScroll();
-	});
-	
+
+	$scope.broadcastCollection = toDisplay;	
+
 	today_reference.on('child_added', function(childSnapshot, prevChildKey) {
+		console.log("onchild called");
 		for(var i=0; i<userSubbedChannels.length; i++){
 				if(userSubbedChannels[i]==childSnapshot.val().channel){
 					toDisplay.push(childSnapshot.val());
@@ -115,8 +115,4 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	}
 	
 });
-
-function loadToday(fromFirebase, toDisplay, subList){
-	
-}
 

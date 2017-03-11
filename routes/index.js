@@ -56,13 +56,15 @@ function login(user, res){
                 'userId':user.userid,
                 'name':user.name,
                 'adminOf':user.adminOf,
-                'subChannels':user.subbedChannels
+                'subChannels':user.subbedChannels,
+                'department':user.department,
+                'post':user.post
             }
             console.log("Sending data back")
             return res.status(210).json(user_response).end();
         }else {
             console.log("LOG: Location Index.js \n Message: Login failed, no matching user found");
-            return res.status(410).end(); 
+            return res.status(220).json({auth:false}).end(); 
         }
 }
 

@@ -33,6 +33,14 @@ var userSchema = new mongoose.Schema({
 	adminOf : {
 		type:Array,
 		default:['all'],
+	},
+
+	department:{
+		type: String
+	},
+
+	post:{
+		type:String
 	}
 
 });
