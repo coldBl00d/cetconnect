@@ -95,9 +95,15 @@ function packUser(user){
 
 application.controller('sidebarcontroller', function($scope,$location,$state){
 	var header = "[sidebasrcontroller]";
+	var previousView = "";
 	$scope.changeView = function(view){
-		console.log(header, "changing view to "+ view);
-	$state.go(view);
+		$scope.changeSelect(view, previousView);
+		previousView = view;
+		$state.go(view);
+	}
+
+	$scope.changeSelect = function(current, previous){
+		return;
 	}
 
 });
