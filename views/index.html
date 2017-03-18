@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="modules/angular-material/angular-material.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-
+		<link rel="stylesheet" href="css/myStyles.css">
 
 		<script src="angular/angular.min.js"></script>
 		<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -23,6 +23,7 @@
 		<script src="angular-aria/angular-aria.js"></script>
 		<script src="angular-animate/angular-animate.js"></script>
 		<script src="angular-material/angular-material.js"></script>
+        <script src="ng-letter-avatar/dist/ngletteravatar.min.js"></script>
 
 		<script src="js/rtdb-setup.js"></script>
 		<script src="controllers/controller.js"></script>
@@ -33,9 +34,9 @@
 
 	</head>
 
-	<body  style="background: #C5CAE9" ng-app = "myApp">
+	<body  ng-app = "myApp" style="overflow:hidden">
 
-			<div ng-controller="sidebarcontroller" layout="column" flex style="height:100%" ng-init="currentUser.name='User'">
+			<div ng-controller="sidebarcontroller" layout="column" flex style="height:100%">
         
 				<md-toolbar class="md-hue-2">
 									<div class="md-toolbar-tools" layout="row" >
@@ -49,7 +50,7 @@
 										<div flex="noshrink" layout="row" layout-align="end">
 											<md-icon ng-hide="!loggedIn" layout-padding style="margin:0px">account_circle</md-icon>
 											<md-menu style="margin-left: 6px;margin-right: 6px">
-											<md-button ng-hide="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}} <md-icon>arrow_drop_down</md-icon></md-button>
+											<md-button ng-hide="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}}<md-icon>arrow_drop_down</md-icon></md-button>
 											<md-menu-content width="4">
 													<md-menu-item>
 														<md-button ng-click="ctrl.redial($event)">
@@ -76,7 +77,7 @@
 										</div>
 									</div>
 				</md-toolbar>
-				<section layout="row" style="height:100%" ng-init="hidesidebar='true'">
+				<section layout="row" style="height:100%" >
 						<md-sidenav
 							class="md-sidenav-left maxHeight"
 							md-component-id="left"
@@ -84,7 +85,53 @@
 							md-is-locked-open="$mdMedia('gt-xs')"
 							ng-hide="hidesidebar"
 							>
-							<md-toolbar class="md-tall"> </md-toolbar>
+                            
+                            <md-toolbar class="md-tall SideNavToolBar"> </md-toolbar>
+                            <div class="SideNavContainer">
+                                <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('broadcast')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">volume_down</md-icon>
+                                    <label class="md-title SideNavText">Broadcasts</label>
+                                    
+                                </div>
+                                
+                                <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('channels')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">list</md-icon>
+                                    <label class="md-title SideNavText">Channels</label>
+                                    
+                                </div>
+                                <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('requestSendBroadcast')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">forum</md-icon>
+                                    <label class="md-title SideNavText">Send Broadcast</label>
+                                    
+                                </div>
+                                
+                                <md-divider></md-divider>
+                                
+                                <div class="SideNavEntry" layout="row" layout-align="start center">
+                
+                                    <label class="md-subhead SideNavText">Messages</label>
+                                    
+                                </div>
+                                
+                                <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('inbox')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">inbox</md-icon>
+                                    <label class="md-title SideNavText">Inbox</label>
+                                    
+                                </div>
+                                
+                                <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('sentItems')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">send</md-icon>
+                                    <label class="md-title SideNavText">Sent Items</label>
+                                    
+                                </div>
+                                
+                            </div>
+                            
 						</md-sidenav>
 
 						<ui-view flex layout-align="center center"> 

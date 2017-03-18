@@ -1,48 +1,33 @@
 
 
-<div layout="row" style="height: 100%" layout-align="center center"> 
+<div layout="row" style="height: 100%;background: #90A4AE" layout-align="center center"> 
 
-	<md-card>
-	  <img src="card-image.png" class="md-card-image" alt="image caption">
-	  <md-card-content>
-		<h2 layou-padding>Login</h2>
+	<md-card class="LoginCard" flex-gt-xs="nogrow" flex-xs>
 		
+		<md-card-header layout="row">
+            <md-card-header-text flex="100" class="md-title LoginText"  >Login</md-card-header-text><br>
+		</md-card-header>
+		<md-divider style="padding-top:-8px"></md-divider>
+	  <md-card-content layout-gt-sm="column">
+		<div layout="row">
+          <md-icon flex="10" style="margin: 16px;margin-right: 0px;">face</md-icon>
+          <md-input-container class="md-block" flex>
+            <label>Username</label>
+            <input ng-model="formModel.admissionNumber">
+          </md-input-container>
+          </div>
+          <div layout="row">
+              <md-icon flex="10" style="margin: 16px;margin-right: 0px;">lock</md-icon>
+              <md-input-container class="md-block" flex>
+                <label>Password</label>
+                <input type="password"ng-model="formModel.passwordLogin">
+              </md-input-container>
+          </div>
 	  </md-card-content>
 	  <md-card-actions layout="row" layout-align="end center">
-		<md-button>Action 1</md-button>
-		<md-button>Action 2</md-button>
+		<md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
+		<md-button class="md-raised">Clear</md-button>
 	  </md-card-actions>
 	</md-card>
 </div>
-
-
-<!--<div >
-  <div class="row">
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4" style="padding-top: 10px">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">Log in</div>
-				<div class="panel-body">
-					<form role="form">
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="Admission Number" type ="text" autofocus="" ng-model="formModel.admissionNumber">
-							</div>
-							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="password" type="password" value="" ng-model="formModel.passwordLogin">
-							</div>
-							<div class="checkbox">
-								<label>
-									<input name="remember" type="checkbox" value="Remember Me">Remember Me
-								</label>
-							</div>
-							<a class="btn btn-primary" ng-click="login()">Login</a>
-						</fieldset>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-</div>-->
-
 

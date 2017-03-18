@@ -1,21 +1,35 @@
-var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial']);
+var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar']);
 var address = 'http://localhost:3000/';
 
 
 application.factory('$validateLogin',function($rootScope,$window){
 
 	return function(){
-		if(!sessionStorage.getItem('loggedIn')){
+        var loggedIn = sessionStorage.getItem('loggedIn');
+		if(!loggedIn){
 		 	$window.location.href = address;
 		}else{
 			$rootScope.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            $rootScope.loggedIn = loggedIn; 
 		}
 	}
 
 });
 
+application.factory('$myElementInkRipple', function($mdInkRipple) {
+  return {
+    attach: function (scope, element, options) {
+      return $mdInkRipple.attach(scope, element, angular.extend({
+        center: true,
+        dimBackground: true
+      }, options));
+    }
+  };
+});
+
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	 
+     
 	 $urlRouterProvider.otherwise("login");
 	 
 	 $stateProvider
@@ -53,6 +67,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 
 application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
+    $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
 	$rootScope.currentUser.name = "User";
@@ -66,6 +81,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 					   sessionStorage.setItem('loggedIn', true);
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
+                        console.log($rootScope.currentUser);
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
 						console.log(response);
@@ -93,7 +109,7 @@ function packUser(user){
 
 /*sidebar routing controller*/
 
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -113,10 +129,13 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 
 
 	$scope.changeView = function(view){
-		$scope.changeSelect(view, previousView);
-		previousView = view;
 		$state.go(view);
 	}
+    
+    $scope.onClick = function (ev) {
+        $myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
+    }
+    
 	console.log(header);
 
 });
@@ -165,6 +184,8 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			return;
 		}
 	}
+    
+    $scope.$watch(function(){return $rootScope.hidesidebar}, function(newValue){$rootScope.hidesidebar=newValue;});
 	
 });
 

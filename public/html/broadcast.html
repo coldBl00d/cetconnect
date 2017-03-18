@@ -1,3 +1,41 @@
+
+
+<div  layout="row" style="height: 100%;background: #90A4AE" layout-align="start">
+
+    <md-content md-whiteframe=3 hide-xs flex-gt-xs=30 style="height=100%"> 
+        
+        <div class="ListMargin">
+            <md-list flex>
+                <md-subheader class="md-no-sticky">Select channel to filter broadcast</md-subheader>
+                <md-list-item class="md-1-line ChannelListEntry" ng-repeat="channel in channels" ng-click=filterSelected(channel)>
+                      <small style="margin-right:16px">
+                         <ng-letter-avatar width=42 height=42 shape="round" data={{channel}}></ng-letter-avatar>
+                      </small>
+                    <h3 class="md-subhead NoMargin">{{channel}}</h3>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+        </div>
+        
+    </md-content>
+    
+    <div layout="row" flex-order=-1 flex-xs="100" flex-gt-xs=70 show-xs style="height=100%">
+        <div layout="column"  layout-align="start stretch" flex>
+            <md-toolbar>
+                    <h2 class="md-title ContentTitle">Broadcasts</h2>
+            </md-toolbar>
+            <md-content flex=100 md-whiteframe=7 > 
+                <md-list>
+                    <md-list-item layout-padding layout="row" layout-wrap ng-repeat="broadcast in broadcastCollection" ng-click=null>
+                        
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
+    </div>
+</div>
+
+<!--
 	
 
 <div>
@@ -59,25 +97,9 @@
 						
 					</div>
 				</div>
-			</div><!--/.col-->
-		</div><!--/.row-->
-
-	</div>	<!--/.main-->
-
-	<script>
-		!function ($) {
-		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
-		        $(this).find('em:first').toggleClass("glyphicon-minus");      
-		    }); 
-		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-		}(window.jQuery);
-
-		$(window).on('resize', function () {
-		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-		})
-		$(window).on('resize', function () {
-		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-		})
-	</script>	
+			</div>
+		</div>
+	</div>	
 
 </div>
+-->
