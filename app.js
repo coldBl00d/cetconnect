@@ -7,6 +7,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var http = require('http');
+var header ="[APP]";
+
+var mesHelper = require('./helper/messagesHelper');
+
 
 
 //var register = require('./routes/register');
