@@ -53,7 +53,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 
 application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
-	$rootScope.showsidebar=true;
+	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
 	$rootScope.currentUser.name = "User";
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
@@ -93,7 +93,7 @@ function packUser(user){
 
 /*sidebar routing controller*/
 
-application.controller('sidebarcontroller', function($scope,$location,$state,$timeout,$mdSidenav,$mdMedia){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -126,7 +126,7 @@ application.controller('sidebarcontroller', function($scope,$location,$state,$ti
 application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location,$window,$validateLogin ){
 	
 	$validateLogin();
-	$rootScope.showsidebar=false;
+	$rootScope.hidesidebar=false;
 	$scope.channels=$rootScope.currentUser.subChannels;
 	var userSubbedChannels = $rootScope.currentUser.subChannels;
 	var today = new Date();
