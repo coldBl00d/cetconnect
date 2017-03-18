@@ -46,6 +46,7 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
     if (err){
         console.log("Database connection failed");
     }else{
+       // mesHelper.sendMessage({senderId:'s1304', recieverId:'s1301', message:'hey there'}, function(added){console.log(header, added);});
         console.log("Database connection successfull");
     }
 });

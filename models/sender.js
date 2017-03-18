@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var messagesSchema = new mongoose.Schema({
+var senderSchema = new mongoose.Schema({
 	
 	senderId : {
 		type: String,
@@ -13,12 +13,15 @@ var messagesSchema = new mongoose.Schema({
     },
 
 	message : {
-		type : String,
-        required: true
-	}
+		type : String
+	},
 
+	timeStamp:{
+		type:Date
+	}
+	
 });
 
-var messagesModel = mongoose.model ('messages', messagesSchema);
+var senderModel = mongoose.model ('senderCopy', senderSchema);
 
-module.exports = messagesModel; 
+module.exports = senderModel; 
