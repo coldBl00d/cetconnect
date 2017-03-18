@@ -33,7 +33,7 @@
 
 	</head>
 
-	<body  ng-app = "myApp">
+	<body  style="background: #C5CAE9" ng-app = "myApp">
 
 			<div ng-controller="sidebarcontroller" layout="column" flex style="height:100%" ng-init="currentUser.name='User'">
         
@@ -41,15 +41,15 @@
 									<div class="md-toolbar-tools" layout="row" >
 										<div style="width:50%" flex="nogrow" layout="row" >
 											<md-button ng-disabled="enableMenuButton" class="md-icon-button" aria-label="Settings" ng-click="toggleSideNav()">
-											<md-icon>menu</md-icon>
+											<md-icon >menu</md-icon>
 											</md-button>
 											<h2 flex layout-padding md-truncate>College Connect</h2>
 										</div>
 
 										<div flex="noshrink" layout="row" layout-align="end">
-											<md-icon layout-padding style="margin:0px">account_circle</md-icon>
+											<md-icon ng-hide="!loggedIn" layout-padding style="margin:0px">account_circle</md-icon>
 											<md-menu style="margin-left: 6px;margin-right: 6px">
-											<md-button ng-disabled="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}} <md-icon>arrow_drop_down</md-icon></md-button>
+											<md-button ng-hide="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}} <md-icon>arrow_drop_down</md-icon></md-button>
 											<md-menu-content width="4">
 													<md-menu-item>
 														<md-button ng-click="ctrl.redial($event)">
@@ -86,12 +86,15 @@
 							>
 							<md-toolbar class="md-tall"> </md-toolbar>
 						</md-sidenav>
+
+						<ui-view flex layout-align="center center"> 
+				
+						</ui-view>
+
+
 				</section>
 
-				<!--<ui-view> 
 				
-				</ui-view>-->	
-
        	 	</div>
 
 
