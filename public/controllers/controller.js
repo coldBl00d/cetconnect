@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives']);
+var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial']);
 var address = 'http://localhost:3000/';
 
 
@@ -93,18 +93,34 @@ function packUser(user){
 
 /*sidebar routing controller*/
 
-application.controller('sidebarcontroller', function($scope,$location,$state){
+application.controller('sidebarcontroller', function($scope,$location,$state,$timeout,$mdSidenav,$mdMedia){
 	var header = "[sidebasrcontroller]";
 	var previousView = "";
+	var myList = ["one", "two","three"];
+	$scope.myList = myList;
+	$scope.toggleSideNav = buildToggler('left');
+	$scope.enableMenuButton = $mdMedia('gt-xs');
+	$scope.openMenu= menuWorker;
+	$scope.$watch(function(){return $mdMedia('gt-xs');}, function(value){$scope.enableMenuButton=value;});
+	
+	function buildToggler(componentId) {
+			return function() {
+			$mdSidenav(componentId).toggle();
+		};
+	}
+
+	function menuWorker(mdMenu, event){
+		originatorEv = event;
+		mdMenu.open(event);
+	}
+
+
 	$scope.changeView = function(view){
 		$scope.changeSelect(view, previousView);
 		previousView = view;
 		$state.go(view);
 	}
-
-	$scope.changeSelect = function(current, previous){
-		return;
-	}
+	console.log(header);
 
 });
 
