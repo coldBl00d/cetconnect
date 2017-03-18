@@ -3,14 +3,12 @@ var channels_for_view = [];
 var header = '[channelsController]';
 var channelListURI = 'channelList/'
 
-application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http){
-	console.log(header, "+++");
-	
+application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http,$validateLogin){
+	$validateLogin();
 	var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
 	var firebase_channels = $firebaseArray(channelListRef);
 	var userChannels = $rootScope.currentUser.subChannels;
 	$scope.channels_for_view = firebase_channels;
-	console.log($rootScope.currentUser);
 
 	$scope.subChanged = function(channelName, status){
 		var payload = packagePayload(channelName, status, $rootScope.currentUser.userId);
@@ -31,7 +29,6 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 						status = !status;
 					}
 			 });
-
 	}
 	
 	firebase_channels.$loaded().then(function(){
@@ -53,9 +50,7 @@ function packagePayload(channelName, status, userId){
 function setToggles(userChannels, firebase_channels){
 	for(var i=0; i<userChannels.length; i++){
 		firebase_channels.forEach(function(channel){
-			console.log(channel.channelName+"===??"+userChannels[i]);
 			if(channel.channelName == userChannels[i]){
-				console.log("Setting true");
 				channel.status = true;
 			}
 		});

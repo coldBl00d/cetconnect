@@ -1,5 +1,6 @@
 
-application.controller('bformController',function($scope,$http,$rootScope) {
+application.controller('bformController',function($scope,$http,$rootScope,$validateLogin) {
+    $validateLogin();
     $scope.bForm = {};
     $scope.bForm.adminApproved=false;
     $scope.bForm.message='';
@@ -26,12 +27,12 @@ function channelSelected(channelName, rootScope, scope){
 
 function send($rootScope, $scope, $http){
     console.log($scope.bForm);
-    $scope.bForm.senderid = $rootScope.currentUser.userId;
-    $scope.bForm.sendername = $rootScope.currentUser.name;
+    $scope.bForm.userId = $rootScope.currentUser.userId;
+    $scope.bForm.userName = $rootScope.currentUser.name;
     console.log($scope.bForm.channel);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
-          $http.post(address+"broadcast",{payload:$scope.bForm});
+          $http.post(address+"broadcast",{payload:$scope.bForm}).then(function(res){if(res.status==200){alert("Broadcast posted")}});
     }else{
         console.log('No message here');
         alert("Check your message or channel");
