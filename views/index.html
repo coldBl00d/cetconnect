@@ -35,8 +35,7 @@
 
 	<body  ng-app = "myApp">
 
-		<div style="min-height: 100%" >
-			<div ng-controller="sidebarcontroller" layout="column" flex>
+			<div ng-controller="sidebarcontroller" layout="column" flex style="height:100%">
         
 				<md-toolbar class="md-hue-2">
 									<div class="md-toolbar-tools" layout="row" >
@@ -50,7 +49,7 @@
 										<div flex="noshrink" layout="row" layout-align="end">
 											<md-icon layout-padding style="margin:0px">account_circle</md-icon>
 											<md-menu style="margin-left: 6px;margin-right: 6px">
-											<md-button ng-click="openMenu($mdMenu,$event)">Akhil Raj R<md-icon>arrow_drop_down</md-icon></md-button>
+											<md-button ng-click="openMenu($mdMenu,$event)" ng-bind="">User <md-icon>arrow_drop_down</md-icon></md-button>
 
 											<md-menu-content width="4">
 													<md-menu-item>
@@ -78,25 +77,24 @@
 										</div>
 									</div>
 				</md-toolbar>
-				<section layout="row">
+				<section layout="row" style="height:100%">
 						<md-sidenav
-							class="md-sidenav-left"
+							class="md-sidenav-left maxHeight"
 							md-component-id="left"
 							md-whiteframe="4"
 							md-is-locked-open="$mdMedia('gt-xs')"
-							style="height: 100%">
-								<md-toolbar class="md-tall md-toolbar-tools" layout="column" layout-align="center">
-								</md-toolbar>   
+							>
+							<md-toolbar class="md-tall"> </md-toolbar>
 						</md-sidenav>
 				</section>
+
+				<!--<ui-view> 
+				
+				</ui-view>-->	
 
        	 	</div>
 
 
-			<!--<ui-view> 
-				
-			</ui-view>-->
-		</div>
-				
+						
 	</body>
 </html>

@@ -95,9 +95,6 @@ function packUser(user){
 
 application.controller('sidebarcontroller', function($scope,$location,$state,$timeout,$mdSidenav,$mdMedia){
 	var header = "[sidebasrcontroller]";
-	var previousView = "";
-	var myList = ["one", "two","three"];
-	$scope.myList = myList;
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
 	$scope.openMenu= menuWorker;
