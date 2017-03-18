@@ -1,0 +1,20 @@
+{
+  "name": "cetconnect",
+  "description": "final year project for ease of comms in campus",
+  "main": "app.js",
+  "authors": [
+    "coldblood <akhilrajr94@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/coldBl00d/cetconnect",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.3"
+  }
+}

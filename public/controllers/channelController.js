@@ -16,7 +16,7 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 			 .then(function(res){
 					if(res.status == 200){
 						if(status){
-							userChannels.push(channelName);
+							$rootScope.currentUser.subChannels.push(channelName);
 						}else{
 							for(var i=0; i< userChannels.length; i++){
 								if(userChannels[i]==channelName){
