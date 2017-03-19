@@ -55,7 +55,7 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
 
 
 
-http.createServer(app).listen(process.env.PORT| 3000, function() {
+http.createServer(app).listen(process.env.PORT, function() {
 	console.log("CET CONNECT running at 3000" );
 });
 
