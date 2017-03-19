@@ -18,11 +18,11 @@ function channelSelected(channelName, rootScope, scope){
     scope.bForm.channel = channelName;
     for(var i=0; i< adminOf.length; i++){
         if(channelName==adminOf[i]){
-            scope.adminStyle= {'background-color':'green'}; 
+            scope.isAdmin=true;
             return;
         }
     }
-    scope.adminStyle= {'background-color':'red'};
+    scope.isAdmin = false;
 }
 
 function send($rootScope, $scope, $http){

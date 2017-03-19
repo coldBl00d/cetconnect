@@ -52,7 +52,7 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
     }
 });
 
-var heroku = true;
+var heroku = false;
 var port;
 if(heroku){
     port=process.env.PORT;

@@ -1,4 +1,69 @@
 
+<div  layout="column" flex=100 layout-align="start">
+
+    <md-toolbar flex="nogrow" layout="row">
+					<md-icon style="padding:6px">forum</md-icon>
+                    <h2 flex="95" class="md-title ContentTitle">Post Broadcast</h2>
+    </md-toolbar>
+
+    <div layout="row"  flex=100 style="width:100%;"  layout-align="start">     
+         <md-content layout="row" layout-padding flex=100 md-whiteframe=7 style="margin: 8px"> 
+           <form flex layout="column">
+                <div layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">perm_identity</md-icon>
+                    <h2 class='md-title'>User ID:</h2>
+                    <h2 class='md-subhead FormData'>{{currentUser.userId}}</h2>
+                </div>
+                <div layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">face</md-icon>
+                    <h2 class='md-title'>User Name:</h2>
+                    <h2 class='md-subhead FormData'>{{currentUser.name}}</h2>
+                </div>
+
+                 <div  layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">volume_down</md-icon>
+                    <md-input-container flex class="md-block" >
+                        <label>Select Channel</label>
+                        <md-select ng-change="channelSelected(channelName)" ng-model="channelName">
+                        <md-option ng-repeat="channel in currentUser.subChannels" value="{{channel}}">
+                            {{channel}}
+                        </md-option>
+                        </md-select>
+                  </md-input-container>
+                </div>
+
+                 <div layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">edit</md-icon>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Title</label>
+                     <input ng-model="bForm.title">
+                    </md-input-container> 
+                </div>
+
+
+                <div flex layout ="row" layout-align="start stretch" class = "form-group">
+                    <md-icon class="FormIcon">email</md-icon>
+                     <md-input-container flex class="md-block">
+                        <label>Message</label>
+                        <textarea ng-model="bForm.message" md-maxlength="1500" rows="4" md-select-on-focus></textarea>
+                    </md-input-container>
+                </div>
+
+                
+                <div class="form-group" layout="row" layout-align="end" >
+                        <md-button ng-if="isAdmin" class="md-raised md-primary" ng-click='send()'>Send</md-button>
+                        <md-button ng-if="!isAdmin" class="md-raised md-primary" ng-click='request()'>Request</md-button>
+                        <md-button type="button" class="md-raised" ng-click='cancel()'>Cancel</md-button>
+                </div>
+
+           </form>
+         </md-content>
+    </div>
+    
+
+</div>
+
+<!--
 <div class="container"style="margin-top:18px;margin-bottom: 18px"> 
 
 
@@ -51,3 +116,4 @@
         </div>
 
 </div>
+-->
