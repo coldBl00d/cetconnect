@@ -1004,3 +1004,7 @@ input:checked + .slider:before {
 .formIcon {
 	padding:6px;
 }
+
+.BroadcastListTitle{
+    margin-bottom: 8px;
+}
