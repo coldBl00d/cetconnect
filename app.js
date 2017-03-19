@@ -52,11 +52,17 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
     }
 });
 
+var heroku = true;
+var port;
+if(heroku){
+    port=process.env.PORT;
+}else{
+    port=3000;
+}
 
 
-
-http.createServer(app).listen(process.env.PORT, function() {
-	console.log("CET CONNECT running at 3000" );
+http.createServer(app).listen(port, function() {
+	console.log("CET CONNECT running at "+port );
 });
 
 console.log('App running at 3000');
