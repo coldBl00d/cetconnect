@@ -3,7 +3,7 @@ var channels_for_view = [];
 var header = '[channelsController]';
 var channelListURI = 'channelList/'
 
-application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http,$validateLogin){
+application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http,$validateLogin,$packingService){
 	$validateLogin();
 	var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
 	var firebase_channels = $firebaseArray(channelListRef);
@@ -24,6 +24,7 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 								}
 							}
 						}
+						$packingService.storeUser();
 					}else{
 						console.log(header, "subbing or unsubbing failed in the server side");
 						status = !status;

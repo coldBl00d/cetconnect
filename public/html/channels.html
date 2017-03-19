@@ -1,43 +1,33 @@
 
-<div  layout="row" style="height: 100%"" layout-align="start">
+<div  layout="column" flex=100 layout-align="start">
 
+    <!--<div layout="row" flex-order=-1 flex-xs="100" flex-gt-xs=100 show-xs style="height:100%">-->
+        
+		<md-toolbar flex="nogrow" layout="row">
+					<md-icon style="padding:6px">list</md-icon>
+                    <h2 flex="95" class="md-title ContentTitle">Channels</h2>
+        </md-toolbar>
 
+		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
+            <md-content layout="row" layout-padding flex=100 md-whiteframe=7 style="margin: 8px" > 
+                <md-list flex=100>
+					<md-list-item layout-padding layout-wrap layout="row"  ng-repeat="channel in channels_for_view">
+							<small  class="md-avatar">
+								<ng-letter-avatar width=42 height=42 shape="round" data={{channel.channelName}}></ng-letter-avatar>
+							</small>
+							<div style="width:100%" layout="row">
+								<h5 flex=90>{{channel.channelName}}</h5>
+								<md-switch flex ng-change="subChanged(channel.channelName, channel.status)"
+										   ng-model="channel.status"
+										   aria-label="switch">
+								</md-switch>
+							</div>
+						<md-divider></md-divider>
+					</md-list-item>
+                </md-list>
+            </md-content>
+        </div>
 </div>
 
-
-
-
-
-<!--<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" style="margin-top:18px;margin-bottom: 18px">	
-  
-	
-	<div class="panel panel-primary" >
-		  <div class="panel-heading" style="padding-top:18px">
-					<h3 class="panel-title">
-						<span class="glyphicon glyphicon-list" aria-hidden="true">
-						</span>
-						Channels
-					</h3>
-
-		  </div>
-		  <div class="panel-body" style="overflow-y: auto" >
-				
-				<ul class="list-group">
-					<li class="list-group-item" style="font-size: 20px" ng-repeat="channel in channels_for_view">
-						<div>
-							<span class="glyphicon glyphicon-bullhorn" style="padding-right: 6px; padding-left: 6px" aria-hidden="true"></span>
-								{{channel.channelName}}
-							<label class="switch pull-right">
-								<input type="checkbox" ng-checked="channel.status" ng-model="channel.status" ng-change="subChanged(channel.channelName, channel.status)">
-								<div class="slider round"></div>
-							</label>
-						</div>
-					</li>
-				</ul>
-
-		  </div>
-	</div>
-	
-
-</div>-->
+</div>
 

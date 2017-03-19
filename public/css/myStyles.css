@@ -64,3 +64,9 @@ div:focus {
     outline: none;
     border: 0;
  }
+
+ .RoundedBorder{
+     border: solid;
+    border-color: lightgrey;
+    border-radius: 20px;
+ }

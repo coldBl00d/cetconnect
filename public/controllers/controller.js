@@ -27,6 +27,28 @@ application.factory('$myElementInkRipple', function($mdInkRipple) {
   };
 });
 
+application.factory('$packingService', function($rootScope){
+
+	return {
+		storeUser: function(){
+			var user = $rootScope.currentUser;
+			var pack =  {
+			'userId':user.userId,
+			'name':user.name, 
+			'department':user.department,
+			'post':user.post,
+			'adminOf':user.adminOf,
+			'subChannels':user.subChannels
+			}
+		
+			var packedUser = JSON.stringify(pack);
+			sessionStorage.setItem('currentUser', packedUser);
+			return;
+		}
+	}
+
+});
+
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	 
      
