@@ -16,7 +16,7 @@ application.controller('requestController', function($scope,$rootScope,$firebase
     $scope.next = function(){next(requestCollection, $scope);}
     $scope.prev = function(){prev(requestCollection, $scope);}
     $scope.loaded = false;
-    $scope.accept = function(){accept($scope,$rootScope,$http);}
+    $scope.accept = function(request){accept(request,$scope,$rootScope,$http);}
     $scope.noContent = true;
 
     firebaseCollection = $firebaseArray(requestRef);
@@ -52,9 +52,9 @@ application.controller('requestController', function($scope,$rootScope,$firebase
 
 });
 
-function accept($scope, $rootScope, $http){
-    $scope.request.approvedBy = $rootScope.currentUser.userId;
-    var payload = makePayload($scope.request); 
+function accept(request,$scope, $rootScope, $http){
+    request.approvedBy = $rootScope.currentUser.userId;
+    var payload = makePayload(request); 
     $http.post(address+"broadcast/request/accept",{payload:payload})
          .then(function(response){
              if(response.status == 200){

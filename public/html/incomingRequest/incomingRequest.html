@@ -1,4 +1,52 @@
+<div  layout="column" flex=100 layout-align="start">
 
+     <md-toolbar flex="nogrow" layout="row">
+					<md-icon style="padding:6px">vpn_key</md-icon>
+                    <h2 flex="95" class="md-title ContentTitle">Requests</h2>
+    </md-toolbar>
+
+     <div layout="row"  flex=100 style="width:100%;"  layout-align="start">     
+         <md-content ng-if="noContent" class="ShadowDrop" layout="row" layout-align="start start" flex=100 md-whiteframe=7 style="margin: 8px" > 
+            <div flex="nogrow" >
+                <img style="max-width:100%;max-height:100%;" src="res/dark_mountain_nothing_here.jpg">
+            </div>
+         </md-content>
+         
+          <md-content ng-if="!noContent" layout="row" layout-align="start start" flex=100 md-whiteframe=7 style="margin: 8px" > 
+            <div layout="column"  layout-align="start stretch" flex>
+            
+            <md-content flex=100 md-whiteframe=7 > 
+                <md-list>
+                    <md-list-item layout-padding layout="row" layout-wrap ng-repeat="request in requestCollection">
+						<md-list-item class="md-3-line">
+							<small class="md-avatar">
+								 <ng-letter-avatar width=42 height=42 shape="round" data={{request.channel}}></ng-letter-avatar>
+                      		</small>
+							<div class="md-list-item-text" layout="column">
+								<h3>{{request.userName}}</h3>
+								<h4>{{request.department+" "+ request.post}}</h4>
+								<h4>{{request.channel+" Channel"}}</h4>
+								<h5 style="margin-bottom:8px; font-weight:500;">{{request.title}}</h5>
+								<p>{{request.message}}</p>
+                                <div layout="row" layout-align="end">
+                                    <md-button ng-click="accept(request)" md-no-ink class="md-primary">Accept</md-button>
+                                    <md-button ng-click="reject(request)">Reject</md-button>
+                                </div>
+							</div>
+							<md-divider></md-divider>
+						</md-list-item>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
+         </md-content>
+     </div>
+
+
+
+</div>
+
+<!--
         <div class="container"style="margin-top:18px;margin-bottom: 18px" ng-controller="requestController"> 
 
             <div class="row">
@@ -62,3 +110,5 @@
             </div>
 
         </div>
+-->
+

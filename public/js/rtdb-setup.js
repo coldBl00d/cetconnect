@@ -9,4 +9,6 @@ var config = {
 firebase.initializeApp(config);
 
 var rtdb = firebase.database();
+const messaging = firebase.messaging();
 
+module.exports = {messaging:messaging, database:rtdb};
