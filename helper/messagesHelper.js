@@ -35,17 +35,19 @@ messagesHelper.getRecievedMessages = function(me, callBack){
 */
 
 messagesHelper.sendMessage = function(payload, callBack){
-
+    payload.read = false;
     var new_message = new recieverModel(payload);
     new_message.save(function(err){
         if(err){
             return callBack(100);
         }else{
+            delete payload.read;
             var new_message_sender = new senderModel(payload);
             new_message_sender.save(function(err){
                 if(err){
                     //delete the message from sender
                     new_message.remove(function(err){if(err){console.log(header, "something messed up when deleting from reciever copy");}});
+                    console.log(err);
                     return callBack(102);
                 }else{
                     return callBack(103);

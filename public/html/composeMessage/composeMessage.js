@@ -1,38 +1,3 @@
-application.factory('$loadUsers', function($http){
-    var header = '[loadUsersService]';
-    var users=[];
-
-    function loadUsers(callback){
-        if(users.length>0){
-            return users;
-        }else{
-            $http.get(address+'messages/getUsers').then(function(res){
-            users= res.data
-            console.log('Users loaded from server.'+ users);
-            callback();
-            },
-            function(err){
-                console.log("Can't load user at this time.");
-            });
-        }
-    }
-
-    loadUsers(function(){});
-
-    function getUsers(){
-        if(users.length>0)
-            return users;
-        else{
-            loadUsers(function(){return users;});
-        }
-    }
-
-    return{
-        getUsers: getUsers 
-    }
-
-});
-
 application.factory('$querySearch', function($http){
 
     function esacpe(query){
@@ -56,13 +21,42 @@ application.factory('$querySearch', function($http){
 
 })
 
-application.controller('messageController',function($scope, $rootScope, $querySearch){
+application.factory('$sendMessage', function($http, $mdToast){
 
+    function send(message, $scope) {
+        $http.post(address+'messages/send', {message:message})
+             .then(function(res){
+                 if(res.status == 200){
+                     $mdToast.show($mdToast.simple().textContent('Message Sent'));
+                      $scope.message.recipientId = null;
+                        $scope.message.message = null;
+                        $scope.selectedItem = null;
+                        $scope.message.subject = null;
+                 }else{
+                     console.log("message not sent");
+                     $mdToast.show($mdToast.simple().textContent('Message not sent.'));
+                 }
+             })
+    }
+
+    return send;
+
+});
+
+application.controller('messageController',function($scope, $rootScope, $querySearch, $sendMessage, $validateLogin){
+    $validateLogin();
     $scope.userList= [];
     $scope.selectedItem = null;
     $scope.searchText = null;
     $scope.querySearch = function(searchText){
         $querySearch(searchText, function (data){$scope.userList = data;});  
+    }
+    $scope.send = function(){
+        $scope.message.recipientId = $scope.selectedItem.userId;
+        $scope.message.senderId = $rootScope.currentUser.userId;
+        $scope.message.timestamp = new Date();
+        console.log($scope.message);
+        $sendMessage($scope.message, $scope);
     }
 
 });

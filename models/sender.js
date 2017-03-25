@@ -7,16 +7,21 @@ var senderSchema = new mongoose.Schema({
         required: true
 	},
 
-	recieverId : {
+	recipientId : {
         type:String,
         required: true
     },
+
+	subject :{
+		type:String, 
+		required: true
+	},
 
 	message : {
 		type : String
 	},
 
-	timeStamp:{
+	timestamp:{
 		type:Date
 	}
 	

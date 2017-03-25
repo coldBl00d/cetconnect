@@ -23,11 +23,11 @@
                         md-item-text="item.userId"
                         md-require-match
                         md-floating-label="Recipient Id"
-                        ng-model="message.recipient"
                         md-search-text-change="querySearch(searchText)"
+                        ng-model="message.recipientId"
                         >
                     <md-item-template>
-                        <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+                        <span md-highlight-text="searchText">{{item.name}}</span>
                     </md-item-template>
                     <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
                         <div ng-message="required">You <b>must</b> enter a recipient</div>
@@ -39,7 +39,7 @@
                     <md-icon class="FormIcon">edit</md-icon>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Subject</label>
-                     <input ng-model="message.title">
+                     <input ng-model="message.subject">
                     </md-input-container> 
                 </div>
 
