@@ -18,6 +18,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
+var messages = require('./routes/messages.js');
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +36,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/broadcast',broadcast);
 app.use('/channel',channel);
+app.use('/messages', messages);
 
 var options ={
     user:"coldBl00d",
@@ -47,7 +49,6 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
     if (err){
         console.log("Database connection failed");
     }else{
-       // mesHelper.sendMessage({senderId:'s1304', recieverId:'s1301', message:'hey there'}, function(added){console.log(header, added);});
         console.log("Database connection successfull");
     }
 });

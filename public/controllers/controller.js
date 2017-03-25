@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar']);
+var application=angular.module("myApp",['ngMessages','ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar']);
 var address = 'http://localhost:3000/';
 //var address = 'http://blooming-reaches-58473.herokuapp.com/';
 
@@ -83,7 +83,11 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 templateUrl:'html/incomingRequest/incomingRequest.html',
 		 controller:'requestController'
 	 	}	
-	 ); 
+	 ).state('composeMessage',{
+		 url:'/composeMessage',
+		 templateUrl:'html/composeMessage/composeMessage.html',
+		 controller:'messageController'
+	 }); 
 	 
 }]);
 

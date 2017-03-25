@@ -1,0 +1,66 @@
+
+<div  layout="column" flex=100 layout-align="start">
+
+    <md-toolbar flex="nogrow" layout="row">
+					<md-icon style="padding:6px">edit</md-icon>
+                    <h2 flex="95" class="md-title ContentTitle">Compose Message</h2>
+    </md-toolbar>
+
+    <div layout="row"  flex=100 style="width:100%;"  layout-align="start">     
+         <md-content layout="row" layout-padding flex=100 md-whiteframe=7 style="margin: 8px"> 
+           <form flex layout="column">
+                <div layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">face</md-icon>
+                   
+                     <md-autocomplete flex required
+                        md-input-name="autocompleteField"
+                        md-input-minlength="3"
+                        md-input-maxlength="18"
+                        md-no-cache="noCache"
+                        md-selected-item="selectedItem"
+                        md-search-text="searchText"
+                        md-items="item in userList"
+                        md-item-text="item.userId"
+                        md-require-match
+                        md-floating-label="Recipient Id"
+                        ng-model="message.recipient"
+                        md-search-text-change="querySearch(searchText)"
+                        >
+                    <md-item-template>
+                        <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+                    </md-item-template>
+                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                        <div ng-message="required">You <b>must</b> enter a recipient</div>
+                    </div>
+                    </md-autocomplete>
+                </div>
+
+                 <div layout ="row" layout-align="start start" class = "form-group">
+                    <md-icon class="FormIcon">edit</md-icon>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Subject</label>
+                     <input ng-model="message.title">
+                    </md-input-container> 
+                </div>
+
+
+                <div flex layout ="row" layout-align="start stretch" class = "form-group">
+                    <md-icon class="FormIcon">email</md-icon>
+                     <md-input-container flex class="md-block">
+                        <label>Message</label>
+                        <textarea ng-model="message.message" md-maxlength="1500" rows="6" md-select-on-focus></textarea>
+                    </md-input-container>
+                </div>
+
+                
+                <div class="form-group" layout="row" layout-align="end" >
+                        <md-button class="md-raised md-primary" ng-click='send()'>Send</md-button>
+                        <md-button type="button" class="md-raised" ng-click='cancel()'>Cancel</md-button>
+                </div>
+
+           </form>
+         </md-content>
+    </div>
+    
+
+</div>

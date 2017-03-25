@@ -14,6 +14,7 @@
 		<script src="angular/angular.min.js"></script>
 		<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script src="angular-route/angular-route.min.js"></script>
+		<script src="angular-messages/angular-messages.min.js"></script>
 		<script src="firebase/firebase.js"></script>
 		<script src="angularfire/dist/angularfire.min.js"></script>
 		<!-- scroll to bottom -->
@@ -29,6 +30,7 @@
 		<script src="controllers/channelController.js"></script>
 		<script src="html/broadcastForm/bform.js"></script>
 		<script src="html/incomingRequest/incomingRequest.js"></script>
+		<script src="html/composeMessage/composeMessage.js"></script>s
 		
 
 	</head>
@@ -115,13 +117,20 @@
                                 </div>
                                 
                                 <md-divider></md-divider>
-                                
+								
                                 <div class="SideNavEntry" layout="row" layout-align="start center">
                 
                                     <label class="md-subhead SideNavText">Messages</label>
                                     
                                 </div>
                                 
+								 <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('composeMessage')">
+                                    
+                                    <md-icon class="SideNavIcon md-dark NoMargin">edit</md-icon>
+                                    <label class="md-title SideNavText">Compose</label>
+                                    
+                                </div>
+
                                 <div class="SideNavEntry" layout="row" layout-align="start center" ng-click="changeView('inbox')">
                                     
                                     <md-icon class="SideNavIcon md-dark NoMargin">inbox</md-icon>
