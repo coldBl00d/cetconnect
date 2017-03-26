@@ -21,7 +21,7 @@ messagesHelper.getSentMessages = function(userId, callBack){
 }
 
 messagesHelper.getRecievedMessages = function(me, callBack){
-   recieverModel.find({recieverId: me})
+   recieverModel.find({recipientId: me})
                 .then(function(message){
                    console.log(message); 
                 });
@@ -39,6 +39,7 @@ messagesHelper.sendMessage = function(payload, callBack){
     var new_message = new recieverModel(payload);
     new_message.save(function(err){
         if(err){
+            console.log(err);
             return callBack(100);
         }else{
             delete payload.read;

@@ -55,6 +55,7 @@ application.controller('messageController',function($scope, $rootScope, $querySe
         $scope.message.recipientId = $scope.selectedItem.userId;
         $scope.message.senderId = $rootScope.currentUser.userId;
         $scope.message.timestamp = new Date();
+        $scope.message.senderName = $rootScope.currentUser.name;
         console.log($scope.message);
         $sendMessage($scope.message, $scope);
     }

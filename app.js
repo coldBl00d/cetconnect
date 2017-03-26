@@ -66,7 +66,6 @@ http.createServer(app).listen(port, function() {
 	console.log("CET CONNECT running at "+port );
 });
 
-console.log('App running at 3000');
 
 
 module.exports = app;

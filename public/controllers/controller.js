@@ -87,7 +87,11 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 url:'/composeMessage',
 		 templateUrl:'html/composeMessage/composeMessage.html',
 		 controller:'messageController'
-	 }); 
+	 }).state('inbox',{
+	     url:'/inbox',
+		 templateUrl:'html/inbox/inbox.html',
+		 controller:'inboxController'
+	 });
 	 
 }]);
 

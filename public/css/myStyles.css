@@ -85,3 +85,20 @@ div:focus {
      font-size:20px;
  }
 
+.InboxIcon{
+    margin-top: 16px;
+}
+
+.InboxSender{
+     margin-top: 20px;
+     font-size: 81%;
+     margin-bottom: 0px;
+     margin-bottom: 4px;
+}
+
+.InboxSubHeading{
+    font-weight: 500;
+    color:grey;
+    margin-top: 18px;
+
+}
