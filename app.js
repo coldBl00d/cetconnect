@@ -15,6 +15,7 @@ var users = require('./routes/users');
 var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
 var messages = require('./routes/messages.js');
+var register = require('./routes/register');
 var app = express();
 var systemVariables = {
     openRegistration: false
@@ -36,6 +37,7 @@ app.use('/users', users);
 app.use('/broadcast',broadcast);
 app.use('/channel',channel);
 app.use('/messages', messages);
+app.use('/register', register);
 
 
 

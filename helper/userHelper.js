@@ -58,4 +58,16 @@ userHelper.getSimilar = function(name, callback){
     });
 }
 
+userHelper.addUser = function(user, callBack){
+    var new_user = new userModel(user);
+    new_user.save(function(err){
+        if(err){
+            console.log(header, err);
+            callBack(false);
+        }else{
+            callBack(true);
+        }
+    });
+}
+
 module.exports = userHelper;

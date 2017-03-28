@@ -4,8 +4,7 @@ var path = require('path');
 var userModel = require("../models/users");
 var md5 = require('md5');
 /* GET home page. */
-console.log(md5('hello'+'s1304'));
-
+var header = '[index]'
 var appDir = path.dirname(require.main.filename);
 
 router.get('/', function(req, res, next) {
@@ -24,14 +23,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    var currentUser =  {
-        userid:req.body.admissionNumber,
-        password:req.body.passwordLogin
-    };
 
-    userModel.findOne(currentUser).exec()
+    var userid = req.body.admissionNumber;
+    var password = req.body.passwordLogin;
+
+
+
+    userModel.findOne({userid:userid}).exec()
     .then(function(user){
-        login(user, res);
+        login(user, password, res);
     }).catch(function(err){
         res.status(304);
     });
@@ -52,19 +52,27 @@ On failure:
         data: null 
 */
 
-function login(user, res){
-    if (user) { 
-            console.log(user);
-            var user_response = {
-                'userId':user.userid,
-                'name':user.name,
-                'adminOf':user.adminOf,
-                'subChannels':user.subbedChannels,
-                'department':user.department,
-                'post':user.post
+function login(user, password, res){
+        if (user) { 
+            var login_token_recieved = md5(user.userid+password+user.regTime);
+            var login_token = user.login_token;
+            if(login_token_recieved==login_token){
+                console.log(user);
+                var user_response = {
+                    'userId':user.userid,
+                    'userToken':user.user_token,
+                    'name':user.name,
+                    'adminOf':user.adminOf,
+                    'subChannels':user.subbedChannels,
+                    'department':user.department,
+                    'post':user.post
+                }
+                console.log("Sending data back")
+                return res.status(210).json(user_response).end();
+            }else{
+                console.log(header, "Wrong password for "+ user.userid)
+                return res.status(220).json({auth:false}).end(); 
             }
-            console.log("Sending data back")
-            return res.status(210).json(user_response).end();
         }else {
             console.log("LOG: Location Index.js \n Message: Login failed, no matching user found");
             return res.status(220).json({auth:false}).end(); 

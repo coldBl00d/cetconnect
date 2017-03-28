@@ -13,12 +13,14 @@ var userSchema = new mongoose.Schema({
 	},
 
 	login_token : {
-		type : String, 
+		type : String,
+		unique : true, 
 		required : true
 	},
 
 	user_token:{
 		type: String, 
+		unique:true,
 		required: true
 	},
 
@@ -34,6 +36,11 @@ var userSchema = new mongoose.Schema({
 
 	department:{
 		type: String
+	},
+
+	regTime:{
+		type:Date,
+		required: true
 	},
 
 	post:{
