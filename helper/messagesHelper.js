@@ -20,12 +20,23 @@ messagesHelper.getSentMessages = function(userId, callBack){
                  });
 }
 
-messagesHelper.getRecievedMessages = function(me, callBack){
+messagesHelper.getMessagesMetadata = function(me, callBack){
+   console.log("In message Helper");
    recieverModel.find({recipientId: me})
-                .then(function(message){
-                   console.log(message); 
+                .then(function(messages){
+                    var messageList = [];
+                    messages.forEach(function(message){
+                        var messageListEntry = {
+                            senderName: message.senderName,
+                            subject: message.subject,
+                            timestamp:message.timestamp
+                        }
+                        messageList.push(messageListEntry);
+                    });
+                    callBack(messageList);
                 });
 }
+
 
 /*
     100 - new message not saved to reciever 
@@ -57,52 +68,5 @@ messagesHelper.sendMessage = function(payload, callBack){
         }
     });
 }
-
-
-/* 
-    100 - message was not added to existing documents array 
-    101 - message added to documents array 
-    102 - new message document not added 
-    103 - new message document added. 
-
-*/
-
-/*messagesHelper.addMessage = function(payload, callBack){
-    
-    messagesHelper.getMessagesFrom(payload.recieverId, payload.senderId, function(result){
-        if(result){
-            result.message.push(payload.message);
-            result.save(function(err){
-                if(err) {
-                    console.log(header, "Some error while adding new message to array");
-                    callBack(100);
-                    return;
-                }else{
-                    console.log(header, "Message added to array successfully");
-                    callBack(101);
-                    return;
-                }
-            });
-        }else{
-            var new_message = new messagesModel({
-                senderId: payload.senderId,
-                recieverId: payload.recieverId,
-                message: [payload.message]
-            });
-            new_message.save(function(err){
-               if(err) {
-                    console.log(header,"New message from this reciever, but it was not added to databse");
-                    callBack(102);
-                    return;
-               }else{
-                   console.log(header, "New message document added");
-                   callBack(103);
-                   return;
-               }
-            })
-        }
-    });
-
-}*/
 
 module.exports = messagesHelper;

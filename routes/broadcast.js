@@ -19,7 +19,6 @@ router.get('/', function (req, res, next) {
     var fileName = 'bForm.html';
     res.sendFile(fileName, options, function (err) {
         if (err) {
-            //console.log(options.root+"/index.html");
             next(err);
         } else {
             console.log('Sent:', fileName);
@@ -60,7 +59,6 @@ router.post('/', function (req, res, next) {
                     console.log(header, "User found...");
                     console.log(header, "Proceeding to find if he is admin");
                     for (var i = 0; i < user.adminOf.length; i++) {
-                        //make sure the channel name in payload is small case
                         if (user.adminOf[i] == payload.channel) {
                             flag = 1;
                             console.log(header, "user verified as admin, sending payload");
@@ -76,11 +74,9 @@ router.post('/', function (req, res, next) {
                     console.log(header, "user " + payload.userId + " is not part of the system");
                     res.status(404).end();
                 }
-
             })
             .catch(errorCallBack);
     }
-
 });
 
 router.post('/request', function (req, res, next) {
@@ -97,6 +93,7 @@ router.post('/request', function (req, res, next) {
                 if (result) {
                     console.log(header, "The channel " + channel + " exist, proceeding to post to firebase");
                     sendRequest(payload, res);
+                    res.status(200).end();
                 } else {
                     console.log(header, "The channel " + channel + " does not exist");
                     return res.status(425).end();

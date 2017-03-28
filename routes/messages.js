@@ -28,4 +28,12 @@ router.post('/send', function(req, res, next){
   });
 });
 
+router.get('/getMetadata', function(req, res, next){
+
+});
+
+router.get('/getMessage', function(req, res, next){
+
+});
+
 module.exports=router;

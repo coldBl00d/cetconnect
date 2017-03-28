@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();	
 var path = require('path');
 var userModel = require("../models/users");
+var md5 = require('md5');
 /* GET home page. */
+console.log(md5('hello'+'s1304'));
 
 var appDir = path.dirname(require.main.filename);
 
@@ -26,6 +28,7 @@ router.post('/', function(req, res, next){
         userid:req.body.admissionNumber,
         password:req.body.passwordLogin
     };
+
     userModel.findOne(currentUser).exec()
     .then(function(user){
         login(user, res);

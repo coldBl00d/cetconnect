@@ -12,17 +12,14 @@ var userSchema = new mongoose.Schema({
 		unique : true
 	},
 
-	password : {
+	login_token : {
 		type : String, 
 		required : true
 	},
 
-	token1 : {
-		type : String
-	},
-
-	token2: {
-		type :String
+	user_token:{
+		type: String, 
+		required: true
 	},
 
 	subbedChannels: {

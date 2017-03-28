@@ -8,11 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var http = require('http');
 var header ="[APP]";
-
 var mesHelper = require('./helper/messagesHelper');
-
-
-
 //var register = require('./routes/register');
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +16,9 @@ var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
 var messages = require('./routes/messages.js');
 var app = express();
+var systemVariables = {
+    openRegistration: false
+}
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,16 +37,14 @@ app.use('/broadcast',broadcast);
 app.use('/channel',channel);
 app.use('/messages', messages);
 
-var options ={
-    user:"coldBl00d",
-    pass:'somesomepassword'
-}
+
 
 //mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847
 
 mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847', function(err){
     if (err){
         console.log("Database connection failed");
+        
     }else{
         console.log("Database connection successfull");
     }
@@ -68,4 +65,4 @@ http.createServer(app).listen(port, function() {
 
 
 
-module.exports = app;
+module.exports = systemVariables;
