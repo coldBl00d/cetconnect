@@ -36,8 +36,14 @@ router.post('/getMetadata', function(req, res, next){
    });
 });
 
-router.get('/getMessage', function(req, res, next){
+router.get('/getMessageInbox/:id', function(req, res, next){
 
+  var id = req.params.id;
+  messageHelper.getMessage(id, true, function(message){
+    var content = message.message;
+    res.json({message:content}).status(200).end();
+  });
+  
 });
 
 module.exports=router;

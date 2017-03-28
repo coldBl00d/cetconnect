@@ -9,10 +9,10 @@
 		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
             <md-content layout="row"  flex=100 md-whiteframe=7 style="margin: 8px" > 
                 <md-list flex=100>
-					<md-list-item layout-align="start start" ng-repeat="message in messages track by $index" md-ink-ripple="#0000FF">
+					<md-list-item layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#0000FF">
 							<div layout=row layout-align="start start" flex=80>
-								<md-icon style="color: mediumvioletred" flex class="InboxIcon" ng-click="click('markunread')">markunread</md-icon>
-								<div style="width:auto" layout="row" flex=90>
+								<md-icon style="color: mediumvioletred" flex class="InboxIcon">markunread</md-icon>
+								<div style="width:auto" layout="row" flex=90 ng-click="showMessage(message)">
 									<div flex=20>
 										<h5 class="md-title InboxSender" flex=60 >{{message.senderName}}</h5>
 									</div>

@@ -1,0 +1,28 @@
+<md-dialog style="min-height: 70%; min-width: 90%" layout="column" layout-align="stretch">
+  <form ng-cloak flex layout="column" layout-align="stretch">
+    <md-toolbar flex="nogrow">
+      <div class="md-toolbar-tools">
+        <h2>{{currentMessage.senderName}}</h2>
+        <md-divider></md-divider>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content flex >
+      <div layout="column" class="md-dialog-content">
+        <h2 flex=10 >{{currentMessage.subject}}</h2>
+        <p flex =90>{{currentMessage.message}}</p>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click=>
+        Reply
+      </md-button>
+      <md-button ng-click='cancel()'>
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

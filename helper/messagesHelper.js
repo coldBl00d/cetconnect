@@ -20,9 +20,23 @@ messagesHelper.getSentMessages = function(userId, callBack){
                  });
 }
 
-messagesHelper.getMessagesMetadata = function(me, callBack){
-   console.log("In message Helper");
+messagesHelper.getMessage = function(id, rModel, callBack){
+       var model;
 
+       if(rModel) model = recieverModel;
+       else model = senderModel;
+       
+       recieverModel.findOne({_id:id})
+       .then(function(message){
+           console.log(message);
+            callBack(message);
+        })
+       .catch(function(err){
+            console.log(err);
+        });
+}
+
+messagesHelper.getMessagesMetadata = function(me, callBack){
    userHelper.ifUserToken(me, function(result, user){
        if(result){
            recieverModel.find({recipientId: user.userid})
