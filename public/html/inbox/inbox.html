@@ -1,8 +1,6 @@
 
 <div  layout="column" flex=100 layout-align="start">
 
-    <!--<div layout="row" flex-order=-1 flex-xs="100" flex-gt-xs=100 show-xs style="height:100%">-->
-        
 		<md-toolbar flex="nogrow" layout="row">
 					<md-icon style="padding:6px">inbox</md-icon>
                     <h2 flex="95" class="md-title ContentTitle">Inbox</h2>
@@ -11,23 +9,21 @@
 		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
             <md-content layout="row"  flex=100 md-whiteframe=7 style="margin: 8px" > 
                 <md-list flex=100>
-					<md-list-item layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#FF0000">
+					<md-list-item layout-align="start start" ng-repeat="message in messages track by $index" md-ink-ripple="#0000FF">
 							<div layout=row layout-align="start start" flex=80>
 								<md-icon style="color: mediumvioletred" flex class="InboxIcon" ng-click="click('markunread')">markunread</md-icon>
 								<div style="width:auto" layout="row" flex=90>
 									<div flex=20>
-										<h5 class="md-title InboxSender" >{{message.senderName}}</h5>
+										<h5 class="md-title InboxSender" flex=60 >{{message.senderName}}</h5>
 									</div>
-									<h1 class="md-subhead InboxSender InboxSubHeading" flex=60 >{{message.subject}}</h1>
-									
+									<h1 class="md-subhead InboxSender InboxSubHeading">{{message.subject}}</h1>
 								</div>
 							</div>
 							<div flex=20 style="text-align: end" > 
 									<md-icon style="color:green" flex class="InboxIcon" ng-click=null>done</md-icon>
 									<md-icon style="color: red" flex  class="InboxIcon" ng-click=null>delete</md-icon>
 									<md-icon style="color: blueviolet" flex class="InboxIcon" ng-click=null>reply</md-icon>
-									
-								</div>
+							</div>
 						<md-divider></md-divider>
 					</md-list-item>
                 </md-list>

@@ -28,6 +28,8 @@ application.factory('$myElementInkRipple', function($mdInkRipple) {
   };
 });
 
+
+
 application.factory('$packingService', function($rootScope){
 
 	return {
@@ -107,12 +109,13 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 		$http.post(address,$scope.formModel)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
+					   
 					   var currentUser = packUser(response.data);
 					   sessionStorage.setItem('currentUser', currentUser);
 					   sessionStorage.setItem('loggedIn', true);
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
-                        console.log($rootScope.currentUser);
+                       console.log($rootScope.currentUser);
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
 						console.log(response);
@@ -126,6 +129,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 
 function packUser(user){
 	var pack =  {
+		'userToken':user.userToken,
 		'userId':user.userId,
 		'name':user.name, 
 		'department':user.department,

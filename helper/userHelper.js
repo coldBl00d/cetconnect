@@ -16,6 +16,20 @@ userHelper.ifUser = function (userId, callback){
             });
 }
 
+userHelper.ifUserToken = function(token, callback){
+     userModel.findOne({user_token:token})
+            .then(function(user){
+                if(user){
+                    callback(true, user);
+                }else{
+                    callback(false, user);
+                }
+            }).catch(function(err) {
+                console.log( header,"crashed when looking for user with user token " +err);
+                callback(false, null);
+            });   
+}
+
 userHelper.getAllUserBasic = function(callback){
     userModel.find({},function(err, users){
         if(!err){

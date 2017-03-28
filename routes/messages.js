@@ -28,8 +28,12 @@ router.post('/send', function(req, res, next){
   });
 });
 
-router.get('/getMetadata', function(req, res, next){
-
+router.post('/getMetadata', function(req, res, next){
+   var userToken = req.body.userToken;
+   messageHelper.getMessagesMetadata(userToken, function(messageList){
+     messageListJSON = JSON.stringify(messageList);
+     res.json(messageListJSON).status(200).end();
+   });
 });
 
 router.get('/getMessage', function(req, res, next){

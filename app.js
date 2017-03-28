@@ -41,12 +41,12 @@ app.use('/register', register);
 
 
 
-//mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847
+//'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847'
 
-mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847', function(err){
+
+mongoose.connect('localhost:27017/campusConnect', function(err){
     if (err){
         console.log("Database connection failed");
-        
     }else{
         console.log("Database connection successfull");
     }
@@ -54,6 +54,7 @@ mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/t
 
 var heroku = false;
 var port;
+
 if(heroku){
     port=process.env.PORT;
 }else{

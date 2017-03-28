@@ -22,19 +22,27 @@ messagesHelper.getSentMessages = function(userId, callBack){
 
 messagesHelper.getMessagesMetadata = function(me, callBack){
    console.log("In message Helper");
-   recieverModel.find({recipientId: me})
+
+   userHelper.ifUserToken(me, function(result, user){
+       if(result){
+           recieverModel.find({recipientId: user.userid})
                 .then(function(messages){
                     var messageList = [];
                     messages.forEach(function(message){
                         var messageListEntry = {
                             senderName: message.senderName,
                             subject: message.subject,
-                            timestamp:message.timestamp
+                            timestamp:message.timestamp,
+                            id:message._id
                         }
                         messageList.push(messageListEntry);
                     });
                     callBack(messageList);
                 });
+       }else{
+           callBack([]);
+       }
+   });
 }
 
 
@@ -44,6 +52,7 @@ messagesHelper.getMessagesMetadata = function(me, callBack){
     103 - new message saved successfully
 
 */
+
 
 messagesHelper.sendMessage = function(payload, callBack){
     payload.read = false;
@@ -68,5 +77,7 @@ messagesHelper.sendMessage = function(payload, callBack){
         }
     });
 }
+
+
 
 module.exports = messagesHelper;
