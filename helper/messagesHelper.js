@@ -26,33 +26,57 @@ messagesHelper.getMessage = function(id, rModel, callBack){
        if(rModel) model = recieverModel;
        else model = senderModel;
        
-       recieverModel.findOne({_id:id})
+       model.findOne({_id:id})
        .then(function(message){
            console.log(message);
             callBack(message);
         })
        .catch(function(err){
             console.log(err);
+            console.log('The message with id '+ id + ' not found in sent list');
         });
 }
 
-messagesHelper.getMessagesMetadata = function(me, callBack){
+messagesHelper.getMessagesMetadata = function(me, rModel, callBack){
+   var model, field;
+
+   if(rModel) {model = recieverModel; field="recipientId";}
+   else {model = senderModel; field="senderId";}
+
+
    userHelper.ifUserToken(me, function(result, user){
        if(result){
-           recieverModel.find({recipientId: user.userid})
-                .then(function(messages){
-                    var messageList = [];
-                    messages.forEach(function(message){
-                        var messageListEntry = {
-                            senderName: message.senderName,
-                            subject: message.subject,
-                            timestamp:message.timestamp,
-                            id:message._id
-                        }
-                        messageList.push(messageListEntry);
+           if(rModel){
+            model.find({recipientId: user.userid})
+                    .then(function(messages){
+                        var messageList = [];
+                        messages.forEach(function(message){
+                            var messageListEntry = {
+                                senderName: message.senderName,
+                                subject: message.subject,
+                                timestamp:message.timestamp,
+                                id:message._id
+                            }
+                            messageList.push(messageListEntry);
+                        });
+                        callBack(messageList);
                     });
-                    callBack(messageList);
-                });
+           }else{
+               model.find({senderId: user.userid})
+                    .then(function(messages){
+                        var messageList = [];
+                        messages.forEach(function(message){
+                            var messageListEntry = {
+                                senderName: message.senderName,
+                                subject: message.subject,
+                                timestamp:message.timestamp,
+                                id:message._id
+                            }
+                            messageList.push(messageListEntry);
+                        });
+                        callBack(messageList);
+                    });
+           }
        }else{
            callBack([]);
        }

@@ -1,17 +1,20 @@
 application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging){
     $validateLogin();
-    $messaging.loadMessageMetadata(function(messages){
+    $messaging.loadMessageMetadata(true,function(messages){
         $scope.messages=messages;
     });
-    $scope.showMessage = function(message){$messaging.showMessage(message, $scope);}
+    $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
 
 });
 
 application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog){
     var messaging = {};
-    messaging.loadMessageMetadata = function(callBack){
-        console.log($rootScope.currentUser.userToken);
-        $http.post(address+'messages/getMetadata', {userToken:$rootScope.currentUser.userToken}).then(function(res){
+    messaging.loadMessageMetadata = function(inbox,callBack){
+
+        if(inbox) path= 'messages/getMetadata/';
+        else path = 'messages/getMetadataSent/';
+
+        $http.get(address+ path + $rootScope.currentUser.userToken).then(function(res){
             if(res.status == 200){
                 var messagesArray = JSON.parse(res.data);
                 callBack(messagesArray);
@@ -22,8 +25,15 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         });
     }
 
-     function getMessage(id, $scope, callBack){
-        $http.get(address+'messages/getMessageInbox/'+id)
+
+
+     function getMessage(id, $scope, inbox, callBack){
+         console.log('get message method');
+        if(inbox)
+            path = 'messages/getMessageInbox/';
+        else 
+            path = 'messages/getMessageSent/';
+        $http.get(address+path+id)
         .then(function(res){
             $scope.currentMessage.message = res.data.message;
             callBack();
@@ -33,11 +43,11 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         });
     }
 
-    messaging.showMessage = function(message, $scope) {
-
+    messaging.showMessage = function(message, inbox, $scope) {
+        console.log('Show message');
         $scope.currentMessage = message;
         $scope.cancel = function(){$mdDialog.hide();}
-        getMessage(message.id, $scope, function(){
+        getMessage(message.id, $scope,inbox, function(){
             console.log($scope.currentMessage);
             $mdDialog.show({
                 controller: 'inboxController',

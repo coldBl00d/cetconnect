@@ -28,9 +28,9 @@ router.post('/send', function(req, res, next){
   });
 });
 
-router.post('/getMetadata', function(req, res, next){
-   var userToken = req.body.userToken;
-   messageHelper.getMessagesMetadata(userToken, function(messageList){
+router.get('/getMetadata/:token', function(req, res, next){
+   var userToken = req.params.token;
+   messageHelper.getMessagesMetadata(userToken,true, function(messageList){
      messageListJSON = JSON.stringify(messageList);
      res.json(messageListJSON).status(200).end();
    });
@@ -45,5 +45,24 @@ router.get('/getMessageInbox/:id', function(req, res, next){
   });
   
 });
+
+router.get('/getMessageSent/:id', function(req, res, next){
+  console.log('getmesssage sent');
+  var id = req.params.id;
+  messageHelper.getMessage(id, false, function(message){
+    var content = message.message;
+    res.json({message:content}).status(200).end();
+  });
+  
+});
+
+router.get('/getMetadataSent/:token', function(req, res, next){
+  var userToken = req.params.token;
+   messageHelper.getMessagesMetadata(userToken,false, function(messageList){
+     messageListJSON = JSON.stringify(messageList);
+     console.log(messageListJSON);
+     res.json(messageListJSON).status(200).end();
+   });
+})
 
 module.exports=router;

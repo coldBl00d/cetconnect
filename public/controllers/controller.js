@@ -26,6 +26,7 @@ application.factory('$myElementInkRipple', function($mdInkRipple) {
       }, options));
     }
   };
+
 });
 
 
@@ -41,7 +42,8 @@ application.factory('$packingService', function($rootScope){
 			'department':user.department,
 			'post':user.post,
 			'adminOf':user.adminOf,
-			'subChannels':user.subChannels
+			'subChannels':user.subChannels,
+			'userToken':user.userToken
 			}
 		
 			var packedUser = JSON.stringify(pack);
@@ -93,6 +95,10 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	     url:'/inbox',
 		 templateUrl:'html/inbox/inbox.html',
 		 controller:'inboxController'
+	 }).state('sentItems',{
+	     url:'/setItems',
+		 templateUrl:'html/sent/sent.html',
+		 controller:'sentItemsController'
 	 });
 	 
 }]);
