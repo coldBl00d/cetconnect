@@ -52,6 +52,7 @@ messagesHelper.getMessagesMetadata = function(me, rModel, callBack){
                         var messageList = [];
                         messages.forEach(function(message){
                             var messageListEntry = {
+                                read: message.read,
                                 senderName: message.senderName,
                                 subject: message.subject,
                                 timestamp:message.timestamp,

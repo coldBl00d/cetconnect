@@ -6,6 +6,10 @@ var messageHelper = require('../helper/messagesHelper');
 var router = express.Router();
 var appDir = path.dirname(require.main.filename);
 var header = "[Messaging Router]";
+var systemVariables = require('../app.js');
+var socketHelper = require('../helper/socketHelper');
+var clientHelper = require('../helper/clientHelper');
+
 
 router.get('/getUsers', function(req, res, next) {
   var query = req.query.query;
@@ -21,6 +25,9 @@ router.post('/send', function(req, res, next){
   messageHelper.sendMessage(payload, function(code){
     console.log(header, "Code: "+code);
     if(code==103){
+      clientHelper.getClientSockets(payload.recipientId, function(socket){
+        socketHelper.emitToClient(socket, 'newMessage');
+      });
       res.status(200).end();
     }else{
       res.status(code).end();
@@ -47,7 +54,6 @@ router.get('/getMessageInbox/:id', function(req, res, next){
 });
 
 router.get('/getMessageSent/:id', function(req, res, next){
-  console.log('getmesssage sent');
   var id = req.params.id;
   messageHelper.getMessage(id, false, function(message){
     var content = message.message;

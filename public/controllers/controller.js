@@ -4,7 +4,7 @@ var socket;
 //var address = 'http://blooming-reaches-58473.herokuapp.com/';
 
 
-application.factory('$validateLogin',function($rootScope,$window){
+application.factory('$validateLogin',function($rootScope,$window,$socket){
 
 	return function(){
         var loggedIn = sessionStorage.getItem('loggedIn');
@@ -13,6 +13,7 @@ application.factory('$validateLogin',function($rootScope,$window){
 		}else{
 			$rootScope.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
             $rootScope.loggedIn = loggedIn; 
+			$socket.identify($rootScope.currentUser.userId);
 		}
 	}
 
@@ -29,8 +30,6 @@ application.factory('$myElementInkRipple', function($mdInkRipple) {
   };
 
 });
-
-
 
 application.factory('$packingService', function($rootScope){
 
@@ -104,12 +103,12 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-
 application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	console.log("In my controller");
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
+	
 	$rootScope.currentUser.name = "User";
 	$scope.formModel={admissionNumber:"", passwordLogin:""};
 	$scope.login=function(){
@@ -124,10 +123,6 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 					   $rootScope.currentUser = response.data;
                        console.log($rootScope.currentUser);
                        $state.go("broadcast");
-					   socket= io.connect();
-					   socket.__userId = $rootScope.currentUser.userId;
-					   console.log(socket.__userId);
-					   socket.emit('identify',null);
                     }else if(response.data.auth == false){
 						console.log(response);
 						alert("Check credentials");
@@ -154,7 +149,6 @@ function packUser(user){
 }
 
 /*sidebar routing controller*/
-
 application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
@@ -187,10 +181,10 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 });
 
 /* Dashboard controllers */
-
-application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location,$window,$validateLogin ){
+application.controller('broadcastViewController', function($scope, $rootScope, $firebaseArray, $anchorScroll, $location,$window,$validateLogin, $socket, $messaging){
 	
 	$validateLogin();
+	$messaging.loadMessageMetadata(true, function(message){});
 	$rootScope.hidesidebar=false;
 	$scope.channels=$rootScope.currentUser.subChannels;
 	var userSubbedChannels = $rootScope.currentUser.subChannels;

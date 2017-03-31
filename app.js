@@ -10,16 +10,32 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var header ="[APP]";
 var mesHelper = require('./helper/messagesHelper');
-//var register = require('./routes/register');
+
+/*****************Socket Stuffs********* */
+
+var io = require('socket.io')(server);
+var systemVariables = {
+    openRegistration: false, 
+    clients: new Map(), 
+    io:io
+}
+module.exports = systemVariables;
+var clientHelper = require('./helper/clientHelper');
+var socketHelper = require('./helper/socketHelper');
+/***************************************** */
+
+
+/******************Router ************* */
 var index = require('./routes/index');
 var users = require('./routes/users');
 var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
 var messages = require('./routes/messages.js');
 var register = require('./routes/register');
-var io = require('socket.io')(server);
 
-var systemVariables = {openRegistration: false, clients: new Map(), io:io}
+/****************************************** */
+
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -66,29 +82,11 @@ server.listen(port, function(){
     console.log('Campus connect running at '+ port);
 });
 
-io.on('connection', function(socket){ 
-    console.log('client Connected');
-    socket.on('identify', function(id){
-        if(!systemVariables.clients.get(id)){
-            var sockets = [];
-            sockets.push(socket);
-            systemVariables.clients.set(socket, id);
-        }else{
-            systemVariables.clients.set(socket, id);
-        }
-
-        setTimeout(function(){
-            console.log("Emitting");
-	        socket.emit('loadMessage', { description: 'A custom event named testerEvent!'});
-	    }, 4000);
-    });
-
-    socket.on('disconnect', function(){
-        systemVariables.clients.delete(socket);
-        console.log('Client Disconnected');
-    });
-
-});
 
 
-module.exports = systemVariables;
+/********************************* Socket Stuffs ****************************************/
+
+
+
+/************************************************************************************* */
+
