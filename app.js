@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
+/*****************Basic Stuffs*************** */
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,10 +10,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var header ="[APP]";
-var mesHelper = require('./helper/messagesHelper');
+/********************************************* */
 
 /*****************Socket Stuffs********* */
-
 var io = require('socket.io')(server);
 var systemVariables = {
     openRegistration: false, 
@@ -25,7 +25,7 @@ var socketHelper = require('./helper/socketHelper');
 /***************************************** */
 
 
-/******************Router ************* */
+/******************Routers ************* */
 var index = require('./routes/index');
 var users = require('./routes/users');
 var broadcast = require('./routes/broadcast');
@@ -34,8 +34,6 @@ var messages = require('./routes/messages.js');
 var register = require('./routes/register');
 
 /****************************************** */
-
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -56,9 +54,7 @@ app.use('/messages', messages);
 app.use('/register', register);
 
 
-
 //'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847'
-
 
 mongoose.connect('localhost:27017/campusConnect', function(err){
     if (err){
@@ -82,11 +78,4 @@ server.listen(port, function(){
     console.log('Campus connect running at '+ port);
 });
 
-
-
-/********************************* Socket Stuffs ****************************************/
-
-
-
-/************************************************************************************* */
 

@@ -11,15 +11,18 @@
                 <md-list flex=100>
 					<md-list-item layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#0000FF">
 							<div layout=row layout-align="start start" flex=80>
-								<md-icon style="color: mediumvioletred" flex class="InboxIcon">markunread</md-icon>
+								<md-icon flex=auto ng-hide="{{message.read}}" style="color: mediumvioletred" flex class="InboxIcon">markunread</md-icon>
+								<md-icon flex=auto ng-hide="{{!message.read}}" style="color: seagreen" flex class="InboxIcon">markunread</md-icon>
 								<div style="width:auto" layout="row" flex=90 ng-click="showMessage(message)">
-									<div flex=20>
-										<h5 class="md-title InboxSender" flex=60 >{{message.senderName}}</h5>
+									<div flex=auto flex-xs=40>
+										<h5 class="md-title InboxSender" >{{message.senderName}}</h5>
 									</div>
-									<h1 class="md-subhead InboxSender InboxSubHeading">{{message.subject}}</h1>
+									<div flex=grow  style="overflow-y: hidden">
+										<h1 class="md-subhead InboxSender InboxSubHeading">{{message.subject}}</h1>
+									</div>
 								</div>
 							</div>
-							<div flex=20 style="text-align: end" > 
+							<div flex=20 style="text-align: end" hide-xs > 
 									<md-icon style="color:green" flex class="InboxIcon" ng-click=null>done</md-icon>
 									<md-icon style="color: red" flex  class="InboxIcon" ng-click=null>delete</md-icon>
 									<md-icon style="color: blueviolet" flex class="InboxIcon" ng-click=null>reply</md-icon>

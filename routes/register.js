@@ -9,7 +9,7 @@ var header = "[Register Router]";
 
 /*
 
-    900 : The userid already exist in the system.
+    200 : The userid already exist in the system.
     901 : The database failed to add the user try again.    
 
 */
@@ -50,11 +50,11 @@ router.post('/', function(req, res, next){
                 });
             }else{
                 console.log(header, "The userid "+ userId +" already exist");
-                res.status(900).end();
+                res.status(200).end();
             }
         });
     }else{
-        res.status(404).end();
+        res.status(404).json({message:"Not open for registration"}).end();
     }
     
 });

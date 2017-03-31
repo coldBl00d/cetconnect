@@ -26,7 +26,7 @@ messagesHelper.getMessage = function(id, rModel, callBack){
        if(rModel) model = recieverModel;
        else model = senderModel;
        
-       model.findOne({_id:id})
+       model.findOneAndUpdate({_id:id},{$set:{read:true}})
        .then(function(message){
            console.log(message);
             callBack(message);

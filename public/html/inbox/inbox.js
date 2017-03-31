@@ -87,6 +87,11 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
                console.log("cancelled dialog");
             });
         });
+
+        if(!message.read&&inbox){
+            message.read = true;
+            $rootScope.messageCount--;
+        }
     }
 
     function getLoadedSent($scope){

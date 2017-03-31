@@ -21,8 +21,9 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
+        var user = clients.get(socket); //remove this 
         clients.delete(socket);
-        console.log('Client Disconnected');
+        console.log('Client Disconnected '+user);
     });
 
 });
