@@ -1,23 +1,38 @@
 application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging){
     $validateLogin();
-    $messaging.loadMessageMetadata(true,function(messages){
-        $scope.messages=messages;
-    });
+    $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
-
+    
+    socket.on('loadMessage', function(data){
+            console.log('Firing');
+            loadMessageMetadata(true,function(messages){
+            $scope.messages=messages;
+         });
+    });
 });
 
 application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog){
     var messaging = {};
-    messaging.loadMessageMetadata = function(inbox,callBack){
+    messagesSent = [];
+    messagesInbox = [];
+
+    function loadMessageMetadata(inbox,callBack){
 
         if(inbox) path= 'messages/getMetadata/';
         else path = 'messages/getMetadataSent/';
 
         $http.get(address+ path + $rootScope.currentUser.userToken).then(function(res){
             if(res.status == 200){
-                var messagesArray = JSON.parse(res.data);
-                callBack(messagesArray);
+                var messages;
+                if(inbox){
+                    messagesInbox = JSON.parse(res.data);
+                    messages = messagesInbox;
+                }
+                else{ 
+                    messagesSent = JSON.parse(res.data);
+                    messages = messagesSent;
+                }
+                callBack(messages);
             }
             return null;
         }).catch(function(err){ 
@@ -25,14 +40,25 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         });
     }
 
+    function getLoadedInbox($scope){
+        if(messagesInbox!=0)
+            $scope.messages= messagesInbox;
+        else{
+            loadMessageMetadata(true, function(messages_callback){
+                console.log('binding messages with inbox');
+                $scope.messages= messages_callback;
+            });
+        }
+     }
+   
 
-
-     function getMessage(id, $scope, inbox, callBack){
-         console.log('get message method');
+    
+    function getMessageFromServer(id, $scope, inbox, callBack){
         if(inbox)
             path = 'messages/getMessageInbox/';
         else 
             path = 'messages/getMessageSent/';
+
         $http.get(address+path+id)
         .then(function(res){
             $scope.currentMessage.message = res.data.message;
@@ -47,10 +73,8 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         console.log('Show message');
         $scope.currentMessage = message;
         $scope.cancel = function(){$mdDialog.hide();}
-        getMessage(message.id, $scope,inbox, function(){
-            console.log($scope.currentMessage);
+        getMessageFromServer(message.id, $scope,inbox, function(){
             $mdDialog.show({
-                controller: 'inboxController',
                 templateUrl: 'html/messageDialog/messageDialog.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose:true,
@@ -59,16 +83,26 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
                 fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
             })
             .then(function(answer) {
-             
             },function() {
                console.log("cancelled dialog");
             });
         });
-
     }
 
-   
+    function getLoadedSent($scope){
+        if(messagesSent!=0)
+            $scope.messages= messagesSent;
+        else{
+            loadMessageMetadata(false, function(messages_callback){
+                console.log('binding message with sent');
+                $scope.messages= messages_callback;
+            });
+        }
+    }
 
+    messaging.loadMessageMetadata = loadMessageMetadata;
+    messaging.getLoadedInbox = getLoadedInbox;
+    messaging.getLoadedSent = getLoadedSent;
     return messaging;
 });
 

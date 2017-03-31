@@ -1,12 +1,13 @@
 /// <reference path="/node_modules/firebase/firebase-database.js" />
 var express = require('express');
+var app = express();
+var server = require('http').Server(app);
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var http = require('http');
 var header ="[APP]";
 var mesHelper = require('./helper/messagesHelper');
 //var register = require('./routes/register');
@@ -16,10 +17,9 @@ var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
 var messages = require('./routes/messages.js');
 var register = require('./routes/register');
-var app = express();
-var systemVariables = {
-    openRegistration: false
-}
+var io = require('socket.io')(server);
+
+var systemVariables = {openRegistration: false, clients: new Map(), io:io}
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -62,10 +62,33 @@ if(heroku){
 }
 
 
-http.createServer(app).listen(port, function() {
-	console.log("CET CONNECT running at "+port );
+server.listen(port, function(){
+    console.log('Campus connect running at '+ port);
 });
 
+io.on('connection', function(socket){ 
+    console.log('client Connected');
+    socket.on('identify', function(id){
+        if(!systemVariables.clients.get(id)){
+            var sockets = [];
+            sockets.push(socket);
+            systemVariables.clients.set(socket, id);
+        }else{
+            systemVariables.clients.set(socket, id);
+        }
+
+        setTimeout(function(){
+            console.log("Emitting");
+	        socket.emit('loadMessage', { description: 'A custom event named testerEvent!'});
+	    }, 4000);
+    });
+
+    socket.on('disconnect', function(){
+        systemVariables.clients.delete(socket);
+        console.log('Client Disconnected');
+    });
+
+});
 
 
 module.exports = systemVariables;

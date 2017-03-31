@@ -1,5 +1,6 @@
 var application=angular.module("myApp",['ngMessages','ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar']);
 var address = 'http://localhost:3000/';
+var socket;
 //var address = 'http://blooming-reaches-58473.herokuapp.com/';
 
 
@@ -123,6 +124,10 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 					   $rootScope.currentUser = response.data;
                        console.log($rootScope.currentUser);
                        $state.go("broadcast");
+					   socket= io.connect();
+					   socket.__userId = $rootScope.currentUser.userId;
+					   console.log(socket.__userId);
+					   socket.emit('identify',null);
                     }else if(response.data.auth == false){
 						console.log(response);
 						alert("Check credentials");

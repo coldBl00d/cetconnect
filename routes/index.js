@@ -6,6 +6,7 @@ var md5 = require('md5');
 /* GET home page. */
 var header = '[index]'
 var appDir = path.dirname(require.main.filename);
+var systemVariables = require('../app.js');
 
 router.get('/', function(req, res, next) {
 
@@ -78,5 +79,7 @@ function login(user, password, res){
             return res.status(220).json({auth:false}).end(); 
         }
 }
+
+
 
 module.exports = router;
