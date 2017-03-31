@@ -21,7 +21,7 @@ application.factory('$socket', function($messaging, $rootScope,$mdToast){
 
     socket.on('newMessage', function(){
         $messaging.loadMessageMetadata(true, function(messages){
-            $mdToast.show($mdToast.simple().textContent('New message!!'));
+            $mdToast.show($mdToast.simple().textContent('New message'));
         });
     });
 
