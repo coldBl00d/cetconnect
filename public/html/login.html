@@ -23,6 +23,11 @@
                 <input type="password"ng-model="formModel.passwordLogin">
               </md-input-container>
           </div>
+           <div layout="row">
+            <md-checkbox style="margin: 16px;margin-right: 0px;" ng-model="rememberMe" aria-label="Remember Me">
+            Remember Me
+            </md-checkbox>
+          </div>
 	  </md-card-content>
 	  <md-card-actions layout="row" layout-align="end center">
 		<md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
