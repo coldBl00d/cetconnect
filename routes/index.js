@@ -58,7 +58,6 @@ function login(user, password, res){
             var login_token_recieved = md5(user.userid+password+user.regTime);
             var login_token = user.login_token;
             if(login_token_recieved==login_token){
-                console.log(user);
                 var user_response = {
                     'userId':user.userid,
                     'userToken':user.user_token,
@@ -79,7 +78,6 @@ function login(user, password, res){
             return res.status(220).json({auth:false}).end(); 
         }
 }
-
 
 
 module.exports = router;

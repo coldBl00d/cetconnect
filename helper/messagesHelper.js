@@ -28,7 +28,6 @@ messagesHelper.getMessage = function(id, rModel, callBack){
        
        model.findOneAndUpdate({_id:id},{$set:{read:true}})
        .then(function(message){
-           console.log(message);
             callBack(message);
         })
        .catch(function(err){
