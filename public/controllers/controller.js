@@ -118,15 +118,32 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService){
+application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService){
 	console.log("In my controller");
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
 	$rootScope.currentUser.name = "User";
 	$scope.payload={userId:"", password:""};
+	
+	//prevents identifying itself many times over. 
+	if(!$rootScope.deviceToken){
+		$notificationService.identify(function(token){
+			$rootScope.deviceToken = token;
+			console.log("token",token);
+		});
+	}
 
 	$scope.login=function(){
+		console.log($scope.rememberMe);
+		if($scope.rememberMe){
+			console.log("getting token");
+			$scope.payload.deviceToken = $notificationService.getToken();
+			console.log($scope.payload.deviceToken);
+		}else{
+			$scope.payload.deviceToken = null;
+		}
+
 		$http.post(address,$scope.payload)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
@@ -136,6 +153,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
                        console.log($rootScope.currentUser);
+
 					   //remember the user if remember me is selected 
 					   if($scope.rememberMe) $rememberMe.remember($scope.payload.userId, $scope.payload.password);
 					   else $rememberMe.forget();
@@ -190,6 +208,7 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		/*clear localstorage */
 		localStorage.clear();
 		/*redirect to login page*/
+
 		$state.go('login');
 	}
     

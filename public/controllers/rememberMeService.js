@@ -1,4 +1,4 @@
-application.factory('$rememberMe', function($http, $rootScope, $state, $packingService){
+application.factory('$rememberMe', function($http, $rootScope, $state, $packingService, $notificationService){
 
     var userId, password, flag;
     var rememberMe ={};
@@ -9,6 +9,10 @@ application.factory('$rememberMe', function($http, $rootScope, $state, $packingS
     }else{
         flag = localStorage.getItem('rememberMe');
         if(flag){
+            /*notification stuffs*/ 
+            /*console.log('calling gettoken from $rememberMe');
+            var token = $notificationService.getToken();*/
+
             //continue to login
             userId = localStorage.getItem('userId');
             password = localStorage.getItem('password');
@@ -16,7 +20,8 @@ application.factory('$rememberMe', function($http, $rootScope, $state, $packingS
             if(userId&&password){
                 var payload = {
                     userId:userId,
-                    password:password
+                    password:password,
+                    deviceToken: null
                 };
                 console.log(payload);
                 $http.post(address, payload)
@@ -45,8 +50,6 @@ application.factory('$rememberMe', function($http, $rootScope, $state, $packingS
         }
     }
 
-    
-
     function remember(userId, password){
          localStorage.setItem('rememberMe', true);
          localStorage.setItem('userId', userId);
@@ -56,8 +59,8 @@ application.factory('$rememberMe', function($http, $rootScope, $state, $packingS
 
     function forget(){
         localStorage.setItem('rememberMe', false);
-         localStorage.setItem('userId', null);
-          localStorage.setItem('password', null);
+        localStorage.setItem('userId', null);
+        localStorage.setItem('password', null);
     }
 
     rememberMe.remember = remember;

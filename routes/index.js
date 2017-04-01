@@ -1,7 +1,9 @@
+/// <reference path="../helper/deviceHelper.js" />
 var express = require('express');
 var router = express.Router();	
 var path = require('path');
 var userModel = require("../models/users");
+var deviceHelper = require('../helper/deviceHelper');
 var md5 = require('md5');
 /* GET home page. */
 var header = '[index]'
@@ -27,17 +29,40 @@ router.post('/', function(req, res, next){
 
     var userid = req.body.userId;
     var password = req.body.password;
-
+    var deviceToken = req.body.deviceToken;
 
 
     userModel.findOne({userid:userid}).exec()
     .then(function(user){
-        login(user, password, res);
+        login(user, password,deviceToken, res);
     }).catch(function(err){
         res.status(304);
     });
 
 });
+
+router.post('/newDevice', function(req, res, next){
+
+    console.log(req.body.deviceToken);
+    var deviceToken = req.body.deviceToken;
+    deviceHelper.ifDevice(deviceToken, function(code){
+        if(code ==200){
+            return  res.status(code).json({m:'Device Identified'}).end();
+        }else {
+             deviceHelper.addDevice(deviceToken, function(status){
+                if(status==200)
+                    res.status(status).json({m:'Device Identified'}).end();
+                else 
+                    res.status(status).end();
+             });
+        }
+    });
+});
+
+router.post('/tokenUpdated', function(req, res, next){
+
+});
+
 
 
 /* when the database finds a user with matching 
@@ -53,7 +78,7 @@ On failure:
         data: null 
 */
 
-function login(user, password, res){
+function login(user, password, deviceToken, res){
         if (user) { 
             var login_token_recieved = md5(user.userid+password+user.regTime);
             var login_token = user.login_token;
@@ -67,7 +92,14 @@ function login(user, password, res){
                     'department':user.department,
                     'post':user.post
                 }
-                console.log("Sending data back")
+                console.log("Sending data back");
+                if(deviceToken != null){
+                    deviceHelper.attachUser(deviceToken, user_response.userId, function(status){
+                        console.log("Attachment status: "+status);
+                    });
+                }else{
+                    console.log("user either not want notification or this is a remeberMe login");
+                }
                 return res.status(210).json(user_response).end();
             }else{
                 console.log(header, "Wrong password for "+ user.userid)
