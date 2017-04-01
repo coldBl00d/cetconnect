@@ -94,7 +94,17 @@ router.post('/subunsub', function (req, res, next) {
 });
 
 
-
+router.get('/getChannels', function(req, res, next){
+    console.log('here');
+    channelHelper.getAllChannels(function(list){
+        if(list.length){
+            JSONList = JSON.stringify(list);
+            res.json({channels:JSONList}).status(200).end();
+        }else{
+            res.json({status:"Failed to get the channel list"}).status(404).end();
+        }
+    });
+});
 
 
 

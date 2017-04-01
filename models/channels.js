@@ -5,11 +5,12 @@ var channelSchema = new mongoose.Schema({
 	channelName : {
 		type: String,
         unique:true,
+		index: true
 	},
 
 	subscribers : {
         type:Array,
-        default:['jhon-doe']
+        default:[]
     },
 
 	admins : {

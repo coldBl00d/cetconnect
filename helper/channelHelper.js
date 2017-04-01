@@ -21,8 +21,14 @@ channelHelper.ifChannel = function (channelId, callback){
             });
 }
 
+channelHelper.getAllChannels = function(callBack){
+    channelModel.find({},['channelName'], {sort:{channelName:1}}, function(err, docs){
+        callBack(docs);
+    });
+}
+
 channelHelper.addBareboneChannel = function(channelId, admin, callback){
-    addChannelToFirebaseList(channelId);
+   // addChannelToFirebaseList(channelId);
     var newChannel = new channelModel({
         channelName:channelId, 
         subscribers:[],

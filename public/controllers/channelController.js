@@ -3,12 +3,23 @@ var channels_for_view = [];
 var header = '[channelsController]';
 var channelListURI = 'channelList/'
 
-application.controller('channelsController', function ($scope, $rootScope, $firebaseArray,$http,$validateLogin,$packingService){
+application.controller('channelsController', function ($scope, $rootScope,$http,$validateLogin,$packingService, $http, $mdToast){
 	$validateLogin();
-	var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
-	var firebase_channels = $firebaseArray(channelListRef);
+	//uncomment to load from firebase
+	//var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
+	//var firebase_channels = $firebaseArray(channelListRef);
+	var firebase_channels;
+	$http.get(address+'channel/getChannels').then(function(res){
+		firebase_channels = JSON.parse(res.data.channels);
+		$scope.channels_for_view = firebase_channels;
+		console.log(firebase_channels);
+		setToggles(userChannels, firebase_channels);
+	}).catch(function(err){
+		$mdToast.show($mdToast.simple().textContent('Error loding channels, try reloading'));
+	});
+
 	var userChannels = $rootScope.currentUser.subChannels;
-	$scope.channels_for_view = firebase_channels;
+	
 
 	$scope.subChanged = function(channelName, status){
 		var payload = packagePayload(channelName, status, $rootScope.currentUser.userId);
@@ -32,10 +43,12 @@ application.controller('channelsController', function ($scope, $rootScope, $fire
 			 });
 	}
 	
-	firebase_channels.$loaded().then(function(){
+	//To enable loading from firebase uncomment this
+
+	/*firebase_channels.$loaded().then(function(){
 		console.log(firebase_channels);
 		setToggles(userChannels, firebase_channels);
-	});
+	});*/
 
 });
 
