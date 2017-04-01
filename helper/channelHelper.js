@@ -28,7 +28,7 @@ channelHelper.getAllChannels = function(callBack){
 }
 
 channelHelper.addBareboneChannel = function(channelId, admin, callback){
-    addChannelToFirebaseList(channelId);
+   // addChannelToFirebaseList(channelId);
     var newChannel = new channelModel({
         channelName:channelId, 
         subscribers:[],
