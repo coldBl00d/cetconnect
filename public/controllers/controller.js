@@ -34,6 +34,7 @@ application.factory('$myElementInkRipple', function($mdInkRipple) {
 application.factory('$packingService', function($rootScope){
 
 	return {
+
 		storeUser: function(){
 			var user = $rootScope.currentUser;
 			var pack =  {
@@ -49,9 +50,23 @@ application.factory('$packingService', function($rootScope){
 			var packedUser = JSON.stringify(pack);
 			sessionStorage.setItem('currentUser', packedUser);
 			return;
-		}
-	}
+		},
 
+		packUser: function packUser(user){
+			var pack =  {
+				'userToken':user.userToken,
+				'userId':user.userId,
+				'name':user.name, 
+				'department':user.department,
+				'post':user.post,
+				'adminOf':user.adminOf,
+				'subChannels':user.subChannels
+			}
+			console.log('packed');
+			return JSON.stringify(pack);
+		}
+
+	}
 });
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
@@ -103,25 +118,27 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.controller("loginCon",function($scope,$http,$state,$rootScope){
+application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService){
 	console.log("In my controller");
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
-	
 	$rootScope.currentUser.name = "User";
-	$scope.formModel={admissionNumber:"", passwordLogin:""};
+	$scope.payload={userId:"", password:""};
+
 	$scope.login=function(){
-		$http.post(address,$scope.formModel)
+		$http.post(address,$scope.payload)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
-					   
-					   var currentUser = packUser(response.data);
+					   var currentUser = $packingService.packUser(response.data);
 					   sessionStorage.setItem('currentUser', currentUser);
 					   sessionStorage.setItem('loggedIn', true);
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
                        console.log($rootScope.currentUser);
+					   //remember the user if remember me is selected 
+					   if($scope.rememberMe) $rememberMe.remember($scope.payload.userId, $scope.payload.password);
+					   else $rememberMe.forget();
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
 						console.log(response);
@@ -133,20 +150,6 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope){
 	};
 });
 
-function packUser(user){
-	var pack =  {
-		'userToken':user.userToken,
-		'userId':user.userId,
-		'name':user.name, 
-		'department':user.department,
-		'post':user.post,
-		'adminOf':user.adminOf,
-		'subChannels':user.subChannels
-	}
-
-	return JSON.stringify(pack);
-
-}
 
 /*sidebar routing controller*/
 application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple){
@@ -155,6 +158,7 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 	$scope.enableMenuButton = $mdMedia('gt-xs');
 	$scope.openMenu= menuWorker;
 	$scope.$watch(function(){return $mdMedia('gt-xs');}, function(value){$scope.enableMenuButton=value;});
+	$scope.logout = logout;
 	
 	function buildToggler(componentId) {
 			return function() {
@@ -175,6 +179,19 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
     $scope.onClick = function (ev) {
         $myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
     }
+
+	function logout(){
+		/*clear rootscope user*/ 
+		$rootScope.currentUser = null;
+		/*logout*/
+		$rootScope.loggedIn = false;
+		/*clear sessionStorage*/
+		sessionStorage.clear();
+		/*clear localstorage */
+		localStorage.clear();
+		/*redirect to login page*/
+		$state.go('login');
+	}
     
 	console.log(header);
 

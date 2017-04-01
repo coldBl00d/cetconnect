@@ -8,7 +8,7 @@ var deviceSchema = new mongoose.Schema({
 		index: true
 	},
 
-	userId : {
+	userToken : {
         type:String,
         index:true
     },

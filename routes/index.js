@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next){
 
-    var userid = req.body.admissionNumber;
-    var password = req.body.passwordLogin;
+    var userid = req.body.userId;
+    var password = req.body.password;
 
 
 
