@@ -44,9 +44,9 @@ channelHelper.addBareboneChannel = function(channelId, admin, callback){
     })
 }
 
-channelHelper.subbed= function(userid, channelName, callback){
+channelHelper.subbed= function(userToken, channelName, callback){
 
-    userHelper.ifUser(userid, function(result, user){
+    userHelper.ifUserToken(userToken, function(result, user){
         if(!result){
             callback(422);
             return;
@@ -54,7 +54,7 @@ channelHelper.subbed= function(userid, channelName, callback){
             channelHelper.ifChannel(channelName, function(channel){
                 if(channel){
                     console.log(header, "Channel "+channelName+" found, Proceeding pushing user to channel");
-                    uniquePush(channel.subscribers, userid)
+                    uniquePush(channel.subscribers, userToken)
                     channel.save();
                     uniquePush(user.subbedChannels, channelName);
                     user.save();
@@ -72,15 +72,15 @@ channelHelper.subbed= function(userid, channelName, callback){
 
 }
 
-channelHelper.unsubbed = function(userId, channelName, callback){
-    userHelper.ifUser(userId, function(result, user){
+channelHelper.unsubbed = function(userToken, channelName, callback){
+    userHelper.ifUserToken(userToken, function(result, user){
         if(!result){
             callback(422);
             return;
         }else {
             channelHelper.ifChannel(channelName, function(channel){
                 if(channel){
-                    channel.subscribers.remove(userId);
+                    channel.subscribers.remove(userToken);
                     channel.save();
                     user.subbedChannels.remove(channelName);
                     user.save();

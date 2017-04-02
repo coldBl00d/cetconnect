@@ -58,15 +58,15 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/subunsub', function (req, res, next) {
-    var userId = req.body.payload.userId;
+    var userToken = req.body.payload.userToken;
     var channelName = req.body.payload.channelName;
     var status = req.body.payload.status;
 
     if (status) {
         console.log(header, "User subbed");
-        channelHelper.subbed(userId, channelName, function (result) {
+        channelHelper.subbed(userToken, channelName, function (result) {
             if (result == 200) {
-                console.log(header, "channel " + channelName + "added successfully");
+                console.log(header, "channel " + channelName + " added successfully");
                 res.status(200).end();
             } else {
                 console.log(header, "channel " + channelName + " not added ");
@@ -77,9 +77,9 @@ router.post('/subunsub', function (req, res, next) {
     } else {
         console.log(header, "User unsubbed");
 
-        channelHelper.unsubbed(userId, channelName, function (result) {
+        channelHelper.unsubbed(userToken, channelName, function (result) {
             if (result == 200) {
-                console.log(header, "channel " + channelName + "removed successfully");
+                console.log(header, "channel " + channelName + " removed successfully");
                 res.status(200).end();
             } else {
                 console.log(header, "channel " + channelName + " not removed ");

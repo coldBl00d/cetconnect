@@ -22,7 +22,8 @@ application.controller('channelsController', function ($scope, $rootScope,$http,
 	
 
 	$scope.subChanged = function(channelName, status){
-		var payload = packagePayload(channelName, status, $rootScope.currentUser.userId);
+		var payload = packagePayload(channelName, status, $rootScope.currentUser.userToken);
+		console.log(payload);
 		$http.post(address+"channel/subunsub",{payload:payload})
 			 .then(function(res){
 					if(res.status == 200){
@@ -53,9 +54,9 @@ application.controller('channelsController', function ($scope, $rootScope,$http,
 });
 
 
-function packagePayload(channelName, status, userId){
+function packagePayload(channelName, status, userToken){
 	return { 
-		userId:userId,
+		userToken:userToken,
 		channelName:channelName, 
 		status:status
 	 }

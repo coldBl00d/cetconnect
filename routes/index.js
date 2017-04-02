@@ -63,6 +63,16 @@ router.post('/tokenUpdated', function(req, res, next){
 
 });
 
+router.post('/detachUser', function(req, res, next){
+    var token = req.body.deviceToken;
+    deviceHelper.detachUser(token, function(code){
+        if(code ==200){
+            res.status(200).end();
+        }else{
+            res.status(400).end();
+        }
+    });
+})
 
 
 /* when the database finds a user with matching 
@@ -94,7 +104,7 @@ function login(user, password, deviceToken, res){
                 }
                 console.log("Sending data back");
                 if(deviceToken != null){
-                    deviceHelper.attachUser(deviceToken, user_response.userId, function(status){
+                    deviceHelper.attachUser(deviceToken, user_response.userToken, function(status){
                         console.log("Attachment status: "+status);
                     });
                 }else{

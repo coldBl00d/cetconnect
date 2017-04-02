@@ -170,7 +170,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 
 
 /*sidebar routing controller*/
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -207,13 +207,16 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		sessionStorage.clear();
 		/*clear localstorage */
 		localStorage.clear();
-		/*redirect to login page*/
-
-		$state.go('login');
+		/*redirect to login page after detaching user*/
+		$http.post(address+'detachUser', {deviceToken : $notificationService.getToken()})
+		.then(function(res){
+			$state.go('login');
+		})
+		.catch(function(err){
+			 $mdToast.show($mdToast.simple().textContent('Something went wrong'));
+		});
 	}
-    
 	console.log(header);
-
 });
 
 /* Dashboard controllers */
