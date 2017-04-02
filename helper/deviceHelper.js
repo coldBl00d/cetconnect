@@ -57,6 +57,7 @@ deviceHelper.attachUser = function(deviceToken, userId,callBack){
    404 -- no device 
    900 -- error
 */
+
 deviceHelper.ifAttached = function(deviceToken, callBack){
     deviceModel.findOne({deviceToken:deviceToken}, function(err, doc){
         if(err){
@@ -75,5 +76,7 @@ deviceHelper.ifAttached = function(deviceToken, callBack){
         }
     });
 }
+
+
 
 module.exports = deviceHelper;

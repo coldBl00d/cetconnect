@@ -65,8 +65,7 @@ channelHelper.subbed= function(userToken, channelName, callback){
                     callback(422);
                     return;
                 }
-            });
-            
+            });     
         }
     });
 
