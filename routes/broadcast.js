@@ -6,6 +6,7 @@ var rtdb = firebaseadmin.database();
 var userModel = require("../models/users");
 var channelHelper = require('../helper/channelHelper');
 var userHelper = require('../helper/userHelper');
+var deviceHelper = require('../helper/deviceHelper');
 
 var header = "[BROADCAST]";
 var appDir = path.dirname(require.main.filename);
@@ -63,6 +64,7 @@ router.post('/', function (req, res, next) {
                             flag = 1;
                             console.log(header, "user verified as admin, sending payload");
                             sendBroadcast(payload);
+                            deviceHelper.notifyChannel(payload.channel, payload);
                             return res.status(200).end();
                         }
                     }

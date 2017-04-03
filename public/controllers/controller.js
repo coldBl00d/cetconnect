@@ -178,6 +178,11 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 	$scope.$watch(function(){return $mdMedia('gt-xs');}, function(value){$scope.enableMenuButton=value;});
 	$scope.logout = logout;
 	
+	messaging.onMessage(function(payload){
+		console.log(payload);
+		$mdToast.show($mdToast.simple().textContent(payload.notification.title+" - "+payload.notification.body));
+	});
+
 	function buildToggler(componentId) {
 			return function() {
 			$mdSidenav(componentId).toggle();

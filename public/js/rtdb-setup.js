@@ -8,4 +8,7 @@ var config = {
 
 firebase.initializeApp(config);
 
-var rtdb = firebase.database();
+const rtdb = firebase.database();
+
+const messaging = firebase.messaging();
+

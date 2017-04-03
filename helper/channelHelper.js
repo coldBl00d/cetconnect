@@ -95,6 +95,19 @@ channelHelper.unsubbed = function(userToken, channelName, callback){
     });
 }
 
+channelHelper.getSubbedUsers = function(channelName, callBack){
+    channelModel.findOne({channelName: channelName}, function(err, doc){
+        if(err) console.log(header, "Database may be down");
+        else{
+            if(doc){
+                return callBack(doc.subscribers)
+            }else{
+                console.log(header, "Channel not found, cant notify");
+            }
+        }
+    });
+}
+
 function uniquePush(array, content){
     var flag = true;
     for(var i=0; i< array.length; i++){
