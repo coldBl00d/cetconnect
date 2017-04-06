@@ -5,4 +5,8 @@ application.controller('sentItemsController', function($scope,$validateLogin, $m
         console.log(message);
         $messaging.showMessage(message, false, $scope);
     }
+    $scope.delete = function(id){
+        console.log('Calling delete on '+ id);
+        $messaging.deleteMessage(id, false);
+    }
 });

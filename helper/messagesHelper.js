@@ -116,6 +116,24 @@ messagesHelper.sendMessage = function(payload, callBack){
     });
 }
 
+messagesHelper.deleteMessage = function(messageId, inbox, callBack){
+    var model; 
+
+    if(inbox){
+        model = recieverModel;
+    }else{
+        model = senderModel;
+    }
+
+    model.findOneAndRemove({_id:messageId}, function(err, doc){
+        if(err){
+            console.log(err);
+            callBack(false);
+        }else{
+            callBack(true);
+        }
+    });
+}
 
 
 module.exports = messagesHelper;

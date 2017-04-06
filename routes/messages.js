@@ -69,6 +69,34 @@ router.get('/getMetadataSent/:token', function(req, res, next){
      console.log(messageListJSON);
      res.json(messageListJSON).status(200).end();
    });
-})
+});
+
+router.get('/deleteInbox/:id', function(req, res, next){
+
+  var messageId = req.params.id;
+  const INBOX = true;
+
+  messageHelper.deleteMessage(messageId, INBOX, function(result){
+    if(result)
+      res.status(200).end();
+    else 
+      res.status(300).end();
+  });
+
+});
+
+router.get('/deleteSent/:id', function(req, res, next){
+
+  var messageId = req.params.id;
+  const INBOX = false;
+
+  messageHelper.deleteMessage(messageId, INBOX, function(result){
+    if(result)
+      res.status(200).end();
+    else 
+      res.status(300).end();
+  });
+});
+
 
 module.exports=router;

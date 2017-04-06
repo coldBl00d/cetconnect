@@ -2,12 +2,44 @@ application.controller('inboxController', function($scope, $rootScope, $validate
     $validateLogin();
     $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
+    $scope.delete = function(id){$messaging.deleteMessage(id, true);}
+
 });
 
 application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog){
     var messaging = {};
     messagesSent = [];
     messagesInbox = [];
+
+    function deleteMessage(id, inbox){
+        var local;
+        var dest;
+        if(inbox){
+            local = messagesInbox;
+            dest ='messages/deleteInbox/';
+        }else{
+            local = messagesSent;
+            dest ='messages/deleteSent/';
+        }
+
+        $http.get(address+dest+id)
+        .then(function(res){
+            if(res.status == 200){
+                var index = local.findIndex(function(item){
+                    if(item.id  == id) return true;
+                    else return false;
+                });
+                if(index != -1){
+                    local.splice(index, 1);
+                }
+            }else{
+                $mdToast.show($mdToast.simple().textContent('Server Error - Message not deleted'));
+            }
+        })
+        .catch(function(err){
+            $mdToast.show($mdToast.simple().textContent('Cant reach server'));
+        });
+    }
 
     function loadMessageMetadata(inbox,callBack){
 
@@ -108,6 +140,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
     messaging.loadMessageMetadata = loadMessageMetadata;
     messaging.getLoadedInbox = getLoadedInbox;
     messaging.getLoadedSent = getLoadedSent;
+    messaging.deleteMessage = deleteMessage;
     return messaging;
 });
 
