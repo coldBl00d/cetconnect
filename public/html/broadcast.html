@@ -33,7 +33,7 @@
             </md-toolbar>
             <md-content scroll-glue flex=100 md-whiteframe=7 > 
                 <md-list>
-                    <md-list-item layout-padding layout="row" layout-wrap ng-repeat="broadcast in broadcastCollection">
+                    <md-list-item style="margin-bottom: 4px" layout-padding layout="row" layout-wrap ng-repeat="broadcast in broadcastCollection">
 						<md-list-item class="md-3-line">
 							<small class="md-avatar">
 								 <ng-letter-avatar width=42 height=42 shape="round" data={{broadcast.channel}}></ng-letter-avatar>
@@ -43,7 +43,7 @@
 								<h4>{{broadcast.department+" "+ broadcast.post}}</h4>
 								<h4>{{broadcast.channel+" Channel"}}</h4>
 								<h5 style="margin-bottom:8px; font-weight:500;">{{broadcast.title}}</h5>
-								<p>{{broadcast.message}}</p>
+								<p style=" overflow-x: hidden;white-space: pre-wrap">{{broadcast.message}}</p>
 							</div>
 							<md-divider></md-divider>
 						</md-list-item>
@@ -74,72 +74,3 @@
         </div>
     </div>
 </div>
-
-<!--
-	
-
-<div>
-		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		
-		<div class="row">
-			<div class="col-md-10" style="padding-top: 18px">
-				<div class="panel panel-default chat">
-					<div style="padding-left:15px; padding-right:15px;">
-						<div class="row" >
-							<div class="col-md-6 col-xs-6" >
-								<div class="panel-heading" id="accordion"><svg class="glyph stroked sound on" ><use xlink:href="#stroked-sound-on"/></svg>Broadcasts</div>
-							</div>
-							<div class="col-md-6">
-										<div class="dropdown pull-right" style="padding:15px">
-												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border-color: #0995f9;min-width: 90px" ng-init="currentFilter='All'">
-													{{currentFilter}}
-													<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-													<li ng-repeat="channel in channels"><a ng-click=filterSelected(channel)>{{channel}}</a></li>
-													<li role="separator" class="divider stock"></li>
-													<li><a ng-click=filterSelected('All')>All</a></li>
-												</ul>
-										</div>
-				
-								
-							</div>
-						</div>
-					</div>
-					
-
-					<div scroll-glue class="panel-body">
-						<ul ng-repeat="broadcast in broadcastCollection" class="chatul">
-
-							<li class="left clearfix chatulli">
-								<span class="chat-img pull-left">
-									<img src="/res/icon_place_holder.png" style="width:66px;height:66px" alt="Channel Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header">
-										<strong class="primary-font" ng-bind="broadcast.userName"></strong> <small class="text-muted" ng-bind="broadcast.timestamp"></small><br>
-										<label class="label-primary" style="color:white;border-radius:10px;padding:4px; font-size: 12px">{{broadcast.department}}</label>
-										<label class="label-primary" style="font-size: 12px;color:white;border-radius:10px;padding:4px">{{broadcast.post}}</label><br>
-										<label class="label-success" style="color:white;border-radius:10px;padding:4px; font-size: 12px">{{broadcast.channel}}</label>
-									</div>
-									<br>
-									<p><b ng-bind="broadcast.title"></b></p><br>
-									<p style="white-space: pre-wrap" ng-bind="broadcast.message">
-									</p>
-								</div>
-							</li>
-							
-						</ul>
-					</div>
-			
-					<div class="panel-footer">
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>	
-
-</div>
--->

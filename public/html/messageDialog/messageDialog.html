@@ -11,7 +11,11 @@
     <md-dialog-content flex >
       <div layout="column" class="md-dialog-content">
         <h2 flex=10 >{{currentMessage.subject}}</h2>
-        <p flex =90>{{currentMessage.message}}</p>
+        <div flex =90>
+            <p style="white-space: pre-wrap">
+            {{currentMessage.message}}
+            </p>
+        </div>
       </div>
     </md-dialog-content>
 

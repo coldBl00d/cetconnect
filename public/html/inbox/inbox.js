@@ -103,6 +103,9 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
 
     messaging.showMessage = function(message, inbox, $scope) {
         console.log('Show message');
+        //var temp_string = new String(message.message);
+        //temp_string = temp_string.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
+        //message.message = temp_string;
         $scope.currentMessage = message;
         $scope.cancel = function(){$mdDialog.hide();}
         getMessageFromServer(message.id, $scope,inbox, function(){
