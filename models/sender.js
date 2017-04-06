@@ -13,6 +13,11 @@ var senderSchema = new mongoose.Schema({
 		required: true
 	},
 
+	recipientName:{
+		type:String, 
+		required: true
+	},
+
 	recipientId : {
         type:String,
         required: true
