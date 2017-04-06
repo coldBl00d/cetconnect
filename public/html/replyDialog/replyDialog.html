@@ -1,0 +1,44 @@
+
+<md-dialog style="min-height: 70%; min-width: 90%" layout="column" layout-align="stretch">
+
+    
+        <md-toolbar flex="nogrow" layout="row">
+                        <md-icon style="padding:6px">reply</md-icon>
+                        <h2 flex="95" class="md-title ContentTitle">Reply</h2>
+        </md-toolbar>
+
+        
+            <md-content layout="row" layout-padding flex=100  style="margin: 8px"> 
+            <form flex layout="column">
+
+                    <div layout ="row" layout-align="start start" class = "form-group">
+                        <md-icon class="FormIcon">edit</md-icon>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label >Subject</label>
+                        <input ng-model="reply.subject">
+                        </md-input-container> 
+                    </div>
+
+
+                    <div flex layout ="row" layout-align="start stretch" class = "form-group">
+                        <md-icon class="FormIcon">email</md-icon>
+                        <md-input-container flex class="md-block">
+                            <label>Message</label>
+                            <textarea ng-model="reply.message" md-maxlength="1500" rows="6" md-select-on-focus></textarea>
+                        </md-input-container>
+                    </div>
+
+            </form>
+            </md-content>
+
+            <md-dialog-actions layout="row">
+                    <span flex></span>
+                    <md-button class="md-primary" ng-click='replyToMessage()'>
+                        Reply
+                    </md-button>
+                    <md-button ng-click='cancel()'>
+                        Cancel
+                    </md-button>
+             </md-dialog-actions>
+        
+</md-dialog>

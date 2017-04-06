@@ -56,6 +56,7 @@ messagesHelper.getMessagesMetadata = function(me, rModel, callBack){
                                 subject: message.subject,
                                 timestamp:message.timestamp,
                                 id:message._id,
+                                senderId: message.senderId
                                 
                             }
                             messageList.push(messageListEntry);

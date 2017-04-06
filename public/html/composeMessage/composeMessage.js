@@ -24,6 +24,7 @@ application.factory('$querySearch', function($http){
 application.factory('$sendMessage', function($http, $mdToast){
 
     function send(message, $scope) {
+        console.log(message);
         $http.post(address+'messages/send', {message:message})
              .then(function(res){
                  if(res.status == 200){

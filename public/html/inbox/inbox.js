@@ -1,8 +1,30 @@
-application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging){
+application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging, $mdDialog, $http, $mdToast){
     $validateLogin();
     $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
     $scope.delete = function(id){$messaging.deleteMessage(id, true);}
+    $scope.replyMessage = function(message){ $messaging.replyMessage(message, $scope); }
+    $scope.cancel = function(){$mdDialog.hide();}
+    $scope.replyToMessage = function (){
+        console.log($scope.reply);
+        $http.post(address+'messages/send', {message:$scope.reply})
+             .then(function(res){
+                 if(res.status == 200){
+                     $mdToast.show($mdToast.simple().textContent('Message Sent'));
+                     $mdDialog.hide();
+                 }else{
+                     console.log("message not sent");
+                     $mdToast.show($mdToast.simple().textContent('Message not sent.'));
+                 }
+             })
+             .catch(function(err){
+                 $mdToast.show($mdToast.simple().textContent('Message not sent.'));
+        });
+    }
+
+    $scope.newReply = function (message){
+        $messaging.replyMessage(message, $scope);
+    }
 
 });
 
@@ -65,7 +87,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
 
                 callBack(messages);
             }
-            return null;
+            
         }).catch(function(err){ 
             $mdToast.show($mdToast.simple().textContent('Error loding message.'));
         });
@@ -104,7 +126,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
     messaging.showMessage = function(message, inbox, $scope) {
         console.log('Show message');
         $scope.currentMessage = message;
-        $scope.cancel = function(){$mdDialog.hide();}
+      
         getMessageFromServer(message.id, $scope,inbox, function(){
             $mdDialog.show({
                 templateUrl: 'html/messageDialog/messageDialog.html',
@@ -137,10 +159,39 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         }
     }
 
+    function replyMessage (message, $scope){
+        $scope.reply = {};
+        $mdDialog.show({
+            templateUrl: 'html/replyDialog/replyDialog.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose:true,
+            scope:$scope,
+            preserveScope:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+        },function() {
+            console.log("cancelled dialog");
+        });
+
+        console.log(message);
+        $scope.reply.timestamp = new Date();
+        $scope.reply.senderName = $rootScope.currentUser.name;
+        $scope.reply.recipientId = message.senderId;
+        $scope.reply.senderId = $rootScope.currentUser.userId;
+        $scope.reply.senderName = $rootScope.currentUser.name;
+        $scope.reply.recipientName = message.senderName;
+
+
+        console.log($scope.reply);
+
+    }
+
     messaging.loadMessageMetadata = loadMessageMetadata;
     messaging.getLoadedInbox = getLoadedInbox;
     messaging.getLoadedSent = getLoadedSent;
     messaging.deleteMessage = deleteMessage;
+    messaging.replyMessage = replyMessage;
     return messaging;
 });
 
