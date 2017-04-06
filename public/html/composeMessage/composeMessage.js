@@ -17,7 +17,7 @@ application.factory('$querySearch', function($http){
 
     }
 
-    return search
+    return search;
 
 })
 
@@ -56,7 +56,7 @@ application.controller('messageController',function($scope, $rootScope, $querySe
         $scope.message.senderId = $rootScope.currentUser.userId;
         $scope.message.timestamp = new Date();
         $scope.message.senderName = $rootScope.currentUser.name;
-        console.log($scope.message);
+        $scope.message.recipientName = $scope.selectedItem.name;
         $sendMessage($scope.message, $scope);
     }
 

@@ -55,7 +55,8 @@ messagesHelper.getMessagesMetadata = function(me, rModel, callBack){
                                 senderName: message.senderName,
                                 subject: message.subject,
                                 timestamp:message.timestamp,
-                                id:message._id
+                                id:message._id,
+                                
                             }
                             messageList.push(messageListEntry);
                         });
@@ -67,10 +68,10 @@ messagesHelper.getMessagesMetadata = function(me, rModel, callBack){
                         var messageList = [];
                         messages.forEach(function(message){
                             var messageListEntry = {
-                                senderName: message.senderName,
                                 subject: message.subject,
                                 timestamp:message.timestamp,
-                                id:message._id
+                                id:message._id,
+                                recipientName: message.recipientName
                             }
                             messageList.push(messageListEntry);
                         });

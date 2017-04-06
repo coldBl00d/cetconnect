@@ -22,7 +22,11 @@ var recieverSchema = new mongoose.Schema({
         required: true
     },
 
-	subject:{
+	subject:{recipientName:{
+		type:String, 
+		required: true
+	},
+
 		type:String,
 		required:true
 	},
