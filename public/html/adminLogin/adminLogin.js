@@ -6,16 +6,15 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
     };
 
     scope.payload = payload;
-
+    
     scope.login = function () {
         http.post(address+'admin', payload)
         .then(function(res){
             if(res.status == 200){
                 rootScope.adminToken = res.adminToken;
-                console.log(res.data); 
                 //add view here 
                // $state.go();
-            }else{
+            }else if(res.status == 501) {
                 mdToast.show(mdToast.simple().textContent("Check credential"));
             }
         })
@@ -24,7 +23,6 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
             mdToast.show(mdToast.simple().textContent("Something went wrong"));
         });
     }    
-
 }]);
 
 

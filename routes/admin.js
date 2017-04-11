@@ -19,7 +19,7 @@ router.post('/', function(req, res, next){
             res.status(200).json({adminToken:result}).end();
         }else{
             console.log("userid and password doesnt checkout");
-            res.status(400).end();
+            res.status(501).end();
         }
     });
 
