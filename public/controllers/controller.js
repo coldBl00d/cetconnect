@@ -114,6 +114,10 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	     url:'/setItems',
 		 templateUrl:'html/sent/sent.html',
 		 controller:'sentItemsController'
+	 }).state('adminConsoleLogin', {
+		 url:'/admin', 
+		 templateUrl:'html/adminLogin/adminLogin.html',
+		 controller:'adminLogin'
 	 });
 	 
 }]);
