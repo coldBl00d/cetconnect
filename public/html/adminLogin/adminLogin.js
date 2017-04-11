@@ -1,4 +1,4 @@
-application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast', function(rootScope, scope, http, mdToast){
+application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast', '$state', function(rootScope, scope, http, mdToast, state){
     rootScope.hidesidebar = true;
     var payload = {
         userId: "", 
@@ -12,7 +12,7 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
         .then(function(res){
             if(res.status == 200){
                 rootScope.adminToken = res.adminToken;
-               // $state.go();
+                state.go('adminDash');
             }else if(res.status == 201) {
                 mdToast.show(mdToast.simple().textContent("Check credential"));
             }

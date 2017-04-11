@@ -118,6 +118,10 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 		 url:'/admin', 
 		 templateUrl:'html/adminLogin/adminLogin.html',
 		 controller:'adminLogin'
+	 }).state('adminDash',{
+		 url:'/dash',
+		 templateUrl:'html/adminDash/dash.html',
+		 controller:'dashController'
 	 });
 	 
 }]);
