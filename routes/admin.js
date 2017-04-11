@@ -11,15 +11,11 @@ var adminHelper = require('../helper/adminHelper');
 router.post('/', function(req, res, next){
 
     var userId = req.body.userId;
-    var password = req.body.password; 
-    console.log(req.body);
+    var password = req.body.password;
     var loginToken = md5(userId + password + serverKey);
-    console.log(loginToken);
     adminHelper.findAdmin(userId, loginToken, function(result){
         if(result){
-            console.log(result);
             systemVariables.adminToken = result;
-            console.log(systemVariables);
             res.status(200).json({adminToken:result}).end();
         }else{
             res.status(400).end();
@@ -28,5 +24,26 @@ router.post('/', function(req, res, next){
 
 });
 
+router.post('/changePassword', function(req, res, next){
+
+    var userId = req.body.userId;
+    var newPassword = req.body.newPassword;
+    var adminToken = req.body.adminToken; 
+
+    if(adminToken == systemVariables.adminToken){
+        var newToken = md5(userId+newPassword+serverKey);
+        adminHelper.changeLoginToken(userId, newToken, function(result){
+            if(result){
+                res.json(200).end();
+            }else{
+                res.json(401).end();
+            }
+        });
+    }else{
+        console.log(header, "You are not an admin or your session is overridden by someone");
+        res.json({message: "Your token is invalid"}).status(400).end();
+    }
+
+});
 
 module.exports = router; 
