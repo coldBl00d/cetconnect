@@ -17,6 +17,6 @@ var schemaFormat = {
 };
 
 var adminSchema = new mongoose.Schema(schemaFormat);
-var adminModel = mongoose.model(adminSchema);
+var adminModel = mongoose.model('admin',adminSchema);
 module.exports = adminModel;
 

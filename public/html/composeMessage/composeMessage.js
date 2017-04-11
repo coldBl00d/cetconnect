@@ -38,6 +38,10 @@ application.factory('$sendMessage', function($http, $mdToast){
                      $mdToast.show($mdToast.simple().textContent('Message not sent.'));
                  }
              })
+             .catch(function(err){
+                 $mdToast.show($mdToast.simple().textContent('Message not sent.'));
+                 
+             });
     }
 
     return send;

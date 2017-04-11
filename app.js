@@ -32,7 +32,7 @@ var broadcast = require('./routes/broadcast');
 var channel = require('./routes/channels.js');
 var messages = require('./routes/messages.js');
 var register = require('./routes/register');
-
+var admin = require('./routes/admin');
 /****************************************** */
 
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +52,7 @@ app.use('/broadcast',broadcast);
 app.use('/channel',channel);
 app.use('/messages', messages);
 app.use('/register', register);
-
+app.use('/admin', admin);
 
 //'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847'
 
@@ -77,5 +77,6 @@ if(heroku){
 server.listen(port, function(){
     console.log('Campus connect running at '+ port);
 });
+
 
 
