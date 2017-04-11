@@ -12,13 +12,13 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
         .then(function(res){
             if(res.status == 200){
                 rootScope.adminToken = res.adminToken;
-                //add view here 
                // $state.go();
-            }else if(res.status == 501) {
+            }else if(res.status == 201) {
                 mdToast.show(mdToast.simple().textContent("Check credential"));
             }
         })
         .catch(function(err) {
+            console.log("Something is wrong");
             console.log(err);
             mdToast.show(mdToast.simple().textContent("Something went wrong"));
         });

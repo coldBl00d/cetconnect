@@ -18,8 +18,9 @@ router.post('/', function(req, res, next){
             systemVariables.adminToken = result;
             res.status(200).json({adminToken:result}).end();
         }else{
-            console.log("userid and password doesnt checkout");
-            res.status(501).end();
+            console.log(header,"userid and password doesnt checkout");
+            res.statusText = "Credential Error";
+            res.status(201).end();
         }
     });
 
