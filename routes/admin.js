@@ -26,6 +26,16 @@ router.post('/', function(req, res, next){
 
 });
 
+router.post('/validate', function(req, res, next){
+    console.log('inside validate');
+    var adminToken = req.body.adminToken;
+    if(systemVariables.adminToken == adminToken){
+        res.status(200).end();
+    }else{
+        res.status(201).end();
+    }
+});
+
 router.post('/changePassword', function(req, res, next){
 
     var userId = req.body.userId;

@@ -1,4 +1,4 @@
-var application=angular.module("myApp",['ngMessages','ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar']);
+var application=angular.module("myApp",['ngMessages','ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar', 'material.components.expansionPanels']);
 var address = 'http://localhost:3000/';
 var socket;
 //var address = 'https://blooming-reaches-58473.herokuapp.com/';
