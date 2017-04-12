@@ -38,6 +38,10 @@ var userSchema = new mongoose.Schema({
 		type: String
 	},
 
+	batch : {
+		type: Integer
+	},
+
 	regTime:{
 		type:Date,
 		required: true
