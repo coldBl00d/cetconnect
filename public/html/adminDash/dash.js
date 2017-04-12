@@ -19,11 +19,14 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
                 state.go('adminConsoleLogin');
             });
         }else{
+            return false;
             state.go('adminConsoleLogin');
         }
     }
 
     validateAdmin.stay = function(){
+        console.log(validateAdmin.validate());
+        
         if(validateAdmin.validate()){
             state.go('adminDash');
         }else{
@@ -37,7 +40,9 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
 }]);
 
 application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin', function(rootscope, scope, http, validateAdmin){
-
     validateAdmin.stay();
+    console.log('This is inside dashController');
+    console.log('working');
+    
 
 }]);
