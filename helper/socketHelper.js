@@ -14,10 +14,15 @@ module.exports = socketHelper;
 
 io.on('connection', function(socket){ 
     console.log('client Connected ');
-    
+    socket.emit('identifyYourself');
+
     socket.on('identify', function(id){
-        console.log("Identifying:"+ id);
-        clients.set(socket, id);    
+        if(id){
+            console.log("Identifying:"+ id);
+            clients.set(socket, id);
+        }else{
+            socket.emit("identifyYourself");
+        }    
     });
 
     socket.on('disconnect', function(){

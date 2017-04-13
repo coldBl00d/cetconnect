@@ -10,15 +10,20 @@ application.factory('$socket', function($messaging, $rootScope,$mdToast){
             $messaging.loadMessageMetadata(true, function(messages){console.log('loadMessage Fired, completed loading messages');});
     });
 
+    //this guy is new -- note to keku
+    socket.on('identifyYourself', function(data){
+        console.log(header,'Server asked to identify');
+        console.log(header,'Identifying as '+ $rootScope.currentUser.userId);
+        socketFactory.identify($rootScope.currentUser.userId);
+    });
+
     function getSocket(){
         return socket;
     }
 
+    //this function changed -- note to keku when implementing sockets
     function identify(userId){
-        if($rootScope.identify == undefined){
-            socket.emit('identify', userId);
-            $rootScope.identify = true;
-        }
+        socket.emit('identify', userId);
     }
 
     socket.on('newMessage', function(){

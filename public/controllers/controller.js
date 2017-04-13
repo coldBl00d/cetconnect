@@ -12,8 +12,9 @@ application.factory('$validateLogin',function($rootScope,$window,$socket){
 		 	$window.location.href = address;
 		}else{
 			$rootScope.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-            $rootScope.loggedIn = loggedIn; 
-			$socket.identify($rootScope.currentUser.userId);
+            $rootScope.loggedIn = loggedIn;
+			//make sure this is commented -- keku 
+			//$socket.identify($rootScope.currentUser.userId);
 		}
 	}
 
