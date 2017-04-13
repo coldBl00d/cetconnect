@@ -29,12 +29,12 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
     validateAdmin.stay = function(callback){
         
         validateAdmin.validate(function(result){
-            if(result){
+            if(true){ //change this to result
                 state.go('adminDash');
             }else{
                 state.go('adminConsoleLogin');
             }
-            callback(result);
+            callback(true); //change this to result
         });
     }
 
@@ -45,6 +45,11 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
 
 application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel', function(rootscope, scope, http, validateAdmin, mdExpansionPanel){
     var header = "[dashController]";
+    var onlineList = ['s1304', 's1302', 's1303', 's1301','s1310', 's1311','s1333'];
+    var onlineCount = 10;
+    var registeredCount =40;
+    var openRegistration = false;
+    rootscope.hidesidebar = true;
 
     validateAdmin.stay(function(result){
         if(result){
@@ -56,14 +61,16 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
             //     console.log('done with initialising panel instance');
             // });
             
-            mdExpansionPanel('Users').expand();
-            mdExpansionPanel('Channels').expand();
-            mdExpansionPanel('Database').expand();
-            mdExpansionPanel('OnlineUsers').expand();
+           // mdExpansionPanel('Users').expand();
+           // mdExpansionPanel('Channels').expand();
+           // mdExpansionPanel('Database').expand();
+           // mdExpansionPanel('OnlineUsers').expand();
         }
     });
     
-    
-
+    scope.registeredCount = registeredCount;
+    scope.openRegistration = openRegistration;
+    scope.onlineList = onlineList;   
+    scope.onlineCount = onlineCount;
 }]);
 
