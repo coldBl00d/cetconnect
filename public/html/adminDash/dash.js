@@ -1,5 +1,5 @@
 application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(rootscope, state, http){
-
+    
     var validateAdmin = {};
     
     validateAdmin.validate = function(callback) {
@@ -44,6 +44,8 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
 }]);
 
 application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel', function(rootscope, scope, http, validateAdmin, mdExpansionPanel){
+    var header = "[dashController]";
+
     validateAdmin.stay(function(result){
         if(result){
             // mdExpansionPanel().waitFor('panelOne').then(function (instance) {
@@ -60,9 +62,8 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
             mdExpansionPanel('OnlineUsers').expand();
         }
     });
-    console.log('This is inside dashController');
-    console.log('working');
     
     
 
 }]);
+

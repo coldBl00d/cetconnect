@@ -2,9 +2,11 @@ application.factory('$socket', function($messaging, $rootScope,$mdToast){
     
     var socketFactory = {};
     var socket = io.connect();
+    var header = '[socketService]';
+    
 
     socket.on('loadMessage', function(data){
-            console.log('Firing');
+            console.log(header,'Event loadmessage recieved from server');
             $messaging.loadMessageMetadata(true, function(messages){console.log('loadMessage Fired, completed loading messages');});
     });
 
