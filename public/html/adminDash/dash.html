@@ -2,197 +2,255 @@
   <div  layout="column" flex=100 layout-align="start" style="max-width: 80%;" >
     <md-expansion-panel-group md-component-id="panelGroup" multiple>
 
-    <md-expansion-panel md-component-id="Users">
-  
-    <md-expansion-panel-collapsed>
-      <div class="md-title">Users</div>
-      <div class="md-summary">Add and remove users, registration controll, etc...</div>
-      <md-expansion-panel-icon></md-expansion-panel-icon>
-    </md-expansion-panel-collapsed>
-  
-  
-    <md-expansion-panel-expanded>
-  
-      <md-expansion-panel-header md-no-sticky="true">
-        <div class="md-title">Users</div>
-        <div class="md-summary"></div>
-        <md-expansion-panel-icon></md-expansion-panel-icon>
-      </md-expansion-panel-header>
-  
-      <md-expansion-panel-content>
+        <md-expansion-panel md-component-id="Users">
         
-          <div layout="row" layout-align="center" > 
-            <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px;"> 
-
-              <div flex=20 style="background-color: #9C27B0; border-top-left-radius: 6px; border-top-right-radius: 6px">
-                <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Manage</h1> 
-              </div>
-
-              <md-card flex=30 layout="column" style="padding-top:10px" >
-                <div layout="row" flex> 
-                  <h3 style="padding: 8px; font-size: 16px" class="md-body-2" flex=70>Registered Users:    {{registeredCount}}</h3>
-                </div>
-                <div layout="row" flex>
-                  <h3 style="padding: 8px; font-size: 16px" class="md-body-2" flex=70>Open Registration</h3>
-                  <div  style="margin-right:30px">
-                    <md-switch ng-change="registrationChange()"
-                        ng-model="openRegistration"
-                        aria-label="open registration">
-                    </md-switch>
-                  </div>
-                </div>
-
-              </md-card>
+              <md-expansion-panel-collapsed>
+                <div class="md-title">Users</div>
+                <div class="md-summary">Add and remove users, registration controll, etc...</div>
+                <md-expansion-panel-icon></md-expansion-panel-icon>
+              </md-expansion-panel-collapsed>
             
-              <md-card flex=30 layout="column">
+            
+              <md-expansion-panel-expanded>
+            
+                <md-expansion-panel-header md-no-sticky="true">
+                  <div class="md-title">Users</div>
+                  <div class="md-summary"></div>
+                  <md-expansion-panel-icon></md-expansion-panel-icon>
+                </md-expansion-panel-header>
+            
+                <md-expansion-panel-content>
+                  
+                    <div layout="row" layout-align="center" > 
+                      <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px;"> 
 
-                <div layout="row" flex>
+                        <div flex=20 style="background-color: #9C27B0; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Manage</h1> 
+                        </div>
 
-                    <md-button flex class="md-raised md-primary">Add User</md-button>
-                    <md-button flex class="md-raised md-warn">Delete User</md-button>
+                        <md-card flex=30 layout="column" style="padding-top:10px" >
+                          <div layout="row" flex> 
+                            <h3 style="padding: 8px; font-size: 16px" class="md-body-2" flex=70>Registered Users:    {{registeredCount}}</h3>
+                          </div>
+                          <div layout="row" flex>
+                            <h3 style="padding: 8px; font-size: 16px" class="md-body-2" flex=70>Open Registration</h3>
+                            <div  style="margin-right:30px">
+                              <md-switch ng-change="registrationChange()"
+                                  ng-model="openRegistration"
+                                  aria-label="open registration">
+                              </md-switch>
+                            </div>
+                          </div>
 
-                </div>
+                        </md-card>
+                      
+                        <md-card flex=30 layout="column">
 
-                <div layout="row" flex>
-                    <md-input-container style="margin-left: 6px" class="md-block" flex>
-                          <label>Batch Year</label>
-                      <input ng-model="batchYear">
-                      </md-input-container> 
-                    <md-button flex style="background-color: #D50000" class="md-raised">Delete Batch</md-button>
-                </div>
+                          <div layout="row" flex>
 
-              </md-card>
+                              <md-button flex class="md-raised md-primary">Add User</md-button>
+                              <md-button flex class="md-raised md-warn">Delete User</md-button>
 
-            </md-card>
-            <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px" layout-align = "start">
-                <div layout="column" flex=20 style="background-color: #E91E63; margin-bottom: 6px;
-                  border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px">
-                    <h1 class="md-heading" style="color: ghostwhite" flex>Online Users:{{onlineCount}}</h1>
-                </div>
-                <div flex=80 style="max-height: 300px; max-width: 500px; overflow-y: scroll; border-color: grey">
-                    <md-list>
-                          <md-list-item  ng-repeat="user in onlineList">
-                              <div>
-                                <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                          </div>
+
+                          <div layout="row" flex>
+                              <md-input-container style="margin-left: 6px" class="md-block" flex>
+                                    <label>Batch Year</label>
+                                <input ng-model="batchYear">
+                                </md-input-container> 
+                              <md-button flex style="background-color: #D50000" class="md-raised">Delete Batch</md-button>
+                          </div>
+
+                        </md-card>
+
+                      </md-card>
+                      <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px" layout-align = "start">
+                          <div layout="column" flex=20 style="background-color: #E91E63; margin-bottom: 6px;
+                            border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px">
+                              <h1 class="md-heading" style="color: ghostwhite" flex>Online Users:{{onlineCount}}</h1>
+                          </div>
+                          <div flex=80 style="max-height: 300px; max-width: 500px; overflow-y: scroll; border-color: grey">
+                              <md-list>
+                                    <md-list-item  ng-repeat="user in onlineList">
+                                        <div>
+                                          <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                                        </div>
+                                        <div>
+                                          <h5 class="md-body-2" flex=90>{{user}}</h5>
+                                        </div>
+                                      <md-divider></md-divider>
+                                    </md-list-item>
+                              </md-list>
+                          </div>
+                          
+                      </md-card>
+                    </div>
+
+                </md-expansion-panel-content>
+            
+                <md-expansion-panel-footer md-no-sticky="true">
+                  <div flex></div>
+                  <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
+                </md-expansion-panel-footer>
+            
+              </md-expansion-panel-expanded>
+            
+        </md-expansion-panel>
+
+        <md-expansion-panel md-component-id="Channels">
+        
+          <md-expansion-panel-collapsed>
+            <div class="md-title">Channels</div>
+            <div class="md-summary">Manage channels and their moderators...</div>
+            <md-expansion-panel-icon></md-expansion-panel-icon>
+          </md-expansion-panel-collapsed>
+        
+        
+          <md-expansion-panel-expanded>
+        
+            <md-expansion-panel-header md-no-sticky="true">
+              <div class="md-title">Channels</div>
+              <div class="md-summary"></div>
+              <md-expansion-panel-icon></md-expansion-panel-icon>
+            </md-expansion-panel-header>
+        
+            <md-expansion-panel-content>
+              
+                <div layout="row" layout-align="center" > 
+                      <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px;"> 
+
+                        <div flex=20 style="background-color: #9C27B0; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Add Channel</h1> 
+                        </div>
+
+                        <md-card layout="column" style="padding:6px " flex>
+
+                              <div layout="row" flex=25 > 
+                                <md-icon flex=10>rss_feed</md-icon>
+                                <md-input-container style="margin-left: 6px" class="md-block" flex>
+                                    <label>Channel Name</label>
+                                <input ng-model="channelPayload.channelName">
+                                </md-input-container> 
                               </div>
-                              <div>
-                                <h5 class="md-body-2" flex=90>{{user}}</h5>
+
+                              <div layout="row" flex=25 > 
+                                <md-icon flex=10>face</md-icon>
+                                <md-input-container style="margin-left: 6px" class="md-block" flex>
+                                    <label>Admin</label>
+                                <input ng-model="channelPayload.channelName">
+                                </md-input-container> 
+                                <md-button>Verify</md-button>
                               </div>
-                            <md-divider></md-divider>
-                          </md-list-item>
-                    </md-list>
+                              
+                            <div layout="column" flex=15>
+                              <md-button class="md-raised md-primary">Add</md-button>
+                            </div>
+
+                        </md-card>
+
+                      </md-card>
+                      <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px" layout-align = "start">
+                          <div layout="column" flex=20 style="background-color: #E91E63; margin-bottom: 6px;
+                            border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px">
+                              <h1 class="md-heading" style="color: ghostwhite" flex>Channels :{{channelCount}}</h1>
+                          </div>
+                          <div flex=80 style="max-height: 300px; max-width: 500px; overflow-y: scroll; border-color: grey">
+                              <md-list>
+                                    <md-list-item  ng-repeat="channel in channelList">
+                                        <div flex=10>
+                                          <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                                        </div>
+                                        <div flex=75>
+                                          <h5 class="md-body-2" flex=90>{{channel}}</h5>
+                                        </div>
+                                        <md-icon style="color:green" flex=5>add</md-icon>
+                                        <md-icon style="color: mediumvioletred" flex=5>clear</md-icon>
+                                        <md-icon style="color: red" flex=5>delete</md-icon>
+                                      <md-divider></md-divider>
+                                    </md-list-item>
+                              </md-list>
+                          </div>
+                          
+                      </md-card>
                 </div>
-                
-            </div>
-          </md-card>
 
-      </md-expansion-panel-content>
-  
-      <md-expansion-panel-footer md-no-sticky="true">
-        <div flex></div>
-        <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
-      </md-expansion-panel-footer>
-  
-    </md-expansion-panel-expanded>
-  
-  </md-expansion-panel>
+            </md-expansion-panel-content>
+        
+            <md-expansion-panel-footer md-no-sticky="true">
+              <div flex></div>
+              <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
+            </md-expansion-panel-footer>
+        
+          </md-expansion-panel-expanded>
+        
+        </md-expansion-panel>
 
-  <md-expansion-panel md-component-id="Channels">
-  
-    <md-expansion-panel-collapsed>
-      <div class="md-title">Channels</div>
-      <div class="md-summary">Manage channels and their moderators...</div>
-      <md-expansion-panel-icon></md-expansion-panel-icon>
-    </md-expansion-panel-collapsed>
-  
-  
-    <md-expansion-panel-expanded>
-  
-      <md-expansion-panel-header md-no-sticky="true">
-        <div class="md-title">Channels</div>
-        <div class="md-summary"></div>
-        <md-expansion-panel-icon></md-expansion-panel-icon>
-      </md-expansion-panel-header>
-  
-      <md-expansion-panel-content>
-        <h4>Content</h4>
-        <p>Put content in here</p>
-      </md-expansion-panel-content>
-  
-      <md-expansion-panel-footer md-no-sticky="true">
-        <div flex></div>
-        <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
-      </md-expansion-panel-footer>
-  
-    </md-expansion-panel-expanded>
-  
-  </md-expansion-panel>
+        
 
-  </md-expansion-panel>
+        <md-expansion-panel md-component-id="OnlineUsers">
+        
+          <md-expansion-panel-collapsed>
+            <div class="md-title">Online Users</div>
+            <div class="md-summary">View current online users.</div>
+            <md-expansion-panel-icon></md-expansion-panel-icon>
+          </md-expansion-panel-collapsed>
+        
+        
+          <md-expansion-panel-expanded>
+        
+            <md-expansion-panel-header md-no-sticky="true">
+              <div class="md-title">Online Users</div>
+              <div class="md-summary"></div>
+              <md-expansion-panel-icon></md-expansion-panel-icon>
+            </md-expansion-panel-header>
+        
+            <md-expansion-panel-content>
+              <h4>Content</h4>
+              <p>Put content in here</p>
+            </md-expansion-panel-content>
+        
+            <md-expansion-panel-footer md-no-sticky="true">
+              <div flex></div>
+              <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
+            </md-expansion-panel-footer>
+        
+          </md-expansion-panel-expanded>
+        
+        </md-expansion-panel>
 
-  <md-expansion-panel md-component-id="OnlineUsers">
-  
-    <md-expansion-panel-collapsed>
-      <div class="md-title">Online Users</div>
-      <div class="md-summary">View current online users.</div>
-      <md-expansion-panel-icon></md-expansion-panel-icon>
-    </md-expansion-panel-collapsed>
-  
-  
-    <md-expansion-panel-expanded>
-  
-      <md-expansion-panel-header md-no-sticky="true">
-        <div class="md-title">Online Users</div>
-        <div class="md-summary"></div>
-        <md-expansion-panel-icon></md-expansion-panel-icon>
-      </md-expansion-panel-header>
-  
-      <md-expansion-panel-content>
-        <h4>Content</h4>
-        <p>Put content in here</p>
-      </md-expansion-panel-content>
-  
-      <md-expansion-panel-footer md-no-sticky="true">
-        <div flex></div>
-        <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
-      </md-expansion-panel-footer>
-  
-    </md-expansion-panel-expanded>
-  
-  </md-expansion-panel>
+      
 
-  </md-expansion-panel>
+        <md-expansion-panel md-component-id="Database">
+        
+          <md-expansion-panel-collapsed>
+            <div class="md-title">Database</div>
+            <div class="md-summary">Manage database and view its status, change routine parameters ...</div>
+            <md-expansion-panel-icon></md-expansion-panel-icon>
+          </md-expansion-panel-collapsed>
+        
+        
+          <md-expansion-panel-expanded>
+        
+            <md-expansion-panel-header md-no-sticky="true">
+              <div class="md-title">Database</div>
+              <div class="md-summary"></div>
+              <md-expansion-panel-icon></md-expansion-panel-icon>
+            </md-expansion-panel-header>
+        
+            <md-expansion-panel-content>
+              <h4>Content</h4>
+              <p>Put content in here</p>
+            </md-expansion-panel-content>
+        
+            <md-expansion-panel-footer md-no-sticky="true">
+              <div flex></div>
+              <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
+            </md-expansion-panel-footer>
+        
+          </md-expansion-panel-expanded>
+        
+        </md-expansion-panel>
 
-  <md-expansion-panel md-component-id="Database">
-  
-    <md-expansion-panel-collapsed>
-      <div class="md-title">Database</div>
-      <div class="md-summary">Manage database and view its status, change routine parameters ...</div>
-      <md-expansion-panel-icon></md-expansion-panel-icon>
-    </md-expansion-panel-collapsed>
-  
-  
-    <md-expansion-panel-expanded>
-  
-      <md-expansion-panel-header md-no-sticky="true">
-        <div class="md-title">Database</div>
-        <div class="md-summary"></div>
-        <md-expansion-panel-icon></md-expansion-panel-icon>
-      </md-expansion-panel-header>
-  
-      <md-expansion-panel-content>
-        <h4>Content</h4>
-        <p>Put content in here</p>
-      </md-expansion-panel-content>
-  
-      <md-expansion-panel-footer md-no-sticky="true">
-        <div flex></div>
-        <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
-      </md-expansion-panel-footer>
-  
-    </md-expansion-panel-expanded>
-  
-  </md-expansion-panel>
   </md-expansion-panel-group>
   <div>
 <div>
