@@ -29,12 +29,12 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
     validateAdmin.stay = function(callback){
         
         validateAdmin.validate(function(result){
-            if(true){ //change this to result
+            if(result){ //change this to result
                 state.go('adminDash');
             }else{
                 state.go('adminConsoleLogin');
             }
-            callback(true); //change this to result
+            callback(result); //change this to result
         });
     }
 
@@ -57,18 +57,17 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
 
     validateAdmin.stay(function(result){
         if(result){
-            // mdExpansionPanel().waitFor('panelOne').then(function (instance) {
-            //     instance.expand();
-            //     instance.collapse({animation: false});
-            //     instance.remove();
-            //     instance.isOpen();
-            //     console.log('done with initialising panel instance');
-            // });
+             mdExpansionPanel().waitFor('panelOne').then(function (instance) {
+                 instance.expand();
+                 instance.collapse({animation: false});
+                 instance.remove();
+                 instance.isOpen();
+                 console.log('done with initialising panel instance');
+             });
             
-           // mdExpansionPanel('Users').expand();
-           // mdExpansionPanel('Channels').expand();
-           // mdExpansionPanel('Database').expand();
-           // mdExpansionPanel('OnlineUsers').expand();
+            mdExpansionPanel('Users').expand();
+            mdExpansionPanel('Channels').expand();
+            mdExpansionPanel('Database').expand();
         }
     });
     
