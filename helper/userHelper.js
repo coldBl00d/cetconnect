@@ -84,4 +84,15 @@ userHelper.addUser = function(user, callBack){
     });
 }
 
+userHelper.getCount = function(callBack){
+    userModel.count({},function(err, count){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(count);
+        }
+    });
+}
+
 module.exports = userHelper;

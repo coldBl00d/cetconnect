@@ -128,7 +128,9 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 }]);
 
 application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService){
-	console.log("In my controller");
+	var header = '[LoginController]'
+	console.log(header,'Starting login controller');
+	
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};

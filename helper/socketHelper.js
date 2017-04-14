@@ -1,7 +1,10 @@
 var io = require('../app').io;
 var clients = require('../app').clients;
 var clientHelper = require('./clientHelper');
+var userHelper = require('../helper/userHelper');
 var socketHelper = {};
+var systemVariables = require('../app');
+var header = '[socketHelper]';
 
 function emitToClient(socket, message){
     socket.emit(message);
@@ -26,9 +29,33 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
+        console.log(header,'Disconnected');
         var user = clients.get(socket); //remove this 
-        clients.delete(socket);
-        console.log('Client Disconnected '+user);
+        if(user){
+            clients.delete(socket);
+            console.log('Client Disconnected '+user);
+        }
+    });
+
+    //Identifying admin 
+    socket.on('adminIdentify', function(token){
+        if(token == systemVariables.adminToken){
+            console.log(header,'Admin connected');
+            console.log(header,'Storing admin socket');
+            systemVariables.adminSocket = socket;
+            socket.emit('adminAccepted', {message:"Server connection established"});
+        }else{
+            socket.emit('tokenRejected', {message:"Your token is invalid"});
+        }
+    });
+
+    socket.on('getRegisteredCount', function(data) {
+       console.log(header,'Admin requested RegisteredCount');
+       userHelper.getCount(function(count){
+           console.log(header,'sending '+ count + ' users to admin');
+           
+           socket.emit('registeredCount', {registeredCount: count});
+       });
     });
 
 });

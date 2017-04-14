@@ -73,7 +73,9 @@
                               <md-list>
                                     <md-list-item  ng-repeat="user in onlineList">
                                         <div>
+                                          
                                           <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                                          
                                         </div>
                                         <div>
                                           <h5 class="md-body-2" flex=90>{{user}}</h5>
@@ -163,9 +165,11 @@
                                         <div flex=75>
                                           <h5 class="md-body-2" flex=90>{{channel}}</h5>
                                         </div>
-                                        <md-icon style="color:green" flex=5>add</md-icon>
-                                        <md-icon style="color: mediumvioletred" flex=5>clear</md-icon>
-                                        <md-icon style="color: red" flex=5>delete</md-icon>
+                                        <div layout="row" flex>
+                                        <md-button class="md-icon-button"><md-icon style="color:green" >add</md-icon></md-button>
+                                        <md-button class="md-icon-button"><md-icon style="color: mediumvioletred" >clear</md-icon></md-button>
+                                        <md-button class="md-icon-button"><md-icon style="color: red" >delete</md-icon></md-button>
+                                        </div>
                                       <md-divider></md-divider>
                                     </md-list-item>
                               </md-list>

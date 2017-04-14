@@ -25,6 +25,22 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/admin', function(req, res, next) {
+
+  var options = {root: path.resolve(appDir, 'views')};
+  var fileName = 'admin.html';
+  
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+
+});
+
+
 router.post('/', function(req, res, next){
 
     var userid = req.body.userId;

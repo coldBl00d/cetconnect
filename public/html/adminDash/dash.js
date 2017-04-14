@@ -1,4 +1,4 @@
-application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(rootscope, state, http){
+application.factory('$validateAdmin', ['$rootScope', '$state','$http','$socket', function(rootscope, state, http, socket){
     
     var validateAdmin = {};
     
@@ -20,7 +20,6 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
             });
         }else{
             console.log('Has no admin token redirect to admin login');
-            
             return callback(false);
             state.go('adminConsoleLogin');
         }
@@ -32,6 +31,7 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
             if(result){ //change this to result
                 state.go('adminDash');
             }else{
+                socket.getSocket().disconnect();
                 state.go('adminConsoleLogin');
             }
             callback(result); //change this to result
@@ -43,16 +43,14 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
 
 }]);
 
-application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel', function(rootscope, scope, http, validateAdmin, mdExpansionPanel){
+application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$consoleData', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, consoleData){
     var header = "[dashController]";
-    var onlineList = ['s1304', 's1302', 's1303', 's1301','s1310', 's1311','s1333'];
-    var channelList = ['CGPU','CSE','IEEE','Electronics'];
-    var onlineCount = 10;
-    var registeredCount =40;
-    var openRegistration = false;
-
-    var channelCount = 20;
-
+    var onlineList = consoleData.onlineList;
+    var channelList = consoleData.channelList;
+    var onlineCount = consoleData.onlineList.length;
+    var registeredCount =consoleData.registeredCount;
+    var openRegistration = consoleData.openRegistration
+    var channelCount = consoleData.channelList.length;
     rootscope.hidesidebar = true;
 
     validateAdmin.stay(function(result){
@@ -71,6 +69,8 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
         }
     });
     
+    
+
     scope.channelList = channelList;
     scope.channelCount = channelCount;
     scope.registeredCount = registeredCount;

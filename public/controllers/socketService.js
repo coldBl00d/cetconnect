@@ -35,6 +35,13 @@ application.factory('$socket', function($messaging, $rootScope,$mdToast){
     socketFactory.getSocket = getSocket;
     socketFactory.identify = identify;
 
+
+     socket.on('registerdCount', function(data) {
+       console.log(header,'registerdCount fired in client when request emited by admin');
+       
+    });
+
+
     return socketFactory;
 
 });
