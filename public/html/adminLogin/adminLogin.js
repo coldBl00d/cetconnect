@@ -117,6 +117,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             console.log(header,'user logged in '+data.user);
            if(scope.onlineList.indexOf(data.user) == -1){
                 scope.onlineList.push(data.user);
+                scope.onlineCount = scope.onlineList.length;
                 scope.$apply();
            }
         });

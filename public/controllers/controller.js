@@ -182,7 +182,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 
 
 /*sidebar routing controller*/
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $socket){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $window){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -227,13 +227,13 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		/*redirect to login page after detaching user*/
 		$http.post(address+'detachUser', {deviceToken : $notificationService.getToken()})
 		.then(function(res){
-			$state.go('login');
+			$window.location.href = address;
 		})
 		.catch(function(err){
 			 $mdToast.show($mdToast.simple().textContent('Something went wrong'));
 		});
 		/*diconnect socket*/
-		$socket.getSocket().disconnect();
+		//$socket.getSocket().disconnect();
 
 	}
 	console.log(header);

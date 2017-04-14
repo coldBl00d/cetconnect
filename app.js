@@ -56,23 +56,27 @@ app.use('/admin', admin);
 
 //'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847'
 
-mongoose.connect('localhost:27017/campusConnect', function(err){
+
+
+var heroku = false;
+var port, dbAddr;
+
+if(heroku){
+    port=process.env.PORT;
+    dbAddr = 'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847';
+}else{
+    port=3000;
+    dbAddr='localhost:27017/campusConnect';
+}
+
+
+mongoose.connect(dbAddr, function(err){
     if (err){
         console.log("Database connection failed");
     }else{
         console.log("Database connection successfull");
     }
 });
-
-var heroku = false;
-var port;
-
-if(heroku){
-    port=process.env.PORT;
-}else{
-    port=3000;
-}
-
 
 server.listen(port, function(){
     console.log('Campus connect running at '+ port);
