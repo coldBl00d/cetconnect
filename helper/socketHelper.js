@@ -73,6 +73,7 @@ io.on('connection', function(socket){
         if(data.adminToken == systemVariables.adminToken){
             var onlineList = [];
             for (var value of systemVariables.clients.values()) {
+                if(value!="admin")
                  onlineList.push(value);
             }
             socket.emit('onlineList', {onlineList:onlineList});
