@@ -42,14 +42,14 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', '$socket'
 
 }]);
 
-application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$socket', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, socket){
+application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$socket', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, socketService){
     var header = "[dashController]";
     
-
+    var socket;
      
     validateAdmin.stay(function(result){
         if(result){
-            socket.dataListeners(scope);    
+            socketService.dataListeners(scope);    
 
              /*mdExpansionPanel().waitFor('panelOne').then(function (instance) {
                  instance.expand();
@@ -64,8 +64,17 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
             mdExpansionPanel('Users').expand();
             mdExpansionPanel('Channels').expand();
             mdExpansionPanel('Database').expand();
+
+            socket = socketService.getSocket();
+            
         }
     });
+    
+    scope.registrationChange = function(status){
+        console.log(header,'Registration change');
+        socket.emit('registrationStatusChange', {status:status});
+    }
+
     
     
 

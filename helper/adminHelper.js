@@ -2,7 +2,7 @@ var adminModel = require('../models/admin');
 var header = '[adminHelper]';
 var adminHelper = {};
 var md5 = require('md5');
-
+var sys = require('../app');
 
 adminHelper.findAdmin = function(userId, token, callback){
     
@@ -36,6 +36,17 @@ adminHelper.changeLoginToken = function (userId, newToken, callback){
             }
         }
     });
+}
+
+adminHelper.send = function(event, content){
+    var adminSocket = sys.adminSocket;
+    console.log(header,'Going to send data to admin');
+    if(adminSocket){
+        console.log(header,'Admin is connected');
+        adminSocket.emit(event, content);
+    }else{
+        console.log(header,'Admin not connected');
+    }
 }
 
 module.exports = adminHelper;

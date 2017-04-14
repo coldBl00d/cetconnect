@@ -5,7 +5,7 @@ var userHelper = require('../helper/userHelper');
 var socketHelper = {};
 var systemVariables = require('../app');
 var header = '[socketHelper]';
-
+var adminHelper = require('../helper/adminHelper');
 function emitToClient(socket, message){
     socket.emit(message);
 }
@@ -16,13 +16,14 @@ module.exports = socketHelper;
 /**************************************************************** */
 
 io.on('connection', function(socket){ 
-    console.log('client Connected ');
+    console.log(header,'Client connected');
     socket.emit('identifyYourself');
 
-    socket.on('identify', function(id){
+    socket.on('identify', function(id){        
         if(id){
-            console.log("Identifying:"+ id);
+            console.log(header,'Identifying '+ id);
             clients.set(socket, id);
+            adminHelper.send('userLoggedIn', {user:id});
         }else{
             socket.emit("identifyYourself");
         }    
@@ -31,6 +32,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
         var user = clients.get(socket); //remove this 
         if(user){
+            adminHelper.send('userLoggedOut', {user:user});
             clients.delete(socket);
             console.log('Client Disconnected '+user);
         }else{
@@ -71,7 +73,18 @@ io.on('connection', function(socket){
             console.log(header,'Not sending onlineList, token failed to match');
             
         }
-    })
+    });
+
+    socket.on('registrationStatusChange', function(data) {
+       systemVariables.openRegistration = data.status;
+       console.log(header,'Registration status :'+systemVariables.openRegistration);
+       if(data.status)
+            socket.volatile.emit('message', {message:"Registration opened"});
+        else
+            socket.volatile.emit('message', {message: "Registration closed"});
+    });
+
+
 
 });
 

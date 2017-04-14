@@ -80,6 +80,10 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             mdToast.show(mdToast.simple().textContent("Your token expired, login again"));
         });
 
+        socket.on('message', function(data) {
+           mdToast.show(mdToast.simple().textContent(data.message));
+        });
+
     }
 
     function dataListeners(scope) {
@@ -107,6 +111,24 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         socket.on('adminAccepted', function(data) {
             mdToast.show(mdToast.simple().textContent(data.message));
             socketService.getData();
+        });
+
+        socket.on('userLoggedIn', function(data) {
+            console.log(header,'user logged in '+data.user);
+           if(scope.onlineList.indexOf(data.user) == -1){
+                scope.onlineList.push(data.user);
+                scope.$apply();
+           }
+        });
+
+        socket.on('userLoggedOut', function(data) {
+            console.log(header,'user logged out '+ data.user);
+            
+           var index = scope.onlineList.indexOf(data.user);
+           console.log(header,'Index to delete: '+ index);
+           scope.onlineList.splice(index,1);
+           scope.onlineCount = scope.onlineList.length;
+           scope.$apply();
         });
     }
 
