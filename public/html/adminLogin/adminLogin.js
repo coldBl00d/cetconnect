@@ -55,7 +55,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
     var onlineList = [];
     var channelList = [];
     var onlineCount = 0;
-   // var registeredCount =0;
+    var registeredCount =0;
     var openRegistration = false;
     var socketService ={};
 
@@ -63,7 +63,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
     //connection established, send the token to server for verificationi as admin socket. 
     //This token is verified as the current token and if matched this socket is saved as admin Socket.
 
-    function setUpListeners () { 
+    function setUpBaseListeners () { 
         socket = socketConnect.getSocket();
         console.log(header,'Setting up listeners');
         
@@ -80,10 +80,14 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             mdToast.show(mdToast.simple().textContent("Your token expired, login again"));
         });
 
+    }
 
-        socket.on('registeredCount', function(data) {
-            rootScope.registeredCount = data.registeredCount;
-            console.log(header,'Got registed count '+ rootScope.registeredCount);
+    function dataListeners(scope) {
+         socket.on('registeredCount', function(data) {
+            scope.registeredCount = data.registeredCount;
+            registeredCount = data.registeredCount;
+            scope.$apply();
+            console.log(header,'Got registed count '+ scope.registeredCount);
         });
 
         socket.on('OpenRegistration', function(data) {
@@ -103,8 +107,6 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             mdToast.show(mdToast.simple().textContent(data.message));
             socketService.getData();
         });
-
-
     }
 
     function getData () {
@@ -121,11 +123,11 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
     socketService.getData = getData;
     socketService.onlineList = onlineList;
     socketService.channelList = channelList;
-   // socketService.registeredCount = registeredCount;
+    socketService.registeredCount = registeredCount;
     socketService.openRegistration = openRegistration;
+    socketService.dataListeners = dataListeners;
 
-
-    socketService.setUpListeners = setUpListeners;
+    socketService.setUpBaseListeners = setUpBaseListeners;
     socketService.getSocket = function() {return socket}
 
     return socketService;
@@ -149,7 +151,7 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
             if(res.status == 200){
                 rootScope.adminToken = res.data.adminToken;
                 socketConnect.connect();
-                socket.setUpListeners();
+                socket.setUpBaseListeners();
                 state.go('adminDash');
             }else if(res.status == 201) {
                 mdToast.show(mdToast.simple().textContent("Check credential"));
