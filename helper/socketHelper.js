@@ -29,11 +29,14 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        console.log(header,'Disconnected');
         var user = clients.get(socket); //remove this 
         if(user){
             clients.delete(socket);
             console.log('Client Disconnected '+user);
+        }else{
+            systemVariables.adminSocket = null;
+            console.log(header,'Admin disconnected');
+            
         }
     });
 

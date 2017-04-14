@@ -1,4 +1,4 @@
-application.factory('$validateAdmin', ['$rootScope', '$state','$http','$socket', function(rootscope, state, http, socket){
+application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(rootscope, state, http){
     
     var validateAdmin = {};
     
@@ -31,7 +31,6 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http','$socket',
             if(result){ //change this to result
                 state.go('adminDash');
             }else{
-                socket.getSocket().disconnect();
                 state.go('adminConsoleLogin');
             }
             callback(result); //change this to result
@@ -43,15 +42,15 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http','$socket',
 
 }]);
 
-application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$consoleData', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, consoleData){
+application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$socket', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, socket){
     var header = "[dashController]";
-    var onlineList = consoleData.onlineList;
-    var channelList = consoleData.channelList;
-    var onlineCount = consoleData.onlineList.length;
-    var registeredCount =consoleData.registeredCount;
-    var openRegistration = consoleData.openRegistration
-    var channelCount = consoleData.channelList.length;
-    rootscope.hidesidebar = true;
+    var onlineList = socket.onlineList;
+    var channelList = socket.channelList;
+    var onlineCount = socket.onlineList.length;
+    //var registeredCount =socket.registeredCount;
+    var openRegistration = socket.openRegistration
+    var channelCount = socket.channelList.length;
+    
 
     validateAdmin.stay(function(result){
         if(result){
@@ -71,11 +70,11 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
     
     
 
-    scope.channelList = channelList;
-    scope.channelCount = channelCount;
-    scope.registeredCount = registeredCount;
-    scope.openRegistration = openRegistration;
-    scope.onlineList = onlineList;   
-    scope.onlineCount = onlineCount;
+    // scope.channelList = channelList;
+    // scope.channelCount = channelCount;
+    // rootscope.registeredCount = registeredCount;
+    // scope.openRegistration = socket.openRegistration;
+    // scope.onlineList = onlineList;   
+    // scope.onlineCount = onlineCount;
 }]);
 
