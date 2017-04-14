@@ -1,4 +1,4 @@
-application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(rootscope, state, http){
+application.factory('$validateAdmin', ['$rootScope', '$state','$http', '$socket', function(rootscope, state, http){
     
     var validateAdmin = {};
     
@@ -44,24 +44,23 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', function(
 
 application.controller('dashController', ['$rootScope', '$scope', '$http','$validateAdmin','$mdExpansionPanel','$socket', function(rootscope, scope, http, validateAdmin, mdExpansionPanel, socket){
     var header = "[dashController]";
-    var onlineList = socket.onlineList;
-    var channelList = socket.channelList;
-    var onlineCount = socket.onlineList.length;
-    //var registeredCount =socket.registeredCount;
-    var openRegistration = socket.openRegistration
-    var channelCount = socket.channelList.length;
     
 
+     
     validateAdmin.stay(function(result){
         if(result){
-             mdExpansionPanel().waitFor('panelOne').then(function (instance) {
+            socket.dataListeners(scope);    
+
+             /*mdExpansionPanel().waitFor('panelOne').then(function (instance) {
                  instance.expand();
                  instance.collapse({animation: false});
                  instance.remove();
                  instance.isOpen();
                  console.log('done with initialising panel instance');
-             });
+                
+             });*/
             
+          
             mdExpansionPanel('Users').expand();
             mdExpansionPanel('Channels').expand();
             mdExpansionPanel('Database').expand();
@@ -70,11 +69,11 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
     
     
 
-    // scope.channelList = channelList;
-    // scope.channelCount = channelCount;
-    // rootscope.registeredCount = registeredCount;
-    // scope.openRegistration = socket.openRegistration;
-    // scope.onlineList = onlineList;   
-    // scope.onlineCount = onlineCount;
+     scope.channelList = [];
+     scope.channelCount = 0;
+     scope.registeredCount = 0;
+     scope.openRegistration = true;
+     scope.onlineList = [];   
+     scope.onlineCount = 0;
 }]);
 
