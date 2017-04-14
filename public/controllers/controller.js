@@ -135,6 +135,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	$rootScope.currentUser.name = "User";
 	$scope.payload={userId:"", password:""};
 	
+
 	//prevents identifying itself many times over. 
 	if(!$rootScope.deviceToken){
 		$notificationService.identify(function(token){
@@ -179,7 +180,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 
 
 /*sidebar routing controller*/
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $socket){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -229,6 +230,9 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		.catch(function(err){
 			 $mdToast.show($mdToast.simple().textContent('Something went wrong'));
 		});
+		/*diconnect socket*/
+		$socket.getSocket().disconnect();
+
 	}
 	console.log(header);
 });
