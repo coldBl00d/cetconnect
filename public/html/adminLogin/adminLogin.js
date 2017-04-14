@@ -127,9 +127,11 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             
            var index = scope.onlineList.indexOf(data.user);
            console.log(header,'Index to delete: '+ index);
-           scope.onlineList.splice(index,1);
-           scope.onlineCount = scope.onlineList.length;
-           scope.$apply();
+           if(index != -1){
+                scope.onlineList.splice(index,1);
+                scope.onlineCount = scope.onlineList.length;
+                scope.$apply();
+            }
         });
     }
 
