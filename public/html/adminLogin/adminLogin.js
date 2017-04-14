@@ -97,7 +97,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
 
         socket.on('onlineList', function(data) {
             scope.onlineList = data.onlineList;
-            scope.onlineCount = onlineList.length;
+            scope.onlineCount = scope.onlineList.length;
         });
 
         socket.on('channelList', function(data) {

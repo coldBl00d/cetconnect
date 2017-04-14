@@ -62,7 +62,6 @@ io.on('connection', function(socket){
 
     socket.on('getOnlineList', function(data){
         if(data.adminToken == systemVariables.adminToken){
-            var vIter = systemVariables.clients.values();
             var onlineList = [];
             for (var value of systemVariables.clients.values()) {
                  onlineList.push(value);
