@@ -83,6 +83,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
     }
 
     function dataListeners(scope) {
+
          socket.on('registeredCount', function(data) {
             scope.registeredCount = data.registeredCount;
             registeredCount = data.registeredCount;
@@ -95,8 +96,8 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         });
 
         socket.on('onlineList', function(data) {
-            onlineList = JSON.parse(data.onlineList);
-            onlineCount = onlineList.length;
+            scope.onlineList = data.onlineList;
+            scope.onlineCount = scope.onlineList.length;
         });
 
         socket.on('channelList', function(data) {
@@ -112,8 +113,8 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
     function getData () {
         console.log(header,'getdata called');
         
-        socket.emit('getOnlineList', {});
-        socket.emit('getChannelList', {});
+        socket.emit('getOnlineList', {adminToken:rootScope.adminToken});
+        socket.emit('getChannelList', {adminToken:rootScope.adminToken});
         socket.emit('getRegisteredCount', {});
         socket.emit('getOpenRegistration', {});
     }

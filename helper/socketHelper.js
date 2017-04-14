@@ -56,10 +56,22 @@ io.on('connection', function(socket){
        console.log(header,'Admin requested RegisteredCount');
        userHelper.getCount(function(count){
            console.log(header,'sending '+ count + ' users to admin');
-           
            socket.emit('registeredCount', {registeredCount: count});
        });
     });
+
+    socket.on('getOnlineList', function(data){
+        if(data.adminToken == systemVariables.adminToken){
+            var onlineList = [];
+            for (var value of systemVariables.clients.values()) {
+                 onlineList.push(value);
+            }
+            socket.emit('onlineList', {onlineList:onlineList});
+        }else{
+            console.log(header,'Not sending onlineList, token failed to match');
+            
+        }
+    })
 
 });
 
