@@ -19,7 +19,11 @@ io.on('connection', function(socket){
     console.log(header,'Client connected');
     socket.emit('identifyYourself');
 
+
+
+
     socket.on('identify', function(id){        
+
         if(id){
             console.log(header,'Identifying '+ id);
             clients.set(socket, id);
@@ -34,17 +38,20 @@ io.on('connection', function(socket){
         if(user){
             adminHelper.send('userLoggedOut', {user:user});
             clients.delete(socket);
-            console.log('Client Disconnected '+user);
-        }else{
-            systemVariables.adminSocket = null;
-            console.log(header,'Admin disconnected');
-            
+            if(user == 'admin'){
+                console.log(header,'Admin disconnected');
+                systemVariables.adminSocket = null;
+            }
+            else{
+                console.log('Client Disconnected '+user);
+            }
         }
     });
 
     //Identifying admin 
     socket.on('adminIdentify', function(token){
         if(token == systemVariables.adminToken){
+            clients.set(socket, 'admin');
             console.log(header,'Admin connected');
             console.log(header,'Storing admin socket');
             systemVariables.adminSocket = socket;
