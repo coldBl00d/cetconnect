@@ -108,6 +108,9 @@ channelHelper.getSubbedUsers = function(channelName, callBack){
     });
 }
 
+
+
+
 function uniquePush(array, content){
     var flag = true;
     for(var i=0; i< array.length; i++){
@@ -131,5 +134,8 @@ function addChannelToFirebaseList(channelId){
         channelName: channelId
     });
 }
+
+
+
 
 module.exports = channelHelper;

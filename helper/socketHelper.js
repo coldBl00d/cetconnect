@@ -93,6 +93,21 @@ io.on('connection', function(socket){
     });
 
 
+    socket.on('getChannelList', function(data) {
+       
+       if(data.adminToken == systemVariables.adminToken){
+            channelHelper.getAllChannels (function(channels){
+                console.log(header,'channel list');
+                console.log(header,channels);
+            });
+       }else{
+           console.log(header,'Not sending onlineList, token failed to match');
+           socket.volatile.emit('message', {message:"Try loggin in again"});
+       }
+
+    });
+
+
 
 });
 

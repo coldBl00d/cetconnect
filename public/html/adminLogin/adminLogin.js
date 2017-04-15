@@ -104,7 +104,9 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         });
 
         socket.on('channelList', function(data) {
-            channelList = JSON.parse(data.channelList);
+            channelList = data.channelList;
+            scope.channelList = channelList; 
+            scope.channelCount = channelList.length();
         });
 
         socket.on('adminAccepted', function(data) {
@@ -132,6 +134,8 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
                 scope.$apply();
             }
         });
+
+        
     }
 
     function getData () {
