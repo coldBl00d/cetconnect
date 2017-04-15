@@ -94,8 +94,9 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             console.log(header,'Got registed count '+ scope.registeredCount);
         });
 
-        socket.on('OpenRegistration', function(data) {
-            openRegistration = data.openRegistration;
+        socket.on('openRegistration', function(data) {
+            console.log(header,'Recieved open registration event');
+            scope.openRegistration = data.openRegistration;
         });
 
         socket.on('onlineList', function(data) {
@@ -106,7 +107,6 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         socket.on('channelList', function(data) {
             channelList = data.channelList;
             scope.channelList = channelList; 
-            scope.channelCount = channelList.length();
         });
 
         socket.on('adminAccepted', function(data) {
@@ -144,7 +144,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         socket.emit('getOnlineList', {adminToken:rootScope.adminToken});
         socket.emit('getChannelList', {adminToken:rootScope.adminToken});
         socket.emit('getRegisteredCount', {});
-        socket.emit('getOpenRegistration', {});
+        socket.emit('getOpenRegistration', {adminToken:rootScope.adminToken});
     }
 
 

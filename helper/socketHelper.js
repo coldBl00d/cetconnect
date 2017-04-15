@@ -93,6 +93,18 @@ io.on('connection', function(socket){
             socket.volatile.emit('message', {message: "Registration closed"});
     });
 
+    socket.on('getOpenRegistration', function(data) {
+        console.log(header,'getOpenRegistration fired');
+        
+       if(data.adminToken == systemVariables.adminToken){
+            openRegistration = systemVariables.openRegistration;
+            socket.emit('openRegistration', {openRegistration:openRegistration});
+        }else{
+            console.log(header,'Not sending openRegistration status, token failed to match');
+           socket.volatile.emit('message', {message:"Try loggin in again"});   
+       }
+    });
+
 
     socket.on('getChannelList', function(data) {
        
