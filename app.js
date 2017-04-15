@@ -58,7 +58,7 @@ app.use('/admin', admin);
 
 
 
-var heroku = true;
+var heroku = false;
 var port, dbAddr;
 
 if(heroku){

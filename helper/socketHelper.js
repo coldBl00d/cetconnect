@@ -6,6 +6,7 @@ var socketHelper = {};
 var systemVariables = require('../app');
 var header = '[socketHelper]';
 var adminHelper = require('../helper/adminHelper');
+var channelHelper = require('../helper/channelHelper');
 function emitToClient(socket, message){
     socket.emit(message);
 }
@@ -99,6 +100,7 @@ io.on('connection', function(socket){
             channelHelper.getAllChannels (function(channels){
                 console.log(header,'channel list');
                 console.log(header,channels);
+                socket.emit('channelList', {channelList: channels});
             });
        }else{
            console.log(header,'Not sending onlineList, token failed to match');
