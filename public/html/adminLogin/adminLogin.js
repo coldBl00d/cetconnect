@@ -24,7 +24,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.factory('$socketConnect', function(){
+application.factory('$socketConnect', [ '$rootScope',function(rootScope){
 
     var header = '[Socket Connect Service]'
 
@@ -37,12 +37,29 @@ application.factory('$socketConnect', function(){
 
     socketConnectService.connect = function () {
         socket = io.connect();
+
+        socket.on('identifyYourself', function(data){
+            console.log(header,'Server asked to identify myself');
+            console.log(header,'Sending token ' + rootScope.adminToken);
+            socket.emit('adminIdentify', rootScope.adminToken);
+        });
+
+        //if token is rejected 
+        socket.on('tokenRejected', function(data) {
+            console.log(header,'token rejected');
+            mdToast.show(mdToast.simple().textContent("Your token expired, login again"));
+        });
+
+        socket.on('message', function(data) {
+           mdToast.show(mdToast.simple().textContent(data.message));
+        });
+
     }
 
     return socketConnectService;
 
 
-});
+}]);
 
 application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnect', function(rootScope, http, mdToast, socketConnect){
 
@@ -65,25 +82,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
 
     function setUpBaseListeners () { 
         socket = socketConnect.getSocket();
-        console.log(header,'Setting up listeners');
-        
-    
-        socket.on('identifyYourself', function(data){
-            console.log(header,'Server asked to identify myself');
-            console.log(header,'Sending token ' + rootScope.adminToken);
-            socket.emit('adminIdentify', rootScope.adminToken);
-        });
-
-        //if token is rejected 
-        socket.on('tokenRejected', function(data) {
-            console.log(header,'token rejected');
-            mdToast.show(mdToast.simple().textContent("Your token expired, login again"));
-        });
-
-        socket.on('message', function(data) {
-           mdToast.show(mdToast.simple().textContent(data.message));
-        });
-
+        console.log(header,'Setting up listeners');    
     }
 
     function dataListeners(scope) {
