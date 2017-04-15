@@ -24,7 +24,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.factory('$socketConnect', [ '$rootScope',function(rootScope){
+application.factory('$socketConnect', [ '$rootScope', '$mdToast' , function(rootScope, mdToast){
 
     var header = '[Socket Connect Service]'
 

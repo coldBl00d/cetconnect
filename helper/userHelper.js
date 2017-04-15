@@ -88,9 +88,33 @@ userHelper.getCount = function(callBack){
     userModel.count({},function(err, count){
         if(err){
             console.log(header,err);
-            callBack(0);
+            callBack(-1);
         }else{
             callBack(count);
+        }
+    });
+}
+
+userHelper.deleteToken = function (token, callback){
+    userModel.findOneAndRemove({user_token: token }, function (err, doc){
+        if(err){
+            console.log(header,err);
+            callback(false);
+        }else{
+            console.log(header,'user deleted');
+            callback(true);
+        }
+    });
+}
+
+userHelper.deleteBatch = function (batch, callback){
+    userModel.remove({batch: batch }, function (err){
+        if(err){
+            console.log(header,err);
+            callback(false);
+        }else{
+            console.log(header,'users deleted');
+            callback(true);
         }
     });
 }

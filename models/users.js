@@ -39,7 +39,7 @@ var userSchema = new mongoose.Schema({
 	},
 
 	batch : {
-		type: Number
+		type: String
 	},
 
 	regTime:{

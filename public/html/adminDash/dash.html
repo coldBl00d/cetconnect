@@ -48,17 +48,22 @@
 
                           <div layout="row" flex>
 
-                              <md-button flex class="md-raised md-primary">Add User</md-button>
-                              <md-button flex class="md-raised md-warn">Delete User</md-button>
+                              <md-button flex class="md-raised md-primary" ng-click="showUI()">Add User</md-button>
+                              <md-button flex class="md-raised md-warn" ng-click="showDeleteUser()">Delete User</md-button>
 
                           </div>
 
                           <div layout="row" flex>
                               <md-input-container style="margin-left: 6px" class="md-block" flex>
                                     <label>Batch Year</label>
-                                <input ng-model="batchYear">
+                                <input ng-model="batch">
                                 </md-input-container> 
-                              <md-button flex style="background-color: #D50000" class="md-raised">Delete Batch</md-button>
+                              <md-button flex style="background-color: #D50000" class="md-raised md-warn" ng-click="batchDelete(batch)"> Delete Batch</md-button>
+                          </div>
+
+                          <div ng-show="waiting" > 
+                            <md-progress-linear  md-mode="indeterminate" >
+                            </md-progress-linear>
                           </div>
 
                         </md-card>
