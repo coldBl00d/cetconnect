@@ -1,7 +1,7 @@
 //initialize admin app
 var application=angular.module("adminApp",['ngMessages','ngRoute','firebase','ui.router','ngAria','ngMaterial', 'material.components.expansionPanels']);
-var address = 'http://localhost:3000/';
-//var address = 'https://blooming-reaches-58473.herokuapp.com/';
+//var address = 'http://localhost:3000/';
+var address = 'https://blooming-reaches-58473.herokuapp.com/';
 
 application.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	 var header = '[Application config]';
