@@ -1,4 +1,29 @@
+
+
 <md-dialog layout="column" style="min-height: 90%; min-width: 50%" layout-align="start">
+
+    <style> 
+        .autocomplete-custom-template li {
+        border-bottom: 1px solid #ccc;
+        height: auto;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        white-space: normal;
+        }
+        .autocomplete-custom-template li:last-child {
+        border-bottom-width: 0;
+        }
+        .autocomplete-custom-template .item-title,
+        .autocomplete-custom-template .item-metadata {
+        display: block;
+        line-height: 2;
+        }
+        .autocomplete-custom-template .item-title md-icon {
+        height: 18px;
+        width: 18px;
+        }
+
+    </style>
 
     <md-toolbar layout="row">
         <div flex=90 layout="row" layout-align ="start" style="padding: 8px" >
@@ -20,7 +45,8 @@
 
 
                 <md-card layout="column" flex ="50">
-                    <div layout="column" flex=75 layout-align="start">
+                    <div style="height: 3px; width: 100%; background-color: #FFCC80"></div> 
+                    <div layout="column" flex=80 layout-align="start">
                         <md-card-header>
                             <md-card-header-text>
                             <span class="md-title">Moderators List</span>
@@ -49,19 +75,58 @@
                             </md-list>
                         </md-card-content>
                     </div>
-                    <div layout="column" flex=25 layout-align="end">
+                    <div layout="column" flex=20 layout-align="end">
                         <md-card-actions layout="row">
-                            <md-input-container >
-                            <label>Admin Name</label>
-                            <input></input>
-                            </md-input-container>
-                            <md-button>Add Admin</md-button>
+                            <div style="margin-right:6px" flex="75">
+                                 <md-autocomplete flex required
+                                        md-input-name="moderatorField"
+                                        md-input-minlength="4"
+                                        md-input-maxlength="18"
+                                        md-no-cache="true"
+                                        md-selected-item="selectedItem"
+                                        md-search-text="searchText"
+                                        md-items="item in moderatorList"
+                                        md-item-text="item.name"
+                                        md-require-match
+                                        md-floating-label="Moderator"
+                                        md-search-text-change="querySearch(searchText)"
+                                        ng-model="moderatorModel"
+                                        md-menu-class="autocomplete-custom-template"
+                                        >
+                                   <md-item-template>
+                                            <span class="item-title">
+                                                <md-icon>face</md-icon>
+                                                <span> {{item.name}} </span>
+                                            </span>
+                                            <span class="item-metadata">
+                                                <span class="item-metastat">
+                                                    <strong>{{item.department + '  ' +item.post}}</strong>
+                                                </span>
+                                                <span class="item-metastat">
+                                                    {{item.userId}}
+                                                </span>
+                                            </span>
+                                    </md-item-template>
+                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                        <div ng-message="required">You <b>must</b> enter a moderator</div>
+                                    </div>
+                                 </md-autocomplete>
+                            </div>
+                            <div flex="noshrink" layout="row" layout-align="end">
+                                <md-button ng-disabled="addwait" ng-click="addMod()">Add Admin</md-button>
+                            </div>
+                            
                         </md-card-actions>
+                        <div ng-show="addwait" flex=5>
+                                <md-progress-linear md-mode="indeterminate">
+                                </md-progress-linear>
+                        </div>
                     </div>
                 
                 </md-card>
 
                 <md-card flex ="50">
+                    <div style="height: 3px; width: 100%; background-color:#A5D6A7"></div>
                 <md-card-header>
                     <md-card-header-text>
                     <span class="md-title">Subscribers</span>
@@ -70,7 +135,7 @@
                 </md-card-header>
 
                 <md-card-content style="overflow-y: scroll">
-                            <md-list>
+                            <md-list style="padding-bottom: 6px">
                                 <md-list-item class="md-3-line" ng-repeat="sub in channelDetail.subscribers" ng-click="null">
                                     <img ng-src="res/icon_place_holder.png" class="md-avatar" alt="" />
                                     <div class="md-list-item-text" layout="row">

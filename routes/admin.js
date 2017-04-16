@@ -312,5 +312,77 @@ router.get('/getChannelData/:channelName',function(req, res, next){
 });
 
 
+router.post('/addMod',function(req, res, next){
+    var header = '[addMod]';
+    var payload = req.body.payload;
+    if(systemVariables.adminToken == payload.adminToken){
+        console.log(header,'Admin token matched');
+        userHelper.ifUser(payload.userId, function(result, user){
+            if(result){
+                console.log(header,'Found user, going to check if he is already admin');
+                var adminOf = user.adminOf;
+                var index = adminOf.indexOf(payload.channelName);
+                if(index != -1){
+                    console.log(header,'User already admin of the channel');
+                    return res.json({message:'User already is an admin of '+ payload.channelName}).status(201).end();
+                }else{
+                    console.log(header,'Channel not found in  user');
+                    console.log(header,'Proceeding to add to channel');
+                    channelHelper.ifChannel(payload.channelName, function(channel){
+                        if(channel){
+                            var admins = channel.admins; 
+                            var index = admins.indexOf(payload.userId);
+                            console.log(header,'index '+ index);
+
+                            if(index == -1){
+                                admins.push(payload.userId);
+                                channel.save(function(err, uchannel){
+                                    if(err){
+                                        return res.json({message:'Failed to add moderator'}).status(201).end();
+                                    }else{
+                                        adminOf.push(payload.channelName);
+                                        user.save(function(err, uuser){
+                                            if(err){
+                                                var i = uchannel.admins.indexOf(payload.userId);
+                                                uchannel.admins.splice(i,1);
+                                                uchannel.save(function(err, doc){
+                                                    if(err){
+                                                        return res.json({message:'Database failure!'}).status(201).end();
+                                                    }else{
+                                                        return res.json({message:'Failed to add moderator'}).status(201).end();
+                                                    }
+                                                });
+                                            }else{
+                                                var modAdded = {
+                                                    name: uuser.name,
+                                                    department: uuser.department, 
+                                                    post: uuser.post, 
+                                                    batch: uuser.batch
+                                                };
+                                                return res.json({message:'Moderator added successfully', mod: modAdded}).status(200).end();
+                                            }
+                                        })
+                                    }
+                                });
+                            }else{
+                                console.log(header,'user is already a channel admin');
+
+                                return res.json({message:'User is already a channel admin'}).status(201).end();
+                            }
+                        }else{
+                           return res.json({message:''}).status(201).end();
+                        }
+                    })
+                }
+            }else{
+                res.json({message:'The user does not exist in the system'}).status(201).end();
+            }
+        });
+    }else{
+        res.json({message:'You have no previlage for the operation'}).status(202).end();
+    }
+});
+
+
 
 module.exports = router; 

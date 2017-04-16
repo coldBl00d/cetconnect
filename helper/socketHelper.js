@@ -110,8 +110,7 @@ io.on('connection', function(socket){
        
        if(data.adminToken == systemVariables.adminToken){
             channelHelper.getAllChannels (function(channels){
-                console.log(header,'channel list');
-                console.log(header,channels);
+                console.log(header,'sending channel list to admin');
                 socket.emit('channelList', {channelList: channels});
             });
        }else{

@@ -72,7 +72,7 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
      scope.batch = "";
      scope.channelAddWaiting = false;
      scope.channelPayload = {};
-     rootscope.rootscope_channelListWait = false; 
+     rootscope.rootscope_channelListWait = true; 
 
 
 
