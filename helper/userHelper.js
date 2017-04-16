@@ -119,4 +119,59 @@ userHelper.deleteBatch = function (batch, callback){
     });
 }
 
+userHelper.getBatchData = function(array, callBack){
+    var numberOfItem = array.length;
+    if(numberOfItem == 0) return callBack([]);
+    var users = [];
+    console.log(header,'Number of item '+ numberOfItem);
+    array.forEach(function(item){
+        userHelper.ifUser(item, function(result, user){
+            if(result){
+                    var user_limited = {
+                    name:user.name,
+                    userid:user.userid,
+                    batch:user.batch,
+                    post:user.post, 
+                    department: user.department
+
+                }
+                console.log(header,user);
+                users.push(user_limited);
+                
+            }
+            if(--numberOfItem == 0){
+                    callBack(users);
+            }   
+        });
+    });
+}
+
+
+userHelper.getBatchDataToken = function(array, callBack){
+    var numberOfItem = array.length;
+    if(numberOfItem == 0) return callBack([]);
+    var users = [];
+    console.log(header,'Number of item '+ numberOfItem);
+    array.forEach(function(item){
+        userHelper.ifUserToken(item, function(result, user){
+            if(result){
+                    var user_limited = {
+                    name:user.name,
+                    userid:user.userid,
+                    batch:user.batch,
+                    post:user.post,
+                    department: user.department
+
+                }
+                console.log(header,user);
+                users.push(user_limited);
+                
+            }
+            if(--numberOfItem == 0){
+                    callBack(users);
+            }   
+        });
+    });
+}
+
 module.exports = userHelper;

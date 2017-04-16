@@ -7,44 +7,6 @@ var appDir = path.dirname(require.main.filename);
 var header = "[channel router]";
 
 
-router.post('/', function (req, res, next) {
-    var payload = req.body.payload;
-
-    if (validatePayload(payload)) {
-        console.log(header, "Recieved proper payload, going to look for channel if it already exist");
-        channelHelper.ifChannel(payload.channelName, function (result) {
-            if (result) {
-                console.log(header, "channel already exist, choose another name");
-                res.status(421).end();
-            } else {
-                console.log(header, "Channel name is unique, proceeding to check if the admin exist");
-                userHelper.ifUser(payload.admin, function (result, db_admin) {
-                    if (result) {
-                        console.log(header, "Verfied admin exist in system, Proceeding to add channel to system");
-                        channelHelper.addBareboneChannel(payload.channelName, payload.admin, function (result) {
-                            if (result) {
-                                console.log(header, "The new channel is added successfully");
-                                console.log(header, "Updating channel to admins entry");
-                                db_admin.adminOf.push(payload.channelName);
-                                db_admin.save();
-                                res.status(200).end();
-                            } else {
-                                console.log(header, "MongoDB failed to add channel to its database rolled back firebase");
-                                res.status(423).end();
-                            }
-                        })
-                    } else {
-                        console.log(header, "Admin does not check out in the system. Select another admin");
-                        res.status(422).end();
-                    }
-                })
-            }
-        });
-    } else {
-        console.log(header, "Payload is malformed");
-        res.status(420).end();
-    }
-});
 
 router.post('/subunsub', function (req, res, next) {
     var userToken = req.body.payload.userToken;

@@ -36,12 +36,12 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', '$socket'
         validateAdmin.validate(function(result){
             console.log(header,'ValidateAdmin.validate retured '+ result);
             
-            if(result){ //change this to result
+            if(true){ //change this to result
                 state.go('adminDash');
             }else{
                 state.go('adminConsoleLogin');
             }
-            callback(result); //change this to result
+            callback(true); //change this to result
         });
     }
 
@@ -147,10 +147,13 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
      /* Channel Console */
 
      scope.addChannel = function() {
+         var header = '[addchannelRequest]';
+         
          scope.channelAddWaiting = true;
          scope.channelPayload.adminToken = rootscope.adminToken;
          http.post(address+'admin/addChannel',{payload: scope.channelPayload})
          .then(function(res){
+             console.log(header,'Response ' + res.status);
              scope.channelAddWaiting = false;
              mdToast.show(mdToast.simple().textContent(res.data.message));
              if(res.status == 200){
@@ -165,6 +168,16 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
          }); 
      }
 
+     scope.channelDetail = function(channelName){
+
+        mdDialog.show({
+            locals:{channelName: channelName },                
+            clickOutsideToClose: true,                
+            templateUrl: 'html/channelDetail/channelDetailDialog.html',
+            controller: 'channelInfo',
+        });
+
+     }
 
 
      /* *********************************** */

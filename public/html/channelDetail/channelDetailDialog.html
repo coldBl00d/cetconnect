@@ -1,0 +1,87 @@
+<md-dialog layout="column" style="min-height: 70%; min-width: 50%" layout-align="start">
+
+    <md-toolbar layout="row">
+        <div flex=90 layout="row" layout-align ="start" style="padding: 8px" >
+                        <h2 class="md-title ContentTitle">{{channelName}}</h2>
+        </div>
+        <div flex=10 layout="row" layout-align="end">
+            <md-button>Delete</md-button>
+        </div> 
+    </md-toolbar>
+
+    <div flex=90 ng-show = "waiting"  layout="column" layout-align ="center center"> 
+        <md-progress-circular ng-disabled="!waiting" class="md-accent" md-diameter="40"></md-progress-circular>
+    </div>
+
+    <div flex=90 ng-show='!waiting' layout='column' layout-align="start" style="overflow-y: scroll">
+
+        
+        <div layout="row" layout-align="start" flex=100 >
+                <md-card flex ="50">
+                <md-card-header>
+                    <md-card-header-text>
+                    <span class="md-title">Admin List</span>
+                    <span class="md-subhead">Manage channel admins here...</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    content
+                </md-card-content>
+
+                <md-card-actions layout="row" layout-align="end">
+                    <md-input-container >
+                       <label>Admin Name</label>
+                       <input></input>
+                    </md-input-container>
+                    <md-button>Add Admin</md-button>
+                </md-card-actions>
+                
+                </md-card>
+
+                <md-card flex ="50">
+                <md-card-header>
+                    <md-card-header-text>
+                    <span class="md-title">Subscribers</span>
+                    <span class="md-subhead">Users Subscribed to this channel ... </span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    content
+                </md-card-content>
+
+                <md-card-actions layout="row" layout-align="end">
+                    <md-button>Action 1</md-button>
+                    <md-button>Action 2</md-button>
+                </md-card-actions>
+                
+                </md-card>
+        </div>
+
+          <!--<md-card flex ="noshrink" >
+          <md-card-header>
+            <md-card-header-text>
+              <span class="md-title">Settings</span>
+              <span class="md-subhead">Manage channel here...</span>
+            </md-card-header-text>
+          </md-card-header>
+
+          <md-card-content>
+              content
+          </md-card-content>
+
+          <md-card-actions layout="row" layout-align="end">
+            <md-button>Action 1</md-button>
+            <md-button>Action 2</md-button>
+          </md-card-actions>
+         
+        </md-card>-->
+
+        <!--<p>{{channelDetail}}</p>-->
+    </div>
+
+
+
+
+</md-dialog>

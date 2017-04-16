@@ -226,6 +226,8 @@ router.post('/batchDelete',function(req, res, next){
 
 router.post('/addChannel', function (req, res, next) {
     var payload = req.body.payload;
+    
+    if(!payload) return  res.json({message:'No Payload'}).status(201).end();
     var header = '[addChannelRequest]';
 
     function validatePayload(payload) {
@@ -241,7 +243,7 @@ router.post('/addChannel', function (req, res, next) {
             channelHelper.ifChannel(payload.channelName, function (result) {
                 if (result) {
                     console.log(header, "channel already exist, choose another name");
-                    res.json({message:'channel already exist'}).status(201).end();
+                    res.status(201).json({message:'channel already exist'}).end();
                 } else {
                     console.log(header, "Channel name is unique, proceeding to check if the admin exist");
                     userHelper.ifUser(payload.admin, function (result, db_admin) {
@@ -256,25 +258,56 @@ router.post('/addChannel', function (req, res, next) {
                                     res.json({message:'Channel added'}).status(200).end();
                                 } else {
                                     console.log(header, "MongoDB failed to add channel to its database rolled back firebase");
-                                    res.json({message:'Oops... something went wrong at my end'}).status(201).end();
+                                    res.status(201).json({message:'Oops... something went wrong at my end'}).end();
                                 }
                             })
                         } else {
                             console.log(header, "Admin does not check out in the system. Select another admin");
-                            res.json({message:'The user you selected does not exist'}).status(201).end();
+                            res.status(201).json({message:'The user you selected does not exist'}).end();
                         }
                     })
                 }
             });
         } else {
             console.log(header, "Payload is malformed");
-            res.json({message:'Your request is invalid'}).status(201).end();
+            res.status(201).json({message:'Your request is invalid'}).end();
         }
 
     }else{
         console.log(header,'Token mismatch');
-        res.json({message:"You do not have previlage"}).status(201).end();
+        res.status(201).json({message:"You do not have previlage"}).end();
+        
 
+    }
+});
+
+
+router.get('/getChannelData/:channelName',function(req, res, next){
+    var header = '[getChannelData]';
+    console.log(header,'Requested data for '+req.params.channelName);
+    var channelName = req.params.channelName;
+
+    if(true){
+        channelHelper.ifChannel(channelName, function(result){
+            if(result){
+                console.log(header,result);
+                var admins = result.admins; 
+                userHelper.getBatchData(admins, function(adminDetails){
+                    result.admins = adminDetails;
+                    console.log(header,result);
+                    userHelper.getBatchDataToken(result.subscribers, function(subs){
+                        result.subscribers = subs; 
+                        res.json({message:'Found channel', channel: result}).status(201).end();
+
+                    });
+                });
+            }else{
+                res.json({message:'Channel not found'}).status(201).end();
+                console.log(header,'Channel does not exist');
+            }
+        });
+    }else{
+        res.json({message:'You have no previlage for the operation'}).status(202).end();
     }
 });
 
