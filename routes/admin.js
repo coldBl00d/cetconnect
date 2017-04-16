@@ -48,14 +48,14 @@ router.post('/changePassword', function(req, res, next){
         var newToken = md5(userId+newPassword+serverKey);
         adminHelper.changeLoginToken(userId, newToken, function(result){
             if(result){
-                res.json(200).end();
+                res.status(200).end();
             }else{
-                res.json(401).end();
+                res.status(401).end();
             }
         });
     }else{
         console.log(header, "You are not an admin or your session is overridden by someone");
-        res.json({message: "Your token is invalid"}).status(400).end();
+        res.status(400).json({message: "Your token is invalid"}).end();
     }
 
 });
@@ -91,7 +91,7 @@ router.post('/findUser',function(req, res, next){
             });
         }, 4000);
     }else{
-        res.json({message:"You do not have admin previlage"}).staus(201).end();
+        res.status(201).json({message:"You do not have admin previlage"}).end();
     }
 
 });
@@ -114,15 +114,15 @@ router.post('/deleteUser',function(req, res, next){
                                 adminHelper.send('registeredCount', {registeredCount: count});
                         });
                     }else{
-                        res.json({message:"Deletion Failed"}).status(203).end();
+                        res.status(203).json({message:"Deletion Failed"}).end();
                     }
                 })
             }else{
-                res.json({message:"This user does not exist"}).status(203).end();
+                res.status(203).json({message:"This user does not exist"}).end();
             }
         }); 
     }else{
-        res.json({message:'You have no previlage for the operation'}).status(202).end();
+        res.status(202).json({message:'You have no previlage for the operation'}).end();
     }
 });
 
@@ -200,7 +200,7 @@ router.post('/batchDelete',function(req, res, next){
     
     if(systemVariables.adminToken == payload.adminToken){
         var batch = payload.batch;
-        if(!batch) return  res.json({message:'Batch is not defined'}).status(202).end();
+        if(!batch) return  res.status(202).json({message:'Batch is not defined'}).end();
         userHelper.deleteBatch(batch, function(result){
             if(result){
                 setTimeout(function() {
@@ -214,11 +214,11 @@ router.post('/batchDelete',function(req, res, next){
                 }, 2000);
                 
             }else{
-                res.json({message:'Something went wrong'}).status(202).end();
+                res.status(201).json({message:'Something went wrong'}).end();
             }
         }) 
     }else{
-        res.json({message:'You have no previlage for the operation'}).status(202).end();
+        res.status(202).json({message:'You have no previlage for the operation'}).end();
     }
 });
 
@@ -227,7 +227,7 @@ router.post('/batchDelete',function(req, res, next){
 router.post('/addChannel', function (req, res, next) {
     var payload = req.body.payload;
     
-    if(!payload) return  res.json({message:'No Payload'}).status(201).end();
+    if(!payload) return  res.status(201).json({message:'No Payload'}).end();
     var header = '[addChannelRequest]';
 
     function validatePayload(payload) {
@@ -297,17 +297,17 @@ router.get('/getChannelData/:channelName',function(req, res, next){
                     console.log(header,result);
                     userHelper.getBatchDataToken(result.subscribers, function(subs){
                         result.subscribers = subs; 
-                        res.json({message:'Found channel', channel: result}).status(201).end();
+                        res.status(200).json({message:'Found channel', channel: result}).end();
 
                     });
                 });
             }else{
-                res.json({message:'Channel not found'}).status(201).end();
+                res.status(201).json({message:'Channel not found'}).end();
                 console.log(header,'Channel does not exist');
             }
         });
     }else{
-        res.json({message:'You have no previlage for the operation'}).status(202).end();
+        res.status(202).json({message:'You have no previlage for the operation'}).end();
     }
 });
 
@@ -351,20 +351,20 @@ router.post('/addMod',function(req, res, next){
                                             department: udoc.department, 
                                             batch:udoc.batch
                                         }
-                                        res.json({message:'Added Moderator '+udoc.name, mod:mod, add:userViewable }).status(201).end();
+                                        res.status(200).json({message:'Added Moderator '+udoc.name, mod:mod, add:userViewable }).end();
                                     }
                                 })
                             }
                         })
 
                     }else{
-                        return res.json({message:'Moderator not found'}).status(201).end();
+                        return res.status(201).json({message:'Moderator not found'}).end();
                     }
 
                 });
 
             }else{
-                return res.json({message:'Channel not found'}).status(201).end();
+                return res.status(201).json({message:'Channel not found'}).end();
             }
 
         });
@@ -417,15 +417,15 @@ router.post('/delMod',function(req, res, next){
                                 }
                         });
                     }else{
-                        res.json({message:'User not found'}).status(201).end();;
+                        res.status(201).json({message:'User not found'}).end();;
                     }
                 });
             }else{
-                res.json({message:'Channel not found'}).status(201).end();
+                res.status(201).json({message:'Channel not found'}).end();
             }
         });
     }else{
-        res.json({message:'You have no previlage for the operation'}).status(202).end();
+        res.status(202).json({message:'You have no previlage for the operation'}).end();
     }
 });
 
