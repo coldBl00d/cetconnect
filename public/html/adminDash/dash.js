@@ -36,12 +36,12 @@ application.factory('$validateAdmin', ['$rootScope', '$state','$http', '$socket'
         validateAdmin.validate(function(result){
             console.log(header,'ValidateAdmin.validate retured '+ result);
             
-            if(true){ //change this to result
+            if(result){ //change this to result
                 state.go('adminDash');
             }else{
                 state.go('adminConsoleLogin');
             }
-            callback(true); //change this to result
+            callback(result); //change this to result
         });
     }
 
