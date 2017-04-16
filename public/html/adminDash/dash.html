@@ -164,7 +164,11 @@
                             border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px">
                               <h1 class="md-heading" style="color: ghostwhite" flex>Channels</h1>
                           </div>
+                          <div ng-show='rootscope_channelListWait' > 
+                                  <md-progress-linear md-mode="indeterminat" </md-progress-linear>
+                          </div>
                           <div flex=80 style="max-height: 300px; max-width: 500px; overflow-y: scroll; border-color: grey">
+                              
                               <md-list>
                                     <md-list-item  ng-repeat="channel in channelList">
                                         <div flex=10>

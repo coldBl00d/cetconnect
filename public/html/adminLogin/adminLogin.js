@@ -106,7 +106,8 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
 
         socket.on('channelList', function(data) {
             channelList = data.channelList;
-            scope.channelList = channelList; 
+            scope.channelList = channelList;
+            rootScope.rootscope_channelListWait = false; 
         });
 
         socket.on('adminAccepted', function(data) {
@@ -147,8 +148,12 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         socket.emit('getOpenRegistration', {adminToken:rootScope.adminToken});
     }
 
+    function getChannelList () {
+        socket.emit('getChannelList', {adminToken:rootScope.adminToken});
+        rootScope.rootscope_channelListWait = true;
+    }
 
-    
+    socketService.getChannelList = getChannelList;
     socketService.getData = getData;
     socketService.onlineList = onlineList;
     socketService.channelList = channelList;

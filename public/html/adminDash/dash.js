@@ -54,9 +54,29 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
     var header = "[dashController]";
     
     var socket;
-     
-    validateAdmin.stay(function(result){
-        
+
+    /*New Registration*/
+    scope.newUser = {};
+    scope.postList = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'Faculty'];
+    scope.departmentList = ['Applied Electronics' , 'Civil', 'Computer' , 'Electrical', 'Electronics' , 'Industrial' , 'Mechanical' ];
+    rootscope.new_user_response = true;
+    /***************** */
+     scope.showUI = function () { registration.showUI(scope); }
+     scope.channelList = [];
+     scope.channelCount = 0;
+     scope.registeredCount = 0;
+     scope.openRegistration = true;
+     scope.onlineList = [];   
+     scope.onlineCount = 0;
+     scope.waiting = false;
+     scope.batch = "";
+     scope.channelAddWaiting = false;
+     scope.channelPayload = {};
+     rootscope.rootscope_channelListWait = false; 
+
+
+
+    validateAdmin.stay(function(result){        
         if(result){
             socket = socketService.getSocket();
             socketService.dataListeners(scope);    
@@ -65,7 +85,6 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
             mdExpansionPanel('Channels').expand();
             mdExpansionPanel('Database').expand();
 
-            socket = socketService.getSocket();
         }
     });
     
@@ -74,6 +93,9 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
         socket.emit('registrationStatusChange', {status:status});
     }
 
+
+    /* User console */
+    scope.addUser = function () { registration.addUser(scope, scope.newUser); }
     
     /*Delete User UI */
 
@@ -96,26 +118,6 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
 
     }
 
-    /*New Registration*/
-
-        scope.newUser = {};
-        scope.postList = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'Faculty'];
-        scope.departmentList = ['Applied Electronics' , 'Civil', 'Computer' , 'Electrical', 'Electronics' , 'Industrial' , 'Mechanical' ];
-        rootscope.new_user_response = true;
-        scope.addUser = function () { registration.addUser(scope, scope.newUser); }
-    /***************** */
-    
-     scope.showUI = function () { registration.showUI(scope); }
-     scope.channelList = [];
-     scope.channelCount = 0;
-     scope.registeredCount = 0;
-     scope.openRegistration = true;
-     scope.onlineList = [];   
-     scope.onlineCount = 0;
-     scope.waiting = false;
-     scope.batch = "";
-     scope.channelAddWaiting = false;
-     scope.channelPayload = {};
 
      scope.batchDelete = function(batch){
         scope.waiting = true;
@@ -139,6 +141,10 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
         });
         
      }
+     /* ************************* */
+
+
+     /* Channel Console */
 
      scope.addChannel = function() {
          scope.channelAddWaiting = true;
@@ -150,6 +156,7 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
              if(res.status == 200){
                  scope.channelPayload.channelName = "";
                  scope.channelPayload.admin = "";
+                 socketService.getChannelList();
              }
          })
          .catch(function(err){
@@ -158,6 +165,9 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
          }); 
      }
 
+
+
+     /* *********************************** */
 
 
 }]);
