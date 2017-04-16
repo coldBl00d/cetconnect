@@ -313,76 +313,121 @@ router.get('/getChannelData/:channelName',function(req, res, next){
 
 
 router.post('/addMod',function(req, res, next){
-    var header = '[addMod]';
     var payload = req.body.payload;
+    var userViewable = false; 
     if(systemVariables.adminToken == payload.adminToken){
-        console.log(header,'Admin token matched');
-        userHelper.ifUser(payload.userId, function(result, user){
-            if(result){
-                console.log(header,'Found user, going to check if he is already admin');
-                var adminOf = user.adminOf;
-                var index = adminOf.indexOf(payload.channelName);
-                if(index != -1){
-                    console.log(header,'User already admin of the channel');
-                    return res.json({message:'User already is an admin of '+ payload.channelName}).status(201).end();
-                }else{
-                    console.log(header,'Channel not found in  user');
-                    console.log(header,'Proceeding to add to channel');
-                    channelHelper.ifChannel(payload.channelName, function(channel){
-                        if(channel){
-                            var admins = channel.admins; 
-                            var index = admins.indexOf(payload.userId);
-                            console.log(header,'index '+ index);
+        
+        channelHelper.ifChannel(payload.channelName, function(channel){
+            if(channel){
 
-                            if(index == -1){
-                                admins.push(payload.userId);
-                                channel.save(function(err, uchannel){
-                                    if(err){
-                                        return res.json({message:'Failed to add moderator'}).status(201).end();
-                                    }else{
-                                        adminOf.push(payload.channelName);
-                                        user.save(function(err, uuser){
-                                            if(err){
-                                                var i = uchannel.admins.indexOf(payload.userId);
-                                                uchannel.admins.splice(i,1);
-                                                uchannel.save(function(err, doc){
-                                                    if(err){
-                                                        return res.json({message:'Database failure!'}).status(201).end();
-                                                    }else{
-                                                        return res.json({message:'Failed to add moderator'}).status(201).end();
-                                                    }
-                                                });
-                                            }else{
-                                                var modAdded = {
-                                                    name: uuser.name,
-                                                    department: uuser.department, 
-                                                    post: uuser.post, 
-                                                    batch: uuser.batch
-                                                };
-                                                return res.json({message:'Moderator added successfully', mod: modAdded}).status(200).end();
-                                            }
-                                        })
-                                    }
-                                });
-                            }else{
-                                console.log(header,'user is already a channel admin');
-
-                                return res.json({message:'User is already a channel admin'}).status(201).end();
-                            }
-                        }else{
-                           return res.json({message:''}).status(201).end();
-                        }
-                    })
+                var userIndex = channel.admins.indexOf(payload.userId);
+                if(userIndex == -1){
+                    channel.admins.push(payload.userId);
+                    console.log(header,payload.userId+' added to channel '+ payload.channelName);
                 }
+
+                userHelper.ifUser(payload.userId, function(result, user){
+
+                    if(result){
+                        var channelIndex = user.adminOf.indexOf(payload.channelName);
+                        if(channelIndex == -1){
+                            user.adminOf.push(payload.channelName);
+                            console.log(header,'Channel '+ payload.channelName+ ' added to ' + payload.userId);
+                        }else{
+                            userViewable = true;
+                        }
+
+                        user.save(function(err,udoc){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                channel.save(function(err, cdoc){
+                                    if (err){
+                                        console.log(header,err);
+                                    }else{
+                                        var mod = {
+                                            name: udoc.name,
+                                            post: udoc.post, 
+                                            department: udoc.department, 
+                                            batch:udoc.batch
+                                        }
+                                        res.json({message:'Added Moderator '+udoc.name, mod:mod, add:userViewable }).status(201).end();
+                                    }
+                                })
+                            }
+                        })
+
+                    }else{
+                        return res.json({message:'Moderator not found'}).status(201).end();
+                    }
+
+                });
+
             }else{
-                res.json({message:'The user does not exist in the system'}).status(201).end();
+                return res.json({message:'Channel not found'}).status(201).end();
+            }
+
+        });
+
+
+    }else{
+        res.json({message:'You have no previlage for the operation'}).status(202).end();
+    }
+});
+
+router.post('/delMod',function(req, res, next){
+    var header = '[delMod]';
+    var payload = req.body.payload;
+    var userId = payload.userId;
+    var cname = payload.channelName;
+    if(systemVariables.adminToken == payload.adminToken){
+        
+        channelHelper.ifChannel(cname, function(channel){
+            if(channel){
+                var admins = channel.admins;
+                var index = admins.indexOf(userId);
+                var inChannel= false;
+                var inUser = false;
+                var operations = 2;
+                if(index !=-1){
+                    admins.splice(index,1);
+                    console.log(header,'Removed '+userId+' from '+ cname);
+                }
+
+                userHelper.ifUser(userId, function(result, user){
+                    if(result){
+                        console.log(header,'Found user '+ userId);
+                        var adminOf = user.adminOf; 
+                        var jindex = adminOf.indexOf(cname);
+                        if(jindex != -1){
+                            adminOf.splice(jindex, 1);
+                            console.log(header,'Removed '+cname+' from ' +userId);
+                        }
+                        user.save(function(err, doc){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    channel.save(function(err, doc){
+                                        if(err){
+                                            console.log(header,err);
+                                        }else{
+                                            res.json({message:'Removed'}).status(200).end();
+                                        }
+                                    });
+                                }
+                        });
+                    }else{
+                        res.json({message:'User not found'}).status(201).end();;
+                    }
+                });
+            }else{
+                res.json({message:'Channel not found'}).status(201).end();
             }
         });
     }else{
         res.json({message:'You have no previlage for the operation'}).status(202).end();
     }
 });
-
 
 
 module.exports = router; 

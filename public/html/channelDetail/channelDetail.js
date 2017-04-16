@@ -44,7 +44,8 @@ application.controller('channelInfo', ['$rootScope', '$scope', '$mdToast','chann
              mdToast.show(mdToast.simple().textContent(res.data.message));
              if(res.status == 200){
                  scope.searchText = "";
-                 scope.channelDetail.admins.push(res.data.mod);
+                 if(res.data.add)
+                    scope.channelDetail.admins.push(res.data.mod);
              }
          })
          .catch(function(err){
@@ -52,11 +53,34 @@ application.controller('channelInfo', ['$rootScope', '$scope', '$mdToast','chann
              console.log(header,err);
              mdToast.show(mdToast.simple().textContent('Something went wrong'));
          });
-         
-
-
+        
      }
     
+    scope.deleteMod = function(mod){
+        var payload = {
+             userId: mod.userid,
+             channelName: scope.channelName,
+             adminToken: rootscope.adminToken
+         }
+
+         scope.addwait = true;
+
+         http.post(address+'admin/delMod',{payload:payload})
+         .then(function(res){
+             scope.addwait = false;
+             mdToast.show(mdToast.simple().textContent(res.data.message));
+             if(res.status ==200){
+                 scope.channelDetail.admins.splice(scope.channelDetail.admins.indexOf(mod), 1);
+             }
+
+         })
+         .catch(function(err){
+              scope.addwait = false;
+              console.log(header,err);
+              mdToast.show(mdToast.simple().textContent('Something went wrong'));
+         })
+         
+    }
 
 
 }]);

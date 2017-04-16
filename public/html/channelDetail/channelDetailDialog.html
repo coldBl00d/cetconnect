@@ -66,7 +66,7 @@
                                         </div>
                                         <div flex layout="row" layout-align="end center">
                                             <md-button class="md-icon-button"> 
-                                                <md-icon>delete</md-icon>
+                                                <md-icon ng-click="deleteMod(admin)">delete</md-icon>
                                             </md-button>
                                         </div>
                                     </div>
@@ -76,47 +76,53 @@
                         </md-card-content>
                     </div>
                     <div layout="column" flex=20 layout-align="end">
-                        <md-card-actions layout="row">
-                            <div style="margin-right:6px" flex="75">
-                                 <md-autocomplete flex required
-                                        md-input-name="moderatorField"
-                                        md-input-minlength="4"
-                                        md-input-maxlength="18"
-                                        md-no-cache="true"
-                                        md-selected-item="selectedItem"
-                                        md-search-text="searchText"
-                                        md-items="item in moderatorList"
-                                        md-item-text="item.name"
-                                        md-require-match
-                                        md-floating-label="Moderator"
-                                        md-search-text-change="querySearch(searchText)"
-                                        ng-model="moderatorModel"
-                                        md-menu-class="autocomplete-custom-template"
-                                        >
-                                   <md-item-template>
-                                            <span class="item-title">
-                                                <md-icon>face</md-icon>
-                                                <span> {{item.name}} </span>
-                                            </span>
-                                            <span class="item-metadata">
-                                                <span class="item-metastat">
-                                                    <strong>{{item.department + '  ' +item.post}}</strong>
+                        <md-card-actions layout="column">
+                            <div layout="row">
+                                <div style="margin-right:6px" flex="100">
+                                    <md-autocomplete flex required
+                                            md-input-name="moderatorField"
+                                            md-input-minlength="4"
+                                            md-input-maxlength="18"
+                                            md-no-cache="true"
+                                            md-selected-item="selectedItem"
+                                            md-search-text="searchText"
+                                            md-items="item in moderatorList"
+                                            md-item-text="item.name"
+                                            md-require-match
+                                            md-floating-label="Moderator"
+                                            md-search-text-change="querySearch(searchText)"
+                                            ng-model="moderatorModel"
+                                            md-menu-class="autocomplete-custom-template"
+                                            >
+                                    <md-item-template>
+                                                <span class="item-title">
+                                                    <md-icon>face</md-icon>
+                                                    <span> {{item.name}} </span>
                                                 </span>
-                                                <span class="item-metastat">
-                                                    {{item.userId}}
+                                                <span class="item-metadata">
+                                                    <span class="item-metastat">
+                                                        <strong>{{item.department + '  ' +item.post}}</strong>
+                                                    </span>
+                                                    <span class="item-metastat">
+                                                        {{item.userId}}
+                                                    </span>
                                                 </span>
-                                            </span>
-                                    </md-item-template>
-                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
-                                        <div ng-message="required">You <b>must</b> enter a moderator</div>
-                                    </div>
-                                 </md-autocomplete>
+                                        </md-item-template>
+                                        <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                            <div ng-message="required">You <b>must</b> enter a moderator</div>
+                                        </div>
+                                    </md-autocomplete>
+                                </div>
+                               
                             </div>
-                            <div flex="noshrink" layout="row" layout-align="end">
-                                <md-button ng-disabled="addwait" ng-click="addMod()">Add Admin</md-button>
+                            <div layout="row">
+                                <p flex=75 class="md-body-1">Selected: {{selectedItem.name}}</p>
+                                <div flex="noshrink" layout="row" layout-align="end">
+                                    <md-button ng-disabled="addwait" ng-click="addMod()">Add Admin</md-button>
+                                </div>
                             </div>
-                            
                         </md-card-actions>
+                        
                         <div ng-show="addwait" flex=5>
                                 <md-progress-linear md-mode="indeterminate">
                                 </md-progress-linear>
