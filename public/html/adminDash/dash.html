@@ -144,13 +144,16 @@
                                 <md-icon flex=10>face</md-icon>
                                 <md-input-container style="margin-left: 6px" class="md-block" flex>
                                     <label>Admin</label>
-                                <input ng-model="channelPayload.channelName">
+                                <input ng-model="channelPayload.admin">
                                 </md-input-container> 
-                                <md-button>Verify</md-button>
                               </div>
                               
-                            <div layout="column" flex=15>
-                              <md-button class="md-raised md-primary">Add</md-button>
+                            <div layout="column" flex=15 ng-show = "!channelAddWaiting">
+                              <md-button ng-click="addChannel()" class="md-raised md-primary">Add</md-button>
+                            </div>
+
+                            <div layout="column" flex=15 ng-show = "channelAddWaiting" layout-align="center center" >
+                               <md-progress-circular ng-disabled="!channelAddWaiting" class="md-primary" md-diameter="40"></md-progress-circular>
                             </div>
 
                         </md-card>

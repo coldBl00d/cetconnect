@@ -6,17 +6,6 @@ var channelHelper = require('../helper/channelHelper');
 var appDir = path.dirname(require.main.filename);
 var header = "[channel router]";
 
-router.get('/', function (req, res, next) {
-    var options = { root: path.resolve(appDir, 'public/html/addChannel') };
-    var fileName = 'addChannel.html';
-    res.sendFile(fileName, options, function (err) {
-        if (err) {
-            next(err);
-        } else {
-            console.log('Sent:', fileName);
-        }
-    });
-});
 
 router.post('/', function (req, res, next) {
     var payload = req.body.payload;

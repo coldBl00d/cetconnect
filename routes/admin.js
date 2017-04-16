@@ -8,6 +8,7 @@ var systemVariables = require('../app.js');
 var serverKey = '7182af9b755a72f6f7c5fe88bb3d6dd2ecc5b99b';
 var adminHelper = require('../helper/adminHelper');
 var userHelper = require("../helper/userHelper");
+var channelHelper = require('../helper/channelHelper');
 
 router.post('/', function(req, res, next){
 
@@ -220,6 +221,63 @@ router.post('/batchDelete',function(req, res, next){
         res.json({message:'You have no previlage for the operation'}).status(202).end();
     }
 });
+
+
+
+router.post('/addChannel', function (req, res, next) {
+    var payload = req.body.payload;
+    var header = '[addChannelRequest]';
+
+    function validatePayload(payload) {
+        if (payload.channelName && payload.admin) {
+            return true;
+        } else return false;
+    }
+
+    if(payload.adminToken == systemVariables.adminToken){
+
+        if (validatePayload(payload)) {
+            console.log(header, "Recieved proper payload, going to look for channel if it already exist");
+            channelHelper.ifChannel(payload.channelName, function (result) {
+                if (result) {
+                    console.log(header, "channel already exist, choose another name");
+                    res.json({message:'channel already exist'}).status(201).end();
+                } else {
+                    console.log(header, "Channel name is unique, proceeding to check if the admin exist");
+                    userHelper.ifUser(payload.admin, function (result, db_admin) {
+                        if (result) {
+                            console.log(header, "Verfied admin exist in system, Proceeding to add channel to system");
+                            channelHelper.addBareboneChannel(payload.channelName, payload.admin, function (result) {
+                                if (result) {
+                                    console.log(header, "The new channel is added successfully");
+                                    console.log(header, "Updating channel to admins entry");
+                                    db_admin.adminOf.push(payload.channelName);
+                                    db_admin.save();
+                                    res.json({message:'Channel added'}).status(200).end();
+                                } else {
+                                    console.log(header, "MongoDB failed to add channel to its database rolled back firebase");
+                                    res.json({message:'Oops... something went wrong at my end'}).status(201).end();
+                                }
+                            })
+                        } else {
+                            console.log(header, "Admin does not check out in the system. Select another admin");
+                            res.json({message:'The user you selected does not exist'}).status(201).end();
+                        }
+                    })
+                }
+            });
+        } else {
+            console.log(header, "Payload is malformed");
+            res.json({message:'Your request is invalid'}).status(201).end();
+        }
+
+    }else{
+        console.log(header,'Token mismatch');
+        res.json({message:"You do not have previlage"}).status(201).end();
+
+    }
+});
+
 
 
 module.exports = router; 

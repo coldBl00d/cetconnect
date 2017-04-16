@@ -114,6 +114,8 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
      scope.onlineCount = 0;
      scope.waiting = false;
      scope.batch = "";
+     scope.channelAddWaiting = false;
+     scope.channelPayload = {};
 
      scope.batchDelete = function(batch){
         scope.waiting = true;
@@ -137,6 +139,25 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
         });
         
      }
+
+     scope.addChannel = function() {
+         scope.channelAddWaiting = true;
+         scope.channelPayload.adminToken = rootscope.adminToken;
+         http.post(address+'admin/addChannel',{payload: scope.channelPayload})
+         .then(function(res){
+             scope.channelAddWaiting = false;
+             mdToast.show(mdToast.simple().textContent(res.data.message));
+             if(res.status == 200){
+                 scope.channelPayload.channelName = "";
+                 scope.channelPayload.admin = "";
+             }
+         })
+         .catch(function(err){
+             scope.channelAddWaiting = false;
+             mdToast.show(mdToast.simple().textContent('Something went wrong.'));
+         }); 
+     }
+
 
 
 }]);
