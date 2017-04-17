@@ -83,7 +83,7 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
 
             mdExpansionPanel('Users').expand();
             mdExpansionPanel('Channels').expand();
-            mdExpansionPanel('Database').expand();
+            mdExpansionPanel('Extra').expand();
 
         }
     });
@@ -169,7 +169,7 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
      }
 
      scope.channelDetail = function(channelName){
-
+        console.log(header,'Opening dialog for channel '+ channelName);
         mdDialog.show({
             locals:{channelName: channelName },                
             clickOutsideToClose: true,                

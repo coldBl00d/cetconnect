@@ -44,6 +44,7 @@ application.controller('channelInfo', ['$rootScope', '$scope', '$mdToast','chann
              mdToast.show(mdToast.simple().textContent(res.data.message));
              if(res.status == 200){
                  scope.searchText = "";
+                 console.log(header,res.data.add);
                  if(res.data.add)
                     scope.channelDetail.admins.push(res.data.mod);
              }

@@ -65,8 +65,8 @@
                                             <p>{{ admin.batch }}</p>
                                         </div>
                                         <div flex layout="row" layout-align="end center">
-                                            <md-button class="md-icon-button"> 
-                                                <md-icon ng-click="deleteMod(admin)">delete</md-icon>
+                                            <md-button ng-click="deleteMod(admin)" class="md-icon-button"> 
+                                                <md-icon >delete</md-icon>
                                             </md-button>
                                         </div>
                                     </div>
@@ -75,21 +75,21 @@
                             </md-list>
                         </md-card-content>
                     </div>
-                    <div layout="column" flex=20 layout-align="end">
-                        <md-card-actions layout="column">
+                    <!--<div layout="column" flex=20 layout-align="end">-->
+                        <md-card-actions layout="column" layout-align="end">
                             <div layout="row">
                                 <div style="margin-right:6px" flex="100">
                                     <md-autocomplete flex required
                                             md-input-name="moderatorField"
                                             md-input-minlength="4"
                                             md-input-maxlength="18"
-                                            md-no-cache="true"
+                                            md-no-cache=true
                                             md-selected-item="selectedItem"
                                             md-search-text="searchText"
                                             md-items="item in moderatorList"
                                             md-item-text="item.name"
                                             md-require-match
-                                            md-floating-label="Moderator"
+                                            md-floating-label="Search User"
                                             md-search-text-change="querySearch(searchText)"
                                             ng-model="moderatorModel"
                                             md-menu-class="autocomplete-custom-template"
@@ -121,13 +121,16 @@
                                     <md-button ng-disabled="addwait" ng-click="addMod()">Add Admin</md-button>
                                 </div>
                             </div>
-                        </md-card-actions>
-                        
+
+                            
                         <div ng-show="addwait" flex=5>
                                 <md-progress-linear md-mode="indeterminate">
                                 </md-progress-linear>
                         </div>
-                    </div>
+
+                        </md-card-actions>
+                        
+                    <!--</div>-->
                 
                 </md-card>
 

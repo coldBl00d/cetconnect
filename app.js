@@ -82,5 +82,5 @@ server.listen(port, function(){
     console.log('Campus connect running at '+ port);
 });
 
-
+var firebaseadmin = require('./firebase-admin.js');
 

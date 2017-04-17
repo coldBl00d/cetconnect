@@ -178,7 +178,7 @@
                                           <h5 class="md-body-2" flex=90>{{channel.channelName}}</h5>
                                         </div>
                                         <div layout="row" flex>
-                                           <md-button class="md-icon-button"><md-icon style="color:green" ng-click="channelDetail(channel.channelName)">info</md-icon></md-button>
+                                           <md-button class="md-icon-button" ng-click="channelDetail(channel.channelName)" ><md-icon style="color:green" >info</md-icon></md-button>
                                         </div>
                                       <md-divider></md-divider>
                                     </md-list-item>
@@ -199,11 +199,11 @@
         
         </md-expansion-panel>
 
-        <md-expansion-panel md-component-id="Database">
+        <md-expansion-panel md-component-id="Extra">
         
           <md-expansion-panel-collapsed>
-            <div class="md-title">Database</div>
-            <div class="md-summary">Manage database and view its status, change routine parameters ...</div>
+            <div class="md-title">Extra</div>
+            <div class="md-summary">Statistics, change password, etc ....</div>
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
         
@@ -217,17 +217,117 @@
             </md-expansion-panel-header>
         
             <md-expansion-panel-content>
-              <h4>Content</h4>
-              <p>Put content in here</p>
+              <div layout="row" style="padding:6px">
+
+                <div flex=50 layout="column">
+                      <md-card layout="column"> 
+                        <div flex=10 style="background-color: #00897B; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Change Password</h1> 
+                        </div>
+
+                        <div style="padding:8px; margin-top: 6px" layout="column">
+                          <div layout="column" flex=80>
+                             <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label>Old Password</label>
+                                <input type="password" ng-model="payload.oldPassword">
+                              </md-input-container> 
+
+                               <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label >New Password</label>
+                                <input type="password" ng-model="payload.newPassword">
+                              </md-input-container>
+
+                               <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label>Confirm New Password</label>
+                                <input type="password" ng-model="payload.confirm">
+                              </md-input-container>
+                          </div> 
+                          <div layout="column">
+                              <md-button class="md-primary" ng-disabled="password_wait" >Change</md-button>
+                              <div ng-show='password_wait'>
+                              <md-progress-linear 
+                                                  md-mode="indeterminate">
+                              </md-progress-linear>
+                              </div>
+                          </div>
+                        </div>
+
+                      </md-card>
+                </div>
+
+                <div flex=50 layout="column">
+                  <style> 
+                    .stat{
+                      height:"20px";
+                    }
+                  </style>
+                    <md-card layout="column">
+                        <div flex=20 style="background-color: #00897B; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Storage Statistics</h1> 
+                        </div>
+                        <!--<div style="height: 6px; width: 100%"></div>-->
+                        
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">User</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent md-hue-3" style="color:#9C27B0" md-mode="determinate" value="number" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Channel</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent md-hue-2" style="color:#9C27B0" md-mode="determinate" value="20" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Device</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent" style="color:#9C27B0" md-mode="determinate" value="number" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Messages</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-warn"  md-mode="determinate" value="number" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                          </div>
+                        </div>
+
+
+                    </md-card>
+                </div>
+                
+
+              </div>
             </md-expansion-panel-content>
         
             <md-expansion-panel-footer md-no-sticky="true">
               <div flex></div>
               <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
             </md-expansion-panel-footer>
-        
           </md-expansion-panel-expanded>
-        
         </md-expansion-panel>
 
   </md-expansion-panel-group>

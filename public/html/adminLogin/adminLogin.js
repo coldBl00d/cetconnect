@@ -110,6 +110,9 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             rootScope.rootscope_channelListWait = false; 
         });
 
+
+        //buggy, this might not set up in time. 
+
         socket.on('adminAccepted', function(data) {
             mdToast.show(mdToast.simple().textContent(data.message));
             socketService.getData();
@@ -187,6 +190,7 @@ application.controller('adminLogin', ['$rootScope', '$scope', '$http','$mdToast'
                 socketConnect.connect();
                 socket.setUpBaseListeners();
                 state.go('adminDash');
+                rootScope.adminId = payload.userId;
             }else if(res.status == 201) {
                 mdToast.show(mdToast.simple().textContent("Check credential"));
             }

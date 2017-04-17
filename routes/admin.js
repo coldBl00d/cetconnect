@@ -314,7 +314,7 @@ router.get('/getChannelData/:channelName',function(req, res, next){
 
 router.post('/addMod',function(req, res, next){
     var payload = req.body.payload;
-    var userViewable = false; 
+    var add = true; 
     if(systemVariables.adminToken == payload.adminToken){
         
         channelHelper.ifChannel(payload.channelName, function(channel){
@@ -324,6 +324,8 @@ router.post('/addMod',function(req, res, next){
                 if(userIndex == -1){
                     channel.admins.push(payload.userId);
                     console.log(header,payload.userId+' added to channel '+ payload.channelName);
+                }else{
+                    add = false;
                 }
 
                 userHelper.ifUser(payload.userId, function(result, user){
@@ -333,8 +335,6 @@ router.post('/addMod',function(req, res, next){
                         if(channelIndex == -1){
                             user.adminOf.push(payload.channelName);
                             console.log(header,'Channel '+ payload.channelName+ ' added to ' + payload.userId);
-                        }else{
-                            userViewable = true;
                         }
 
                         user.save(function(err,udoc){
@@ -351,11 +351,11 @@ router.post('/addMod',function(req, res, next){
                                             department: udoc.department, 
                                             batch:udoc.batch
                                         }
-                                        res.status(200).json({message:'Added Moderator '+udoc.name, mod:mod, add:userViewable }).end();
+                                        res.status(200).json({message:'Added Moderator '+udoc.name, mod:mod, add:add }).end();
                                     }
-                                })
+                                });
                             }
-                        })
+                        });
 
                     }else{
                         return res.status(201).json({message:'Moderator not found'}).end();
@@ -428,6 +428,7 @@ router.post('/delMod',function(req, res, next){
         res.status(202).json({message:'You have no previlage for the operation'}).end();
     }
 });
+
 
 
 module.exports = router; 
