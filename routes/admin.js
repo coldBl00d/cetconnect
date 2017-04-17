@@ -117,18 +117,19 @@ router.post('/deleteUser',function(req, res, next){
         var user_token = payload.user_token;
         userHelper.ifUserToken(user_token, function(result,user){
             if(result){
-                //channelHelper.deleteUser(user);
-                userHelper.deleteToken(user_token, function(result){
-                    if(result){
-                         res.json({message:"User deleted"}).status(200).end();
-                         userHelper.getCount(function(count){
-                                if(count !=0)
-                                adminHelper.send('registeredCount', {registeredCount: count});
-                        });
-                    }else{
-                        res.status(203).json({message:"Deletion Failed"}).end();
-                    }
-                })
+                channelHelper.deleteUser(user, function(result){
+                    userHelper.deleteToken(user_token, function(result){
+                        if(result){
+                            res.json({message:"User deleted"}).status(200).end();
+                            userHelper.getCount(function(count){
+                                    if(count !=0)
+                                    adminHelper.send('registeredCount', {registeredCount: count});
+                            });
+                        }else{
+                            res.status(203).json({message:"Deletion Failed"}).end();
+                        }
+                    });
+                });
             }else{
                 res.status(203).json({message:"This user does not exist"}).end();
             }

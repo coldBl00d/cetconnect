@@ -147,7 +147,7 @@ channelHelper.getSize = function(callBack){
 }
 
 
-channelHelper.deleteUser = function(user){
+channelHelper.deleteUser = function(user, callBack){
     var header = '[deleteUser From Channel]';
     console.log(header,'User :'+user.userid);
     var adminOf = user.adminOf;
