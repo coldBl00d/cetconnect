@@ -174,9 +174,17 @@ userHelper.getBatchDataToken = function(array, callBack){
     });
 }
 
-userModel.collection.stats(function(err, stats){
-    console.log(header,'storage size of user');
-    console.log(header,stats.storageSize);
-});
+
+userHelper.getSize = function(callBack){
+    userModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
+    });
+}
+
 
 module.exports = userHelper;

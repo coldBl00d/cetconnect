@@ -229,21 +229,21 @@
                           <div layout="column" flex=80>
                              <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
                                     <label>Old Password</label>
-                                <input type="password" ng-model="payload.oldPassword">
+                                <input type="password" ng-model="passwordPayload.oldPassword">
                               </md-input-container> 
 
                                <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
                                     <label >New Password</label>
-                                <input type="password" ng-model="payload.newPassword">
+                                <input type="password" ng-model="passwordPayload.newPassword">
                               </md-input-container>
 
                                <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
                                     <label>Confirm New Password</label>
-                                <input type="password" ng-model="payload.confirm">
+                                <input type="password" ng-model="passwordPayload.confirm">
                               </md-input-container>
                           </div> 
                           <div layout="column">
-                              <md-button class="md-primary" ng-disabled="password_wait" >Change</md-button>
+                              <md-button class="md-primary" ng-disabled="password_wait" ng-click="changePassword()">Change</md-button>
                               <div ng-show='password_wait'>
                               <md-progress-linear 
                                                   md-mode="indeterminate">
@@ -266,16 +266,21 @@
                           <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Storage Statistics</h1> 
                         </div>
                         <!--<div style="height: 6px; width: 100%"></div>-->
+                        <div ng-show='stat_wait'>
+                              <md-progress-linear 
+                                                  md-mode="indeterminate">
+                              </md-progress-linear>
+                        </div>
                         
                         <div style="max-height: 50px; margin-top: 6px" layout="row">
                           <div flex="20" style="margin-left: 16px; padding: 8px">
                             <p style="margin: 0px;" class="md-body-1">User</p>
                           </div>
                           <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
-                            <md-progress-linear class="md-accent md-hue-3" style="color:#9C27B0" md-mode="determinate" value="number" > </md-progress-linear>
+                            <md-progress-linear class="md-accent md-hue-3" style="color:#9C27B0" md-mode="determinate" value="{{user_percent}}" > </md-progress-linear>
                           </div>
                           <div flex="20" style="padding: 8px; margin-right: 8px">
-                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                              <p style="margin: 0px;" class="md-body-1">{{usersize}}KB</p>
                           </div>
                         </div>
 
@@ -284,10 +289,10 @@
                             <p style="margin: 0px;" class="md-body-1">Channel</p>
                           </div>
                           <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
-                            <md-progress-linear class="md-accent md-hue-2" style="color:#9C27B0" md-mode="determinate" value="20" > </md-progress-linear>
+                            <md-progress-linear class="md-accent md-hue-2" style="color:#9C27B0" md-mode="determinate" value="{{channel_percent}}" > </md-progress-linear>
                           </div>
                           <div flex="20" style="padding: 8px; margin-right: 8px">
-                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                              <p style="margin: 0px;" class="md-body-1">{{channelsize}}KB</p>
                           </div>
                         </div>
 
@@ -296,10 +301,10 @@
                             <p style="margin: 0px;" class="md-body-1">Device</p>
                           </div>
                           <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
-                            <md-progress-linear class="md-accent" style="color:#9C27B0" md-mode="determinate" value="number" > </md-progress-linear>
+                            <md-progress-linear class="md-accent" style="color:#9C27B0" md-mode="determinate" value="{{device_percent}}" > </md-progress-linear>
                           </div>
                           <div flex="20" style="padding: 8px; margin-right: 8px">
-                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                              <p style="margin: 0px;" class="md-body-1">{{devicesize}}KB</p>
                           </div>
                         </div>
 
@@ -308,10 +313,10 @@
                             <p style="margin: 0px;" class="md-body-1">Messages</p>
                           </div>
                           <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
-                            <md-progress-linear class="md-warn"  md-mode="determinate" value="number" > </md-progress-linear>
+                            <md-progress-linear class="md-warn"  md-mode="determinate" value="{{message_percent}}" > </md-progress-linear>
                           </div>
                           <div flex="20" style="padding: 8px; margin-right: 8px">
-                              <p style="margin: 0px;" class="md-body-1">20KB</p>
+                              <p style="margin: 0px;" class="md-body-1">{{messagesize}}KB</p>
                           </div>
                         </div>
 

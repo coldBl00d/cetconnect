@@ -135,7 +135,16 @@ function addChannelToFirebaseList(channelId){
     });
 }
 
-
+channelHelper.getSize = function(callBack){
+    channelModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
+    });
+}
 
 
 module.exports = channelHelper;

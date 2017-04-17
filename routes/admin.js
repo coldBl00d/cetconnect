@@ -40,19 +40,30 @@ router.post('/validate', function(req, res, next){
 
 router.post('/changePassword', function(req, res, next){
 
-    var userId = req.body.userId;
-    var newPassword = req.body.newPassword;
-    var adminToken = req.body.adminToken; 
+    var userId = req.body.payload.userId;
+    var newPassword = req.body.payload.newPassword;
+    var adminToken = req.body.payload.adminToken; 
+    var oldPassword = req.body.payload.oldPassword;
 
     if(adminToken == systemVariables.adminToken){
-        var newToken = md5(userId+newPassword+serverKey);
-        adminHelper.changeLoginToken(userId, newToken, function(result){
+
+        var oldToken = md5(userId+oldPassword+serverKey);
+        adminHelper.findAdmin(userId, oldToken, function(result){
             if(result){
-                res.status(200).end();
+
+                var newToken = md5(userId+newPassword+serverKey);
+                adminHelper.changeLoginToken(userId, newToken, function(result){
+                    if(result){
+                        res.status(200).json({message:'Password changed'}).end();
+                    }else{
+                        res.status(201).json({message:'Something went wrong while changing the password'}).end();
+                    }
+                });
             }else{
-                res.status(401).end();
+                return res.status(201).json({message:'Your old password is incorrect'}).end();
             }
         });
+
     }else{
         console.log(header, "You are not an admin or your session is overridden by someone");
         res.status(400).json({message: "Your token is invalid"}).end();

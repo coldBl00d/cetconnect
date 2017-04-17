@@ -6,6 +6,9 @@ var socketHelper = {};
 var systemVariables = require('../app');
 var header = '[socketHelper]';
 var adminHelper = require('../helper/adminHelper');
+
+var messageHelper = require('../helper/messagesHelper');
+var deviceHelper = require('../helper/deviceHelper');
 var channelHelper = require('../helper/channelHelper');
 function emitToClient(socket, message){
     socket.emit(message);
@@ -117,6 +120,50 @@ io.on('connection', function(socket){
            console.log(header,'Not sending onlineList, token failed to match');
            socket.volatile.emit('message', {message:"Try loggin in again"});
        }
+
+    });
+
+    socket.on('getStatistics' , function(data){
+        var header = '[getStatistics]';
+
+        var operations = 4;
+        var payload= {};
+        userHelper.getSize(function(result){
+            payload.user = result;
+            if(--operations == 0){
+                socket.emit('statistics', {statistics:payload});
+            }else{
+                console.log(header,'set user');
+            }
+        });
+
+        channelHelper.getSize(function(result){
+            payload.channel = result;
+            if(--operations == 0){
+                socket.emit('statistics', {statistics:payload});
+            }else{
+                console.log(header,'set channel');
+            }
+        });
+
+        messageHelper.getSize(function(result){
+            payload.message = result;
+            if(--operations == 0){
+                socket.emit('statistics', {statistics:payload});
+            }else{
+                console.log(header,'set message');
+            }
+        });
+        
+        deviceHelper.getSize(function(result){
+            payload.device = result;
+            if(--operations == 0){
+                socket.emit('statistics', {statistics:payload});
+            }else{
+                console.log(header,'set device');
+            }
+        });
+
 
     });
 

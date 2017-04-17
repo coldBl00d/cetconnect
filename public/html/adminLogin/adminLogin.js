@@ -139,8 +139,32 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
             }
         });
 
+        socket.on('statistics', function(data){
+            var header = '[statistics]';
+            scope.stat_wait = false;
+            console.log(header,data);
+             function round(value, decimals) {
+                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+            }
+
+            console.log(header,data.statistics);
+            scope.statistics = data.statistics;
+            scope.usersize = Math.round(scope.statistics.user/1024);
+            scope.messagesize = Math.round(scope.statistics.message/1024);
+            scope.devicesize = Math.round(scope.statistics.device/1024);
+            scope.channelsize = Math.round(scope.statistics.channel/1024);
+
+            var total = scope.usersize+scope.messagesize+scope.devicesize+scope.channelsize;
+            scope.user_percent = Math.round ((scope.usersize/total)*100);
+            console.log(header,scope.user_percent);
+            scope.message_percent = Math.round((scope.messagesize/total)*100);
+            scope.device_percent = Math.round((scope.devicesize/total)*100);
+            scope.channel_percent = Math.round((scope.channelsize/total)*100);
+        });
         
     }
+
+   
 
     function getData () {
         console.log(header,'getdata called');
@@ -149,6 +173,7 @@ application.factory('$socket', ['$rootScope', '$http', '$mdToast','$socketConnec
         socket.emit('getChannelList', {adminToken:rootScope.adminToken});
         socket.emit('getRegisteredCount', {});
         socket.emit('getOpenRegistration', {adminToken:rootScope.adminToken});
+        socket.emit('getStatistics', {adminToken:rootScope.adminToken});
     }
 
     function getChannelList () {

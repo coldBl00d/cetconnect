@@ -183,6 +183,47 @@ application.controller('dashController', ['$rootScope', '$scope', '$http','$vali
      /* *********************************** */
 
 
+     /*change password************************/
+
+        scope.password_wait = false;
+        scope.passwordPayload = {
+            userId: rootscope.adminId,
+            adminToken: rootscope.adminToken
+        }
+
+        scope.changePassword = function() {
+            if( (scope.passwordPayload.newPassword == scope.passwordPayload.confirm) && (scope.passwordPayload.confirm.length > 3) ){
+
+                scope.password_wait = true;
+                var header = '[changePassword]';
+                http.post(address+'admin/changePassword',{payload:scope.passwordPayload})
+                .then(function(res){
+                   mdToast.show(mdToast.simple().textContent(res.data.message));
+                   scope.password_wait = false;
+                   if(res.status==200){
+                       scope.passwordPayload.oldPassword ="";
+                       scope.passwordPayload.newPassword = "";
+                       scope.passwordPayload.confirm ="";
+                   }
+                })
+                .catch(function(err){
+                    mdToast.show(mdToast.simple().textContent("Something went wrong"));
+                    scope.password_wait = false;
+                });
+            }else{
+                mdToast.show(mdToast.simple().textContent('Make sure the new password is same in the confirm field or length is greater than 3 character'));
+            }  
+        }
+
+     /*************************************** */
+
+     /* STATS *********************************/
+
+        scope.stat_wait = true;
+
+     /**************************************** */
+
+
 }]);
 
 application.controller('delUser', ['$rootScope' , '$socketConnect', '$http', '$scope', '$mdToast', function(rootscope, socketconnect, http, scope, mdToast){

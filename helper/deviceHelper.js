@@ -131,4 +131,15 @@ deviceHelper.notifyChannel = function(channelName, content){
     });
 }
 
+deviceHelper.getSize = function(callBack){
+    deviceModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
+    });
+}
+
 module.exports = deviceHelper;
