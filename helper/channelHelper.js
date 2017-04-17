@@ -147,4 +147,54 @@ channelHelper.getSize = function(callBack){
 }
 
 
+channelHelper.deleteUser = function(user){
+    var header = '[deleteUser From Channel]';
+    console.log(header,'User :'+user.userid);
+    var adminOf = user.adminOf;
+    var subc = user.subbedChannels;
+
+    var lenAdminOf = adminOf.length;
+    var operations =2;
+    var lensubc = subc.length;
+
+    for(var i=0; i<adminOf.length; i++){
+        var current = adminOf[i];
+        channelModel.ifChannel(current, function(result){
+            if(result){
+                if(result.admins.indexOf(user.userid) != -1)
+                    result.admins.splice(result.admins.indexOf(user.userid),1);
+                result.save(function(err, doc){
+                    if(err) callBack(false);
+                });
+            }
+
+            if(--lenAdminOf == 0){
+                if(--operations == 0){
+                    callBack(true);
+                }
+            }
+        });
+    }
+
+    for(var i=0; i<subc.length; i++){
+        var current = subc[i];
+        channelModel.ifChannel(current, function(result){
+            if(result){
+                if(result.subscribers.indexOf(user.user_token) != -1){
+                    result.subscribers.splice(result.subscribers.indexOf(user.user_token),1);
+                    result.save(function(err, doc){
+                        if(err){callBack(false)}
+                    });
+                }
+            }
+             if(--lensubc == 0){
+                if(--operations == 0){
+                    callBack(true);
+                }
+            }
+        });
+    }
+}
+
+
 module.exports = channelHelper;

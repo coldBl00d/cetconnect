@@ -117,6 +117,7 @@ router.post('/deleteUser',function(req, res, next){
         var user_token = payload.user_token;
         userHelper.ifUserToken(user_token, function(result,user){
             if(result){
+                //channelHelper.deleteUser(user);
                 userHelper.deleteToken(user_token, function(result){
                     if(result){
                          res.json({message:"User deleted"}).status(200).end();

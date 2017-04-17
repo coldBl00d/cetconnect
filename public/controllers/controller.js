@@ -291,3 +291,4 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 function searchSubList(channel, subList){
     return subList.findIndex(function(item){return item==channel;}) != -1;
 }
+

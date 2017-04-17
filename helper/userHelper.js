@@ -2,6 +2,8 @@ var userModel = require('../models/users');
 var header ='[userhelper]'
 var userHelper = {};
 
+userHelper.userModel = userModel;
+
 userHelper.ifUser = function (userId, callback){
     userModel.findOne({userid:userId})
             .then(function(user){
