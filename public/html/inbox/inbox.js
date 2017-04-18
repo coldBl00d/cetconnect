@@ -1,5 +1,6 @@
 application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging, $mdDialog, $http, $mdToast,$socket){
     $validateLogin();
+    $scope.messages = [];
     $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
     $scope.delete = function(id){$messaging.deleteMessage(id, true);}
@@ -28,8 +29,22 @@ application.controller('inboxController', function($scope, $rootScope, $validate
 
     $socket.getSocket().on('newMessage', function(data){
         $mdToast.show($mdToast.simple().textContent('new message'));
-        console.log(header,data.message);
-        $scope.messages.push(data.message);
+        $messaging.loadMessageMetadata(true, function(messagesNew){
+            messagesNew.forEach(function(item){
+                var present = false;
+                $scope.messages.forEach(function(mess){
+                    if(mess.id == item.id){
+                        present = true;
+                    }
+                });
+                if(!present){
+                    console.log(header,'adding');
+                    $scope.messages.push(item);
+                }
+            });
+        });
+       // console.log(header,data.message);
+       // $scope.messages.push(data.message);
     });
 
 });
@@ -74,7 +89,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
 
         if(inbox) path= 'messages/getMetadata/';
         else path = 'messages/getMetadataSent/';
-
+        console.log(header,$rootScope.currentUser.userToken);
         $http.get(address+ path + $rootScope.currentUser.userToken).then(function(res){
             if(res.status == 200){
                 var messages;
@@ -91,7 +106,8 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
                     messagesSent = JSON.parse(res.data);
                     messages = messagesSent;
                 }
-
+                console.log(header,'loadMessageMetadata is calling back with ');
+                console.log(header,messages);
                 callBack(messages);
             }
             
@@ -105,10 +121,27 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         if(messagesInbox!=0){ 
             console.log(header,'already loaded');
             $scope.messages= messagesInbox;
+
         }else{
             loadMessageMetadata(true, function(messages_callback){
                 console.log('binding messages with inbox');
-                $scope.messages= messages_callback;
+                if($scope.messages){
+                    console.log(header,'Messages is initialized');
+                    messagesNew.forEach(function(item){
+                        var present = false;
+                        $scope.messages.forEach(function(mess){
+                            if(mess.id == item.id){
+                                present = true;
+                            }
+                        });
+                        if(!present){
+                            console.log(header,'adding');
+                            $scope.messages.push(item);
+                        }
+                    });
+                }else{
+                    $scope.messages= messages_callback;
+                }
             });
         }
      }

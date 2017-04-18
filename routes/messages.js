@@ -45,6 +45,7 @@ router.post('/send', function(req, res, next){
 });
 
 router.get('/getMetadata/:token', function(req, res, next){
+  console.log(header,'Get inbox metadata for '+ req.param);
    var userToken = req.params.token;
    messageHelper.getMessagesMetadata(userToken,true, function(messageList){
      messageListJSON = JSON.stringify(messageList);
