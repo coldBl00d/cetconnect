@@ -127,16 +127,30 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService){
-	console.log("In my controller");
+application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService, $mdToast){
+	var header = '[LoginController]'
+	console.log(header,'Starting login controller');
+	$rootScope.openRegistration = false;
+
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
 	$rootScope.currentUser.name = "User";
 	$scope.payload={userId:"", password:""};
-	
+	$scope.loginWait = false;
 
-	//prevents identifying itself many times over. 
+	//prevents identifying itself many times over.
+
+	$http.get(address+'registrationStatus')
+	.then(function(res){
+		if(res.status==200){
+			$rootScope.openRegistration = true;
+		}else{
+			$rootScope.openRegistration = false;
+		}
+		console.log(header,'registration status ' + $rootScope.openRegistration);
+	});
+
 	if(!$rootScope.deviceToken){
 		$notificationService.identify(function(token){
 			$rootScope.deviceToken = token;
@@ -145,6 +159,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	}
 
 	$scope.login=function(){
+		$scope.loginWait = true;
 		console.log($scope.rememberMe);
 		if($scope.rememberMe){
 			console.log("getting token");
@@ -157,6 +172,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 		$http.post(address,$scope.payload)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
+					   $scope.loginWait = false;
 					   var currentUser = $packingService.packUser(response.data);
 					   sessionStorage.setItem('currentUser', currentUser);
 					   sessionStorage.setItem('loggedIn', true);
@@ -169,18 +185,20 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 					   else $rememberMe.forget();
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
+						$scope.loginWait = false;
 						console.log(response);
-						alert("Check credentials");
+						$mdToast.show($mdToast.simple().textContent('Check credential'));
 					}
 			},function(err){
-				alert("Cant reach server");
+				$scope.loginWait = false;
+				$mdToast.show($mdToast.simple().textContent('Cant reach server'));
 			});
 	};
 });
 
 
 /*sidebar routing controller*/
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $socket){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $window){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -225,13 +243,13 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		/*redirect to login page after detaching user*/
 		$http.post(address+'detachUser', {deviceToken : $notificationService.getToken()})
 		.then(function(res){
-			$state.go('login');
+			$window.location.href = address;
 		})
 		.catch(function(err){
 			 $mdToast.show($mdToast.simple().textContent('Something went wrong'));
 		});
 		/*diconnect socket*/
-		$socket.getSocket().disconnect();
+		//$socket.getSocket().disconnect();
 
 	}
 	console.log(header);
@@ -289,3 +307,4 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 function searchSubList(channel, subList){
     return subList.findIndex(function(item){return item==channel;}) != -1;
 }
+

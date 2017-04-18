@@ -35,7 +35,7 @@
                           <div layout="row" flex>
                             <h3 style="padding: 8px; font-size: 16px" class="md-body-2" flex=70>Open Registration</h3>
                             <div  style="margin-right:30px">
-                              <md-switch ng-change="registrationChange()"
+                              <md-switch ng-change="registrationChange(openRegistration)"
                                   ng-model="openRegistration"
                                   aria-label="open registration">
                               </md-switch>
@@ -48,17 +48,22 @@
 
                           <div layout="row" flex>
 
-                              <md-button flex class="md-raised md-primary">Add User</md-button>
-                              <md-button flex class="md-raised md-warn">Delete User</md-button>
+                              <md-button flex class="md-raised md-primary" ng-click="showUI()">Add User</md-button>
+                              <md-button flex class="md-raised md-warn" ng-click="showDeleteUser()">Delete User</md-button>
 
                           </div>
 
                           <div layout="row" flex>
                               <md-input-container style="margin-left: 6px" class="md-block" flex>
                                     <label>Batch Year</label>
-                                <input ng-model="batchYear">
+                                <input ng-model="batch">
                                 </md-input-container> 
-                              <md-button flex style="background-color: #D50000" class="md-raised">Delete Batch</md-button>
+                              <md-button flex style="background-color: #D50000" class="md-raised md-warn" ng-click="batchDelete(batch)"> Delete Batch</md-button>
+                          </div>
+
+                          <div ng-show="waiting" > 
+                            <md-progress-linear  md-mode="indeterminate" >
+                            </md-progress-linear>
                           </div>
 
                         </md-card>
@@ -73,7 +78,9 @@
                               <md-list>
                                     <md-list-item  ng-repeat="user in onlineList">
                                         <div>
+                                          
                                           <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                                          
                                         </div>
                                         <div>
                                           <h5 class="md-body-2" flex=90>{{user}}</h5>
@@ -137,13 +144,16 @@
                                 <md-icon flex=10>face</md-icon>
                                 <md-input-container style="margin-left: 6px" class="md-block" flex>
                                     <label>Admin</label>
-                                <input ng-model="channelPayload.channelName">
+                                <input ng-model="channelPayload.admin">
                                 </md-input-container> 
-                                <md-button>Verify</md-button>
                               </div>
                               
-                            <div layout="column" flex=15>
-                              <md-button class="md-raised md-primary">Add</md-button>
+                            <div layout="column" flex=15 ng-show = "!channelAddWaiting">
+                              <md-button ng-click="addChannel()" class="md-raised md-primary">Add</md-button>
+                            </div>
+
+                            <div layout="column" flex=15 ng-show = "channelAddWaiting" layout-align="center center" >
+                               <md-progress-circular ng-disabled="!channelAddWaiting" class="md-primary" md-diameter="40"></md-progress-circular>
                             </div>
 
                         </md-card>
@@ -152,20 +162,24 @@
                       <md-card layout="column" flex=50 style="border-radius: 6px; margin: 3px" layout-align = "start">
                           <div layout="column" flex=20 style="background-color: #2196F3; margin-bottom: 6px;
                             border-top-left-radius: 6px; border-top-right-radius: 6px; padding: 8px">
-                              <h1 class="md-heading" style="color: ghostwhite" flex>Channels :{{channelCount}}</h1>
+                              <h1 class="md-heading" style="color: ghostwhite" flex>Channels</h1>
+                          </div>
+                          <div ng-show='rootscope_channelListWait' > 
+                                  <md-progress-linear md-mode="indeterminat" </md-progress-linear>
                           </div>
                           <div flex=80 style="max-height: 300px; max-width: 500px; overflow-y: scroll; border-color: grey">
+                              
                               <md-list>
                                     <md-list-item  ng-repeat="channel in channelList">
                                         <div flex=10>
-                                          <md-icon style="color: green; margin-right: 6px">face</md-icon>
+                                          <md-icon style="color: green; margin-right: 6px">volume_up</md-icon>
                                         </div>
                                         <div flex=75>
-                                          <h5 class="md-body-2" flex=90>{{channel}}</h5>
+                                          <h5 class="md-body-2" flex=90>{{channel.channelName}}</h5>
                                         </div>
-                                        <md-icon style="color:green" flex=5>add</md-icon>
-                                        <md-icon style="color: mediumvioletred" flex=5>clear</md-icon>
-                                        <md-icon style="color: red" flex=5>delete</md-icon>
+                                        <div layout="row" flex>
+                                           <md-button class="md-icon-button" ng-click="channelDetail(channel.channelName)" ><md-icon style="color:green" >info</md-icon></md-button>
+                                        </div>
                                       <md-divider></md-divider>
                                     </md-list-item>
                               </md-list>
@@ -185,11 +199,11 @@
         
         </md-expansion-panel>
 
-        <md-expansion-panel md-component-id="Database">
+        <md-expansion-panel md-component-id="Extra">
         
           <md-expansion-panel-collapsed>
-            <div class="md-title">Database</div>
-            <div class="md-summary">Manage database and view its status, change routine parameters ...</div>
+            <div class="md-title">Extra</div>
+            <div class="md-summary">Statistics, change password, etc ....</div>
             <md-expansion-panel-icon></md-expansion-panel-icon>
           </md-expansion-panel-collapsed>
         
@@ -203,17 +217,122 @@
             </md-expansion-panel-header>
         
             <md-expansion-panel-content>
-              <h4>Content</h4>
-              <p>Put content in here</p>
+              <div layout="row" style="padding:6px">
+
+                <div flex=50 layout="column">
+                      <md-card layout="column"> 
+                        <div flex=10 style="background-color: #00897B; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Change Password</h1> 
+                        </div>
+
+                        <div style="padding:8px; margin-top: 6px" layout="column">
+                          <div layout="column" flex=80>
+                             <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label>Old Password</label>
+                                <input type="password" ng-model="passwordPayload.oldPassword">
+                              </md-input-container> 
+
+                               <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label >New Password</label>
+                                <input type="password" ng-model="passwordPayload.newPassword">
+                              </md-input-container>
+
+                               <md-input-container style="margin-left: 6px; margin-top: 8px; margin-bottom: 8px" class="md-block" flex>
+                                    <label>Confirm New Password</label>
+                                <input type="password" ng-model="passwordPayload.confirm">
+                              </md-input-container>
+                          </div> 
+                          <div layout="column">
+                              <md-button class="md-primary" ng-disabled="password_wait" ng-click="changePassword()">Change</md-button>
+                              <div ng-show='password_wait'>
+                              <md-progress-linear 
+                                                  md-mode="indeterminate">
+                              </md-progress-linear>
+                              </div>
+                          </div>
+                        </div>
+
+                      </md-card>
+                </div>
+
+                <div flex=50 layout="column">
+                  <style> 
+                    .stat{
+                      height:"20px";
+                    }
+                  </style>
+                    <md-card layout="column">
+                        <div flex=20 style="background-color: #00897B; border-top-left-radius: 6px; border-top-right-radius: 6px">
+                          <h1 class="md-heading" style="color: ghostwhite;padding: 8px" >Storage Statistics</h1> 
+                        </div>
+                        <!--<div style="height: 6px; width: 100%"></div>-->
+                        <div ng-show='stat_wait'>
+                              <md-progress-linear 
+                                                  md-mode="indeterminate">
+                              </md-progress-linear>
+                        </div>
+                        
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">User</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent md-hue-3" style="color:#9C27B0" md-mode="determinate" value="{{user_percent}}" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">{{usersize}}KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Channel</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent md-hue-2" style="color:#9C27B0" md-mode="determinate" value="{{channel_percent}}" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">{{channelsize}}KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Device</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-accent" style="color:#9C27B0" md-mode="determinate" value="{{device_percent}}" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">{{devicesize}}KB</p>
+                          </div>
+                        </div>
+
+                        <div style="max-height: 50px; margin-top: 6px" layout="row">
+                          <div flex="20" style="margin-left: 16px; padding: 8px">
+                            <p style="margin: 0px;" class="md-body-1">Messages</p>
+                          </div>
+                          <div style="padding-top: 16px; padding-bottom: 16px; margin-right: 8px" flex="60">
+                            <md-progress-linear class="md-warn"  md-mode="determinate" value="{{message_percent}}" > </md-progress-linear>
+                          </div>
+                          <div flex="20" style="padding: 8px; margin-right: 8px">
+                              <p style="margin: 0px;" class="md-body-1">{{messagesize}}KB</p>
+                          </div>
+                        </div>
+
+
+                    </md-card>
+                </div>
+                
+
+              </div>
             </md-expansion-panel-content>
         
             <md-expansion-panel-footer md-no-sticky="true">
               <div flex></div>
               <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
             </md-expansion-panel-footer>
-        
           </md-expansion-panel-expanded>
-        
         </md-expansion-panel>
 
   </md-expansion-panel-group>

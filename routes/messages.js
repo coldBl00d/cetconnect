@@ -15,7 +15,6 @@ router.get('/getUsers', function(req, res, next) {
   var query = req.query.query;
   userHelper.getSimilar(query, function(userList){
     var userList_json = JSON.stringify(userList);
-    console.log(userList_json);
     res.status(200).json(userList_json).end();
   });
 });
@@ -37,8 +36,10 @@ router.post('/send', function(req, res, next){
 
 router.get('/getMetadata/:token', function(req, res, next){
    var userToken = req.params.token;
+   console.log(header,'getMetadata '+userToken);
    messageHelper.getMessagesMetadata(userToken,true, function(messageList){
      messageListJSON = JSON.stringify(messageList);
+     console.log(header,messageListJSON);
      res.json(messageListJSON).status(200).end();
    });
 });
@@ -74,6 +75,7 @@ router.get('/getMetadataSent/:token', function(req, res, next){
 router.get('/deleteInbox/:id', function(req, res, next){
 
   var messageId = req.params.id;
+  console.log(header,'Delete Inbox Id '+ messageId);
   const INBOX = true;
 
   messageHelper.deleteMessage(messageId, INBOX, function(result){

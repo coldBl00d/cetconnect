@@ -1,0 +1,58 @@
+<md-dialog style="min-height: 80%; min-width: 40%" layout="column" layout-align="center">
+
+       
+
+        <div layout="column" style="padding:16px"> 
+
+            <div layout="column" >
+                    <md-input-container class="md-block" flex>
+                        <label>Name</label>
+                        <input ng-model="newUser.name">
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex>
+                        <label>UserId</label>
+                        <input ng-model="newUser.userid">
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex>
+                        <label>Password</label>
+                        <input type="password" ng-model="newUser.password">
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex>
+                        <label>Batch(If Applicable)</label>
+                        <input ng-model="newUser.batch">
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block" >
+                                <label>Select Department</label>
+                                <md-select ng-change="" ng-model="newUser.department">
+                                <md-option ng-repeat="department in departmentList" value="{{department}}">
+                                    {{department}}
+                                </md-option>
+                                </md-select>
+                    </md-input-container>
+
+                    <md-input-container flex class="md-block" >
+                        <label>Select Designation</label>
+                        <md-select ng-change="" ng-model="newUser.post">
+                        <md-option ng-repeat="post in postList" value="{{post}}">
+                            {{post}}
+                        </md-option>
+                        </md-select>
+                    </md-input-container>
+
+            </div>
+
+            <div layout="column" > 
+                <md-button class="md-raised md-primary" ng-click="addUser()" > Add </md-button>
+                <div ng-hide = "new_user_response" >
+                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                </div>
+            </div>
+
+        </div>
+
+
+</md-dialog>

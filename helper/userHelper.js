@@ -2,6 +2,8 @@ var userModel = require('../models/users');
 var header ='[userhelper]'
 var userHelper = {};
 
+userHelper.userModel = userModel;
+
 userHelper.ifUser = function (userId, callback){
     userModel.findOne({userid:userId})
             .then(function(user){
@@ -83,5 +85,108 @@ userHelper.addUser = function(user, callBack){
         }
     });
 }
+
+userHelper.getCount = function(callBack){
+    userModel.count({},function(err, count){
+        if(err){
+            console.log(header,err);
+            callBack(-1);
+        }else{
+            callBack(count);
+        }
+    });
+}
+
+userHelper.deleteToken = function (token, callback){
+    userModel.findOneAndRemove({user_token: token }, function (err, doc){
+        if(err){
+            console.log(header,err);
+            callback(false);
+        }else{
+            console.log(header,'user deleted');
+            callback(true);
+        }
+    });
+}
+
+userHelper.deleteBatch = function (batch, callback){
+    userModel.remove({batch: batch }, function (err){
+        if(err){
+            console.log(header,err);
+            callback(false);
+        }else{
+            console.log(header,'users deleted');
+            callback(true);
+        }
+    });
+}
+
+userHelper.getBatchData = function(array, callBack){
+    var numberOfItem = array.length;
+    if(numberOfItem == 0) return callBack([]);
+    var users = [];
+    console.log(header,'Number of item '+ numberOfItem);
+    array.forEach(function(item){
+        userHelper.ifUser(item, function(result, user){
+            if(result){
+                    var user_limited = {
+                    name:user.name,
+                    userid:user.userid,
+                    batch:user.batch,
+                    post:user.post, 
+                    department: user.department
+
+                }
+                console.log(header,user);
+                users.push(user_limited);
+                
+            }
+            if(--numberOfItem == 0){
+                    callBack(users);
+            }   
+        });
+    });
+}
+
+
+userHelper.getBatchDataToken = function(array, callBack){
+    var numberOfItem = array.length;
+    if(numberOfItem == 0) return callBack([]);
+    var users = [];
+    console.log(header,'Number of item '+ numberOfItem);
+    array.forEach(function(item){
+        userHelper.ifUserToken(item, function(result, user){
+            if(result){
+                    var user_limited = {
+                    name:user.name,
+                    userid:user.userid,
+                    batch:user.batch,
+                    post:user.post,
+                    department: user.department
+
+                }
+                console.log(header,user);
+                users.push(user_limited);
+                
+            }
+            if(--numberOfItem == 0){
+                    callBack(users);
+            }   
+        });
+    });
+}
+
+
+userHelper.getSize = function(callBack){
+    userModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
+    });
+}
+
 
 module.exports = userHelper;

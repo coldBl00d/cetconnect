@@ -137,5 +137,25 @@ messagesHelper.deleteMessage = function(messageId, inbox, callBack){
     });
 }
 
+messagesHelper.getSize = function(callBack){
+    senderModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            return callBack(0);
+        }else{
+            var result = stat.storageSize;
+            recieverModel.collection.stats(function(err, rstat){
+                if(err){
+                    console.log(header,err);
+                }else{
+                    result+=rstat.storageSize;
+                }
+                callBack(result);
+                
+            });
+        }
+    });
+}
+
 
 module.exports = messagesHelper;

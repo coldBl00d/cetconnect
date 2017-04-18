@@ -8,6 +8,9 @@ var channelHelper = require('../helper/channelHelper');
 var userHelper = require('../helper/userHelper');
 var deviceHelper = require('../helper/deviceHelper');
 
+
+
+
 var header = "[BROADCAST]";
 var appDir = path.dirname(require.main.filename);
 

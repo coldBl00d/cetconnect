@@ -1,0 +1,189 @@
+
+
+<md-dialog layout="column" style="min-height: 90%; min-width: 50%" layout-align="start">
+
+    <style> 
+        .autocomplete-custom-template li {
+        border-bottom: 1px solid #ccc;
+        height: auto;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        white-space: normal;
+        }
+        .autocomplete-custom-template li:last-child {
+        border-bottom-width: 0;
+        }
+        .autocomplete-custom-template .item-title,
+        .autocomplete-custom-template .item-metadata {
+        display: block;
+        line-height: 2;
+        }
+        .autocomplete-custom-template .item-title md-icon {
+        height: 18px;
+        width: 18px;
+        }
+
+    </style>
+
+    <md-toolbar layout="row">
+        <div flex=90 layout="row" layout-align ="start" style="padding: 8px" >
+                        <h2 class="md-title ContentTitle">{{channelName}}</h2>
+        </div>
+        <div flex=10 layout="row" layout-align="end">
+            <md-button>Delete</md-button>
+        </div> 
+    </md-toolbar>
+
+    <div flex=90 ng-show = "waiting"  layout="column" layout-align ="center center"> 
+        <md-progress-circular ng-disabled="!waiting" class="md-accent" md-diameter="40"></md-progress-circular>
+    </div>
+
+    <div flex=90 ng-show='!waiting' layout='column' layout-align="start" style="overflow-y: scroll">
+
+        
+        <div layout="row" layout-align="start" flex=100 >
+
+
+                <md-card layout="column" flex ="50">
+                    <div style="height: 3px; width: 100%; background-color: #FFCC80"></div> 
+                    <div layout="column" flex=80 layout-align="start">
+                        <md-card-header>
+                            <md-card-header-text>
+                            <span class="md-title">Moderators List</span>
+                            <span class="md-subhead">Manage channel moderators here...</span>
+                            </md-card-header-text>
+                        </md-card-header>
+                    
+                        <md-card-content>
+                            <md-list>
+                                <md-list-item class="md-3-line" ng-repeat="admin in channelDetail.admins" ng-click="null">
+                                    <img ng-src="res/icon_place_holder.png" class="md-avatar" alt="" />
+                                    <div class="md-list-item-text" layout="row">
+                                        <div flex layout="column">
+                                            <h3>{{ admin.name }}</h3>
+                                            <h4>{{ admin.department + '  ' + admin.post }}</h4>
+                                            <p>{{ admin.batch }}</p>
+                                        </div>
+                                        <div flex layout="row" layout-align="end center">
+                                            <md-button ng-click="deleteMod(admin)" class="md-icon-button"> 
+                                                <md-icon >delete</md-icon>
+                                            </md-button>
+                                        </div>
+                                    </div>
+                                </md-list-item>
+                                <md-divider ></md-divider>   
+                            </md-list>
+                        </md-card-content>
+                    </div>
+                    <!--<div layout="column" flex=20 layout-align="end">-->
+                        <md-card-actions layout="column" layout-align="end">
+                            <div layout="row">
+                                <div style="margin-right:6px" flex="100">
+                                    <md-autocomplete flex required
+                                            md-input-name="moderatorField"
+                                            md-input-minlength="4"
+                                            md-input-maxlength="18"
+                                            md-no-cache=true
+                                            md-selected-item="selectedItem"
+                                            md-search-text="searchText"
+                                            md-items="item in moderatorList"
+                                            md-item-text="item.name"
+                                            md-require-match
+                                            md-floating-label="Search User"
+                                            md-search-text-change="querySearch(searchText)"
+                                            ng-model="moderatorModel"
+                                            md-menu-class="autocomplete-custom-template"
+                                            >
+                                    <md-item-template>
+                                                <span class="item-title">
+                                                    <md-icon>face</md-icon>
+                                                    <span> {{item.name}} </span>
+                                                </span>
+                                                <span class="item-metadata">
+                                                    <span class="item-metastat">
+                                                        <strong>{{item.department + '  ' +item.post}}</strong>
+                                                    </span>
+                                                    <span class="item-metastat">
+                                                        {{item.userId}}
+                                                    </span>
+                                                </span>
+                                        </md-item-template>
+                                        <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                            <div ng-message="required">You <b>must</b> enter a moderator</div>
+                                        </div>
+                                    </md-autocomplete>
+                                </div>
+                               
+                            </div>
+                            <div layout="row">
+                                <p flex=75 class="md-body-1">Selected: {{selectedItem.name}}</p>
+                                <div flex="noshrink" layout="row" layout-align="end">
+                                    <md-button ng-disabled="addwait" ng-click="addMod()">Add Admin</md-button>
+                                </div>
+                            </div>
+
+                            
+                        <div ng-show="addwait" flex=5>
+                                <md-progress-linear md-mode="indeterminate">
+                                </md-progress-linear>
+                        </div>
+
+                        </md-card-actions>
+                        
+                    <!--</div>-->
+                
+                </md-card>
+
+                <md-card flex ="50">
+                    <div style="height: 3px; width: 100%; background-color:#A5D6A7"></div>
+                <md-card-header>
+                    <md-card-header-text>
+                    <span class="md-title">Subscribers</span>
+                    <span class="md-subhead">Users Subscribed to this channel ... </span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content style="overflow-y: scroll">
+                            <md-list style="padding-bottom: 6px">
+                                <md-list-item class="md-3-line" ng-repeat="sub in channelDetail.subscribers" ng-click="null">
+                                    <img ng-src="res/icon_place_holder.png" class="md-avatar" alt="" />
+                                    <div class="md-list-item-text" layout="row">
+                                        <div flex layout="column">
+                                            <h3>{{ sub.name }}</h3>
+                                            <h4>{{ sub.department + '  ' + sub.post }}</h4>
+                                            <p>{{ sub.batch }}</p>
+                                        </div>
+                                    </div>
+                                </md-list-item>
+                                <md-divider ></md-divider>   
+                            </md-list>
+                        </md-card-content>
+                </md-card>
+        </div>
+
+          <!--<md-card flex ="noshrink" >
+          <md-card-header>
+            <md-card-header-text>
+              <span class="md-title">Settings</span>
+              <span class="md-subhead">Manage channel here...</span>
+            </md-card-header-text>
+          </md-card-header>
+
+          <md-card-content>
+              content
+          </md-card-content>
+
+          <md-card-actions layout="row" layout-align="end">
+            <md-button>Action 1</md-button>
+            <md-button>Action 2</md-button>
+          </md-card-actions>
+         
+        </md-card>-->
+
+        <!--<p>{{channelDetail}}</p>-->
+    </div>
+
+
+
+
+</md-dialog>

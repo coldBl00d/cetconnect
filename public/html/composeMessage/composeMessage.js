@@ -19,7 +19,7 @@ application.factory('$querySearch', function($http){
 
     return search;
 
-})
+});
 
 application.factory('$sendMessage', function($http, $mdToast){
 

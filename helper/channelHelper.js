@@ -108,6 +108,9 @@ channelHelper.getSubbedUsers = function(channelName, callBack){
     });
 }
 
+
+
+
 function uniquePush(array, content){
     var flag = true;
     for(var i=0; i< array.length; i++){
@@ -131,5 +134,81 @@ function addChannelToFirebaseList(channelId){
         channelName: channelId
     });
 }
+
+channelHelper.getSize = function(callBack){
+    channelModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
+    });
+}
+
+
+channelHelper.deleteUser = function(user, callBack){
+    var header = '[deleteUser From Channel]';
+    console.log(header,'User :'+user.userid);
+    var adminOf = user.adminOf;
+    var subc = user.subbedChannels;
+
+    var lenAdminOf = adminOf.length;
+    var operations =2;
+    var lensubc = subc.length;
+
+    if(lenAdminOf == 0 ){
+        --operations;
+    }
+
+    if(lensubc == 0){
+        --operations;
+    }
+
+    if(lensubc == 0 && lenAdminOf == 0){
+        callBack(true);
+    }
+    
+
+    for(var i=0; i<adminOf.length; i++){
+        var current = adminOf[i];
+        channelHelper.ifChannel(current, function(result){
+            if(result){
+                if(result.admins.indexOf(user.userid) != -1)
+                    result.admins.splice(result.admins.indexOf(user.userid),1);
+                result.save(function(err, doc){
+                    if(err) callBack(false);
+                });
+            }
+
+            if(--lenAdminOf == 0){
+                if(--operations == 0){
+                    callBack(true);
+                }
+            }
+        });
+
+    }
+
+    for(var i=0; i<subc.length; i++){
+        var current = subc[i];
+        channelHelper.ifChannel(current, function(result){
+            if(result){
+                if(result.subscribers.indexOf(user.user_token) != -1){
+                    result.subscribers.splice(result.subscribers.indexOf(user.user_token),1);
+                    result.save(function(err, doc){
+                        if(err){callBack(false)}
+                    });
+                }
+            }
+             if(--lensubc == 0){
+                if(--operations == 0){
+                    callBack(true);
+                }
+            }
+        });
+    }
+}
+
 
 module.exports = channelHelper;

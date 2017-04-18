@@ -1,0 +1,85 @@
+<!doctype html>
+
+<html >
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Admin Console</title>
+
+		<link rel="stylesheet" href="modules/angular-material/angular-material.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+		<link rel="stylesheet" href="angular-material-expansion-panel/dist/md-expansion-panel.css"></script>
+		
+
+	</head>
+
+	<body  ng-app = "adminApp" style="overflow:hidden;background-image: url(res/loginBack.jpg">
+
+			<div  layout="column" flex style="height:100%">
+        
+				<md-toolbar class="md-hue-2">
+									<div class="md-toolbar-tools" layout="row" >
+										<div style="width:50%" flex="nogrow" layout="row" >
+											<md-button ng-disabled="enableMenuButton" class="md-icon-button" aria-label="Settings" ng-click="toggleSideNav()">
+											<md-icon >menu</md-icon>
+											</md-button>
+											<h2 flex layout-padding md-truncate>Admin Console</h2>
+										</div>
+
+										<div flex="noshrink" layout="row" layout-align="end">
+											<md-icon ng-hide="!loggedIn" layout-padding style="margin:0px;">account_circle</md-icon>
+											<md-menu style="margin-left: 6px;margin-right: 6px">
+											<md-button ng-hide="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}}<md-icon>arrow_drop_down</md-icon></md-button>
+											<md-menu-content width="4">
+													<md-menu-item>
+														<md-button ng-click="ctrl.redial($event)">
+															<md-icon class="material-icons md-light md-48" md-menu-align-target>perm_identity</md-icon>
+															Profile
+														</md-button>
+													</md-menu-item>
+													<md-menu-item>
+														<md-button disabled="disabled" >
+															<md-icon class="material-icons md-light md-48">settings</md-icon>
+															Settings
+														</md-button>
+													</md-menu-item>
+													<md-menu-divider></md-menu-divider>
+													<md-menu-item>
+														<md-button ng-click="logout()">
+															<md-icon class="material-icons md-light md-48">highlight_off</md-icon>
+															Logout
+														</md-button>
+													</md-menu-item>
+											</md-menu-content>
+
+											</md-menu>
+										</div>
+									</div>
+				</md-toolbar>
+				<section layout="row" style="height:100%;" >
+						<ui-view layout-wrap layout=column flex layout-align="start"> 
+				
+						</ui-view>
+				</section>
+       	 	</div>
+
+
+						
+	</body>
+	    <script src="angular/angular.min.js"></script>
+		<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script src="angular-route/angular-route.min.js"></script>
+		<script src="angular-messages/angular-messages.min.js"></script>
+		<script src="firebase/firebase.js"></script>
+		<script src="angularfire/dist/angularfire.min.js"></script>		
+		<script src="angular-aria/angular-aria.min.js"></script>
+		<script src="angular-animate/angular-animate.min.js"></script>
+		<script src="angular-material/angular-material.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+		<script src="angular-material-expansion-panel/dist/md-expansion-panel.js"></script>
+		<script src="html/adminLogin/adminLogin.js"></script>
+		<script src="html/adminDash/dash.js"></script>
+		<script src="html/newRegistration/registrationService.js"></script>
+		<script src="html/channelDetail/channelDetail.js"></script>
+</html>

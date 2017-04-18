@@ -8,7 +8,12 @@
                     <h2 flex="95" class="md-title ContentTitle">Channels</h2>
         </md-toolbar>
 
-		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
+		<div ng-show="channelWait" layout="column" flex=100 style="width: 100%" layout-align="center center"> 
+			<md-progress-circular md-mode="indeterminate" md-diameter="40px">
+			</md-progress-circular>
+		</div>
+
+		<div ng-show="!channelWait" layout="column"  flex=100 style="width:100%;"  layout-align="start">     
             <md-content layout="row" layout-padding flex=100 md-whiteframe=7 style="margin: 8px" > 
                 <md-list flex=100>
 					<md-list-item layout-padding layout-wrap layout="row"  ng-repeat="channel in channels_for_view">

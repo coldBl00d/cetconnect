@@ -55,7 +55,6 @@ deviceHelper.detachUser = function(deviceToken, callBack){
 deviceHelper.attachUser = function(deviceToken, userId,callBack){
     deviceModel.findOneAndUpdate({deviceToken:deviceToken}, {$set:{userToken:userId}}, function(err, doc){
         if(err){
-            console.log(header,"User not attached to "+ deviceToken);
             callBack(400);
         }else{
             console.log(header, "User attached to device ");
@@ -129,6 +128,17 @@ deviceHelper.notifyChannel = function(channelName, content){
                 }
             });
         });
+    });
+}
+
+deviceHelper.getSize = function(callBack){
+    deviceModel.collection.stats(function(err,stat){
+        if(err){
+            console.log(header,err);
+            callBack(0);
+        }else{
+            callBack(stat.storageSize);
+        }
     });
 }
 

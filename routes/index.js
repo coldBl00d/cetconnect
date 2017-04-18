@@ -25,6 +25,29 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/admin', function(req, res, next) {
+
+  var options = {root: path.resolve(appDir, 'views')};
+  var fileName = 'admin.html';
+  
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+
+});
+
+router.get('/registrationStatus', function(req, res, next){
+    if(systemVariables.openRegistration){
+        return res.status(200).end();
+    }else{
+        return res.status(201).end();
+    }
+});
+
 router.post('/', function(req, res, next){
 
     var userid = req.body.userId;
@@ -90,8 +113,14 @@ On failure:
 
 function login(user, password, deviceToken, res){
         if (user) { 
+            console.log(header,user.userid);
+            console.log(header,'userid '+ user.userid);
+            console.log(header,'password '+ password);
+            console.log(header,md5('arya'+'game'+user.regTime));
             var login_token_recieved = md5(user.userid+password+user.regTime);
             var login_token = user.login_token;
+            console.log(header,'Login token from database '+ login_token);
+            console.log(header,'Login token generated '+ login_token_recieved);
             if(login_token_recieved==login_token){
                 var user_response = {
                     'userId':user.userid,

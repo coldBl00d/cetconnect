@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -56,7 +56,21 @@ app.use('/admin', admin);
 
 //'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847'
 
-mongoose.connect('localhost:27017/campusConnect', function(err){
+
+
+var heroku = false;
+var port, dbAddr;
+
+if(heroku){
+    port=process.env.PORT;
+    dbAddr = 'mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847';
+}else{
+    port=3000;
+    dbAddr='localhost:27017/campusConnect';
+}
+
+
+mongoose.connect('mongodb://coldBl00d:somesomepassword@ds115870.mlab.com:15870/test9847', function(err){
     if (err){
         console.log("Database connection failed");
     }else{
@@ -64,19 +78,9 @@ mongoose.connect('localhost:27017/campusConnect', function(err){
     }
 });
 
-var heroku = false;
-var port;
-
-if(heroku){
-    port=process.env.PORT;
-}else{
-    port=3000;
-}
-
-
 server.listen(port, function(){
     console.log('Campus connect running at '+ port);
 });
 
-
+var firebaseadmin = require('./firebase-admin.js');
 
