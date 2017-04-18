@@ -142,7 +142,7 @@ router.post('/deleteUser',function(req, res, next){
 
 router.post('/addUser',function(req, res, next){
     var payload = req.body.payload;
-    if(payload.adminToken == systemVariables.adminToken){
+    if(payload.adminToken == systemVariables.adminToken || systemVariables.openRegistration){
         console.log(header,'recieved payload for adding user');
         console.log(header,payload);
         function checkForm() {

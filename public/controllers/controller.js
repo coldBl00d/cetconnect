@@ -127,8 +127,8 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService, $mdToast){
-	var header = '[LoginController]'
+application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService, $mdToast, $registration){
+	var header = '[LoginController]';
 	console.log(header,'Starting login controller');
 	$rootScope.openRegistration = false;
 
@@ -141,6 +141,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 
 	//prevents identifying itself many times over.
 
+	//look if registration is open
 	$http.get(address+'registrationStatus')
 	.then(function(res){
 		if(res.status==200){
@@ -194,6 +195,26 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 				$mdToast.show($mdToast.simple().textContent('Cant reach server'));
 			});
 	};
+
+	/** Registration Of new User */
+
+	$scope.newUser = {};
+    $scope.postList = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'Faculty'];
+    $scope.departmentList = ['Applied Electronics' , 'Civil', 'Computer' , 'Electrical', 'Electronics' , 'Industrial' , 'Mechanical' ];
+    $rootScope.new_user_response = true;
+
+	$scope.registerUI = function() {
+		$registration.showUI($scope);
+	}
+
+	$scope.addUser = function() {
+		console.log(header,$scope.newUser);
+		$registration.addUser($scope, $scope.newUser);
+	}
+
+	/* ************************** */
+
+
 });
 
 
