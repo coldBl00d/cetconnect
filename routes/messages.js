@@ -37,8 +37,10 @@ router.post('/send', function(req, res, next){
 
 router.get('/getMetadata/:token', function(req, res, next){
    var userToken = req.params.token;
+   console.log(header,'getMetadata '+userToken);
    messageHelper.getMessagesMetadata(userToken,true, function(messageList){
      messageListJSON = JSON.stringify(messageList);
+     console.log(header,messageListJSON);
      res.json(messageListJSON).status(200).end();
    });
 });

@@ -84,7 +84,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
     }
 
     function loadMessageMetadata(inbox,callBack){
-
+        var header = '[messageMetadataLoad]';
         if(inbox) path= 'messages/getMetadata/';
         else path = 'messages/getMetadataSent/';
 
@@ -104,7 +104,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
                     messagesSent = JSON.parse(res.data);
                     messages = messagesSent;
                 }
-
+                console.log(header,messages);
                 callBack(messages);
             }
             
