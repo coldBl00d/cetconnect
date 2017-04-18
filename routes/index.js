@@ -40,6 +40,13 @@ router.get('/admin', function(req, res, next) {
 
 });
 
+router.get('/registrationStatus', function(req, res, next){
+    if(systemVariables.openRegistration){
+        return res.status(200).end();
+    }else{
+        return res.status(201).end();
+    }
+});
 
 router.post('/', function(req, res, next){
 

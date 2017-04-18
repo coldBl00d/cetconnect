@@ -32,7 +32,8 @@
 	  
     <md-card-actions layout="row" layout-align="end center">
 		<md-button class="md-primary" ng-click="login()" ng-disabled="loginWait">Login</md-button>
-		<md-button>Clear</md-button>
+		<md-button ng-show="!openRegistration">Clear</md-button>
+    <md-button ng-click="registerUI()" ng-show="openRegistration">Register</md-button>
 	  </md-card-actions>
     <div ng-show="loginWait">
       <md-progress-linear md-mode="indeterminate">

@@ -130,7 +130,8 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService, $mdToast){
 	var header = '[LoginController]'
 	console.log(header,'Starting login controller');
-	
+	$rootScope.openRegistration = false;
+
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
@@ -138,7 +139,18 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	$scope.payload={userId:"", password:""};
 	$scope.loginWait = false;
 
-	//prevents identifying itself many times over. 
+	//prevents identifying itself many times over.
+
+	$http.get(address+'registrationStatus')
+	.then(function(res){
+		if(res.status==200){
+			$rootScope.openRegistration = true;
+		}else{
+			$rootScope.openRegistration = false;
+		}
+		console.log(header,'registration status ' + $rootScope.openRegistration);
+	});
+
 	if(!$rootScope.deviceToken){
 		$notificationService.identify(function(token){
 			$rootScope.deviceToken = token;
