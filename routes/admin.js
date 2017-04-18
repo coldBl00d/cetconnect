@@ -166,7 +166,7 @@ router.post('/addUser',function(req, res, next){
                     var userId = payload.userid;
                     var password = payload.password;
                     var user_token = md5(userId+password);
-                    var login_token = md5(userId+password+regTime);
+                    var login_token = md5(userId+password+regTime.toString());
                     
                     delete payload.newPassword;
                     payload.user_token = user_token;

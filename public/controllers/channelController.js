@@ -1,20 +1,25 @@
 //var channels_for_view = [{name:'All',subbed:false},{name:'CSE',subbed:true},{name:'IEEE',subbed:false},{name:'Robocet',subbed:true}];
 var channels_for_view = [];
 var header = '[channelsController]';
-var channelListURI = 'channelList/'
+var channelListURI = 'channelList/';
+
+	
 
 application.controller('channelsController', function ($scope, $rootScope,$http,$validateLogin,$packingService, $http, $mdToast){
 	$validateLogin();
 	//uncomment to load from firebase
 	//var channelListRef = firebase.database().ref(channelListURI).orderByChild('channelName');
 	//var firebase_channels = $firebaseArray(channelListRef);
+	$scope.channelWait = true;
 	var firebase_channels;
 	$http.get(address+'channel/getChannels').then(function(res){
+		$scope.channelWait = false;
 		firebase_channels = JSON.parse(res.data.channels);
 		$scope.channels_for_view = firebase_channels;
 		console.log(firebase_channels);
 		setToggles(userChannels, firebase_channels);
 	}).catch(function(err){
+		scope.channelWait = false;
 		$mdToast.show($mdToast.simple().textContent('Error loding channels, try reloading'));
 	});
 

@@ -1,20 +1,20 @@
 
 
-<div layout="row" style="height: 100%;background: #90A4AE" layout-align="center center"> 
+<div layout="row" style="height: 100%; width: 100%" layout-align="center center"> 
 
-	<md-card class="LoginCard" flex-gt-xs="nogrow" flex-xs>
+	<md-card class="LoginCard" layout="column" flex-gt-xs="40" flex-xs="100">
 		
-		<md-card-header layout="row">
-            <md-card-header-text flex="100" class="md-title LoginText"  >Login</md-card-header-text><br>
+		<md-card-header flex="20" layout="row">
+            <md-card-header-text flex="100" class="md-title LoginText"  >Login</md-card-header-text>
 		</md-card-header>
-		<md-divider style="padding-top:-8px"></md-divider>
+
 	  <md-card-content layout-gt-sm="column">
-		<div layout="row">
-          <md-icon flex="10" style="margin: 16px;margin-right: 0px;">face</md-icon>
-          <md-input-container class="md-block" flex>
-            <label>Username</label>
-            <input ng-model="payload.userId">
-          </md-input-container>
+		      <div layout="row">
+            <md-icon flex="10" style="margin: 16px;margin-right: 0px;">face</md-icon>
+            <md-input-container class="md-block" flex>
+              <label>Username</label>
+              <input ng-model="payload.userId">
+            </md-input-container>
           </div>
           <div layout="row">
               <md-icon flex="10" style="margin: 16px;margin-right: 0px;">lock</md-icon>
@@ -29,10 +29,15 @@
             </md-checkbox>
           </div>
 	  </md-card-content>
-	  <md-card-actions layout="row" layout-align="end center">
-		<md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
-		<md-button class="md-raised">Clear</md-button>
+	  
+    <md-card-actions layout="row" layout-align="end center">
+		<md-button class="md-primary" ng-click="login()" ng-disabled="loginWait">Login</md-button>
+		<md-button>Clear</md-button>
 	  </md-card-actions>
+    <div ng-show="loginWait">
+      <md-progress-linear md-mode="indeterminate">
+      </md-progress-linear>
+    </div>
 	</md-card>
 </div>
 

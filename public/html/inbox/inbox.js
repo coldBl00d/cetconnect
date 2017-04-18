@@ -1,4 +1,4 @@
-application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging, $mdDialog, $http, $mdToast){
+application.controller('inboxController', function($scope, $rootScope, $validateLogin, $messaging, $mdDialog, $http, $mdToast,$socket){
     $validateLogin();
     $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
@@ -26,9 +26,16 @@ application.controller('inboxController', function($scope, $rootScope, $validate
         $messaging.replyMessage(message, $scope);
     }
 
+    $socket.getSocket().on('newMessage', function(data){
+        $mdToast.show($mdToast.simple().textContent('new message'));
+        console.log(header,data.message);
+        $scope.messages.push(data.message);
+    });
+
 });
 
 application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog){
+    
     var messaging = {};
     messagesSent = [];
     messagesInbox = [];
@@ -96,6 +103,7 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
     function getLoadedInbox($scope){
         var count =0;
         if(messagesInbox!=0){ 
+            console.log(header,'already loaded');
             $scope.messages= messagesInbox;
         }else{
             loadMessageMetadata(true, function(messages_callback){

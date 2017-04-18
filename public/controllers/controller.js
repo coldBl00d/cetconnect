@@ -1,7 +1,7 @@
 var application=angular.module("myApp",['ngMessages','ngRoute','firebase','ui.router','luegg.directives','ngAria','ngMaterial','ngLetterAvatar', 'material.components.expansionPanels']);
-//var address = 'http://localhost:3000/';
+var address = 'http://localhost:3000/';
 var socket;
-var address = 'https://blooming-reaches-58473.herokuapp.com/';
+//var address = 'https://blooming-reaches-58473.herokuapp.com/';
 
 
 application.factory('$validateLogin',function($rootScope,$window,$socket){
@@ -127,7 +127,7 @@ application.config(["$stateProvider", "$urlRouterProvider", function($stateProvi
 	 
 }]);
 
-application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService){
+application.controller("loginCon",function($scope,$http,$state,$rootScope, $rememberMe, $packingService, $notificationService, $mdToast){
 	var header = '[LoginController]'
 	console.log(header,'Starting login controller');
 	
@@ -136,7 +136,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	$rootScope.currentUser = {};
 	$rootScope.currentUser.name = "User";
 	$scope.payload={userId:"", password:""};
-	
+	$scope.loginWait = false;
 
 	//prevents identifying itself many times over. 
 	if(!$rootScope.deviceToken){
@@ -147,6 +147,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	}
 
 	$scope.login=function(){
+		$scope.loginWait = true;
 		console.log($scope.rememberMe);
 		if($scope.rememberMe){
 			console.log("getting token");
@@ -159,6 +160,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 		$http.post(address,$scope.payload)
 			.then(function(response){ //use the term response for data from server for consistency
                     if (response.status == 210){
+					   $scope.loginWait = false;
 					   var currentUser = $packingService.packUser(response.data);
 					   sessionStorage.setItem('currentUser', currentUser);
 					   sessionStorage.setItem('loggedIn', true);
@@ -171,11 +173,13 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 					   else $rememberMe.forget();
                        $state.go("broadcast");
                     }else if(response.data.auth == false){
+						$scope.loginWait = false;
 						console.log(response);
-						alert("Check credentials");
+						$mdToast.show($mdToast.simple().textContent('Check credential'));
 					}
 			},function(err){
-				alert("Cant reach server");
+				$scope.loginWait = false;
+				$mdToast.show($mdToast.simple().textContent('Cant reach server'));
 			});
 	};
 });

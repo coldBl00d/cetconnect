@@ -106,8 +106,14 @@ On failure:
 
 function login(user, password, deviceToken, res){
         if (user) { 
+            console.log(header,user.userid);
+            console.log(header,'userid '+ user.userid);
+            console.log(header,'password '+ password);
+            console.log(header,md5('arya'+'game'+user.regTime));
             var login_token_recieved = md5(user.userid+password+user.regTime);
             var login_token = user.login_token;
+            console.log(header,'Login token from database '+ login_token);
+            console.log(header,'Login token generated '+ login_token_recieved);
             if(login_token_recieved==login_token){
                 var user_response = {
                     'userId':user.userid,

@@ -9,15 +9,17 @@
 		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
             <md-content layout="row"  flex=100 md-whiteframe=7 style="margin: 8px" > 
                 <md-list flex=100>
-					<md-list-item layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#0000FF">
+					<md-list-item layout="row" layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#0000FF">
 							<div layout=row layout-align="start start" flex=80>
-								<md-icon flex=auto ng-hide="{{message.read}}" style="color: mediumvioletred" flex class="InboxIcon">markunread</md-icon>
-								<md-icon flex=auto ng-hide="{{!message.read}}" style="color: seagreen" flex class="InboxIcon">markunread</md-icon>
-								<div style="width:auto" layout="row" flex=90 ng-click="showMessage(message)">
-									<div flex=auto flex-xs=40>
+								
+								<md-icon flex=10 ng-hide="message.read" style="color: mediumvioletred; margin-left: 0px; margin-right: 0px"  class="InboxIcon">markunread</md-icon>
+								<md-icon flex=10 ng-hide="!message.read" style="color: seagreen;; margin-left: 0px; margin-right: 0px"  class="InboxIcon">markunread</md-icon>
+								
+								<div layout="row" flex=70 ng-click="showMessage(message)">
+									<div flex="30" flex-xs="40">
 										<h5 class="md-title InboxSender" >{{message.senderName}}</h5>
 									</div>
-									<div flex=grow  style="overflow-y: hidden">
+									<div flex="70" flex-xs="60"  style="overflow-y: hidden">
 										<h1 class="md-subhead InboxSender InboxSubHeading">{{message.subject}}</h1>
 									</div>
 								</div>

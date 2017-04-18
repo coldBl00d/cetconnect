@@ -157,9 +157,22 @@ channelHelper.deleteUser = function(user, callBack){
     var operations =2;
     var lensubc = subc.length;
 
+    if(lenAdminOf == 0 ){
+        --operations;
+    }
+
+    if(lensubc == 0){
+        --operations;
+    }
+
+    if(lensubc == 0 && lenAdminOf == 0){
+        callBack(true);
+    }
+    
+
     for(var i=0; i<adminOf.length; i++){
         var current = adminOf[i];
-        channelModel.ifChannel(current, function(result){
+        channelHelper.ifChannel(current, function(result){
             if(result){
                 if(result.admins.indexOf(user.userid) != -1)
                     result.admins.splice(result.admins.indexOf(user.userid),1);
@@ -174,11 +187,12 @@ channelHelper.deleteUser = function(user, callBack){
                 }
             }
         });
+
     }
 
     for(var i=0; i<subc.length; i++){
         var current = subc[i];
-        channelModel.ifChannel(current, function(result){
+        channelHelper.ifChannel(current, function(result){
             if(result){
                 if(result.subscribers.indexOf(user.user_token) != -1){
                     result.subscribers.splice(result.subscribers.indexOf(user.user_token),1);

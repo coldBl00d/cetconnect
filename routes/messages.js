@@ -15,7 +15,7 @@ router.get('/getUsers', function(req, res, next) {
   var query = req.query.query;
   userHelper.getSimilar(query, function(userList){
     var userList_json = JSON.stringify(userList);
-    console.log(userList_json);
+    //console.log(userList_json);
     res.status(200).json(userList_json).end();
   });
 });
@@ -26,7 +26,16 @@ router.post('/send', function(req, res, next){
     console.log(header, "Code: "+code);
     if(code==103){
       clientHelper.getClientSockets(payload.recipientId, function(socket){
-        socketHelper.emitToClient(socket, 'newMessage');
+        console.log(header,'once');
+        var messageListEntry = {
+                                read: false,
+                                senderName: payload.senderName,
+                                subject: payload.subject,
+                                timestamp:payload.timestamp,
+                                senderId: payload.senderId
+                                
+        }
+        socket.emit('newMessage', {message:messageListEntry});
       });
       res.status(200).end();
     }else{
