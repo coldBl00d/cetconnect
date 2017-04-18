@@ -15,7 +15,6 @@ router.get('/getUsers', function(req, res, next) {
   var query = req.query.query;
   userHelper.getSimilar(query, function(userList){
     var userList_json = JSON.stringify(userList);
-    console.log(userList_json);
     res.status(200).json(userList_json).end();
   });
 });
@@ -76,6 +75,7 @@ router.get('/getMetadataSent/:token', function(req, res, next){
 router.get('/deleteInbox/:id', function(req, res, next){
 
   var messageId = req.params.id;
+  console.log(header,'Delete Inbox Id '+ messageId);
   const INBOX = true;
 
   messageHelper.deleteMessage(messageId, INBOX, function(result){

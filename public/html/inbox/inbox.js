@@ -2,7 +2,7 @@ application.controller('inboxController', function($scope, $rootScope, $validate
     $validateLogin();
     $messaging.getLoadedInbox($scope);
     $scope.showMessage = function(message){$messaging.showMessage(message,true, $scope);}
-    $scope.delete = function(id){$messaging.deleteMessage(id, true);}
+    $scope.delete = function(id){$messaging.deleteInboxMessage(id, $scope.messages);}
     $scope.replyMessage = function(message){ $messaging.replyMessage(message, $scope); }
     $scope.cancel = function(){$mdDialog.hide();}
     $scope.replyToMessage = function (){
@@ -53,7 +53,33 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
     messagesSent = [];
     messagesInbox = [];
 
-    function deleteMessage(id, inbox){
+    function deleteInboxMessage(id, messages){
+        var dest = 'messages/deleteInbox/';
+
+        $http.get(address+dest+id)
+        .then(function(res){
+            if(res.status == 200){
+                var index = messages.findIndex(function(item){
+                    if(item.id  == id) return true;
+                    else return false;
+                });
+                if(index != -1){
+                    messages.splice(index, 1);
+                }
+            }else{
+                $mdToast.show($mdToast.simple().textContent('Server Error - Message not deleted'));
+            }
+        })
+        .catch(function(err){
+            console.log(header,err);
+            $mdToast.show($mdToast.simple().textContent('Cant reach server'));
+        });
+
+    }
+
+   
+   // Older version
+   function deleteMessage(id, inbox){
         var local;
         var dest;
         if(inbox){
@@ -202,11 +228,10 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         $scope.reply.senderName = $rootScope.currentUser.name;
         $scope.reply.recipientName = message.senderName;
 
-
         console.log($scope.reply);
 
     }
-
+    messaging.deleteInboxMessage = deleteInboxMessage;
     messaging.loadMessageMetadata = loadMessageMetadata;
     messaging.getLoadedInbox = getLoadedInbox;
     messaging.getLoadedSent = getLoadedSent;
