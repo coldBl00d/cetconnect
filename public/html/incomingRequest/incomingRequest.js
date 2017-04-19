@@ -1,4 +1,4 @@
-application.controller('requestController', function($scope,$rootScope,$firebaseArray,$http,$validateLogin){
+application.controller('requestController', function($scope,$rootScope,$firebaseArray,$http,$validateLogin, $mdToast){
 
     $validateLogin();
 
@@ -16,14 +16,17 @@ application.controller('requestController', function($scope,$rootScope,$firebase
     $scope.next = function(){next(requestCollection, $scope);}
     $scope.prev = function(){prev(requestCollection, $scope);}
     $scope.loaded = false;
-    $scope.accept = function(request){accept(request,$scope,$rootScope,$http);}
+    $scope.accept = function(request){accept(request,$scope,$rootScope,$http, $mdToast);}
+    $scope.reject = function(request){reject(request,$rootScope,$http,$mdToast);}
     $scope.noContent = true;
+    $scope.contentWait = true;
 
     firebaseCollection = $firebaseArray(requestRef);
     
     firebaseCollection.$loaded().then(function(){
         if(firebaseCollection.length>0){ $scope.loaded = true; $scope.noContent = false;}
         $scope.request = requestCollection[0];
+        $scope.contentWait = false;
     });
 
     firebaseCollection.$watch(function(whatHappened){
@@ -45,25 +48,46 @@ application.controller('requestController', function($scope,$rootScope,$firebase
                 requestCollection.splice(indexToRemove, 1);
                 if(index>=indexToRemove) decIndex($scope, requestCollection);
                 $scope.request = requestCollection[index];
-            
             }
         }
     });
 
 });
 
-function accept(request,$scope, $rootScope, $http){
+function accept(request,$scope, $rootScope, $http,mdToast){
+    var header = '[AcceptRequest]';
+    request.wait = true;
     request.approvedBy = $rootScope.currentUser.userId;
     var payload = makePayload(request); 
     $http.post(address+"broadcast/request/accept",{payload:payload})
          .then(function(response){
+             request.wait=false;
              if(response.status == 200){
                  console.log('[IncommingRequestController]',"The request was accepted and posted to broadcast");
+                 mdToast.show(mdToast.simple().textContent('Request accepted and posted'));
              }
-         });
+         })
+         .catch(function(err) {
+             request.wait=false;
+            console.log(header,err);
+            mdToast.show(mdToast.simple().textContent('Something went wrong'));
+        });
 }
 
-function reject(){
+function reject(request,$rootScope, http, mdToast){
+    request.wait = true;
+    request.approvedBy = $rootScope.currentUser.userId;
+    var payload = makePayload(request);
+    http.post(address+"broadcast/request/reject",{payload:payload})
+    .then(function(res){
+        request.wait = false;
+        mdToast.show(mdToast.simple().textContent(res.data.message));
+    })
+    .catch(function(err){
+        request.wait = false;
+        console.log(header,err);
+        mdToast.show(mdToast.simple().textContent('Something went wrong'));
+    });
 
 }
 

@@ -283,6 +283,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	$messaging.loadMessageMetadata(true, function(message){});
 	$rootScope.hidesidebar=false;
 	$scope.channels=$rootScope.currentUser.subChannels;
+	$scope.broadcastWait = true;
 	var userSubbedChannels = $rootScope.currentUser.subChannels;
 	var today = new Date();
 	var todayString = today.getDate().toString()+'-'+today.getMonth().toString()+'-'+today.getFullYear().toString();
@@ -290,7 +291,7 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 	var firebaseToday = $firebaseArray(today_reference);
 	var firebaseCollection;
 	var toDisplay=[];
-	
+	$scope.currentFilter="All";
 
 	firebaseToday.$watch(function(someThingHappened){
 		if(someThingHappened.event == 'child_added'){
@@ -302,26 +303,40 @@ application.controller('broadcastViewController', function($scope, $rootScope, $
 			}
 			$scope.broadcastCollection = toDisplay;	
 		}
-	})	
+	});
+
+	firebaseToday.$loaded(function(array){
+		console.log(header,'loaded');
+		$scope.broadcastWait = false;
+	});	
 
 	/*filter selected in the broadcast page*/
 	$scope.filterSelected = function(channel){
+		$scope.broadcastWait = true;
 		$scope.currentFilter = channel;
 		if($scope.currentFilter == 'All'){
 			$scope.broadcastCollection = toDisplay;
+			$scope.broadcastWait = false;
 			$anchorScroll();
+			
 		}else{
 			/*load recent ones for all the selected channel*/
 			firebaseCollection = $firebaseArray(firebase.database().ref('channel/'+channel+'/broadcasts').limitToLast(50));
 			firebaseCollection.$loaded().then(function(){
 				$scope.broadcastCollection = firebaseCollection;
+				$scope.broadcastWait = false;
 				$anchorScroll();
+				
 			});
 			return;
 		}
 	}
     
     $scope.$watch(function(){return $rootScope.hidesidebar}, function(newValue){$rootScope.hidesidebar=newValue;});
+
+	$scope.showMore = function(broadcast){
+		broadcast.expand = !broadcast.expand;
+	}
 	
 });
 

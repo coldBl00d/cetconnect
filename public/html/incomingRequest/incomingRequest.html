@@ -1,21 +1,33 @@
-<div  layout="column" flex=100 layout-align="start">
+<div  layout="column" flex=100 layout-align="center center">
 
      <md-toolbar flex="nogrow" layout="row">
 					<md-icon style="padding:6px">vpn_key</md-icon>
                     <h2 flex="95" class="md-title ContentTitle">Requests</h2>
     </md-toolbar>
 
-     <div ng-cloak layout="row"  flex=100 style="width:100%;"  layout-align="start">     
-         <!--<md-content ng-show="{{noContent}}" class="ShadowDrop" layout="row" layout-align="start start" flex=100 md-whiteframe=7 style="margin: 8px" > 
-            <div flex="nogrow" >
-                <img style="max-width:100%;max-height:100%;" src="res/dark_mountain_nothing_here.jpg">
-            </div>
-         </md-content>-->
+     <md-card ng-cloak layout="column"  flex=100 style="width:80%; border-radius: 6px"  layout-align="start">     
+
+         <md-card-header flex="15">
+            <md-card-header-text >
+                <span class="md-title">Verify Requests</span>
+                <span class="md-subhead">The requests in channels which you are a moderator of will appear here</span>
+            </md-card-header-text>
+        </md-card-header>     
+
+        <md-content ng-show="contentWait"  layout="column" flex=100 style="width: 100%" layout-align="center center"> 
+                <md-progress-circular md-mode="indeterminate" md-diameter="40px">
+                </md-progress-circular>
+        </md-content>
+
+        <md-content ng-show="!contentWait && noContent" layout="column" flex=100 style="width: 100%" layout-align="center center">
+            <h5 class="md-headline">No Requests</h5>
+        </md-content>
          
-          <md-content  layout="row" layout-align="start start" flex=100 md-whiteframe=7 style="margin: 8px" > 
+         
+          <md-content ng-show="!contentWait && !noContent"  layout="row" layout-align="start start" flex=100 style="margin: 8px" > 
             <div layout="column"  layout-align="start stretch" flex>
             
-            <md-content flex=100 md-whiteframe=7 > 
+            <md-content flex=100 > 
                 <md-list>
                     <md-list-item layout-padding layout="row" layout-wrap ng-repeat="request in requestCollection">
 						<md-list-item class="md-3-line">
@@ -29,7 +41,11 @@
 								<h5 style="margin-bottom:8px; font-weight:500;">{{request.title}}</h5>
 								<p>{{request.message}}</p>
                                 <div layout="row" layout-align="end">
-                                    <md-button ng-click="accept(request)" md-no-ink class="md-primary">Accept</md-button>
+                                    <div layout-padding style="margin-top: 16px" ng-show="request.wait">
+                                        <md-progress-circular md-mode="indeterminate" md-diameter="20px">
+                                        </md-progress-circular>
+                                    </div>
+                                    <md-button ng-click="accept(request)" ng-disabled="request.wait" md-no-ink class="md-primary">Accept</md-button>
                                     <md-button ng-click="reject(request)">Reject</md-button>
                                 </div>
 							</div>
@@ -40,7 +56,7 @@
             </md-content>
         </div>
          </md-content>
-     </div>
+     </md-card>
 
 
 

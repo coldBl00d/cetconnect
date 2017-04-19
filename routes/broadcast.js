@@ -141,6 +141,12 @@ router.post('/request/accept', function (req, res, next) {
     });
 });
 
+router.post('/request/reject',function(req, res, next){
+    var header = '[requestRejected]';
+    var payload = req.body.payload;
+    removeRequest(payload.key);
+});
+
 function acceptedRequest(payload) {
     sendBroadcast(payload);
     removeRequest(payload.key);
