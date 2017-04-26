@@ -145,6 +145,7 @@ router.post('/request/reject',function(req, res, next){
     var header = '[requestRejected]';
     var payload = req.body.payload;
     removeRequest(payload.key);
+    
 });
 
 function acceptedRequest(payload) {
