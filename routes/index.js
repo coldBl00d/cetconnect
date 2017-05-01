@@ -5,6 +5,7 @@ var path = require('path');
 var userModel = require("../models/users");
 var deviceHelper = require('../helper/deviceHelper');
 var md5 = require('md5');
+var serverKey = '7182af9b755a72f6f7c5fe88bb3d6dd2ecc5b99b';
 /* GET home page. */
 var header = '[index]'
 var appDir = path.dirname(require.main.filename);
@@ -116,8 +117,7 @@ function login(user, password, deviceToken, res){
             console.log(header,user.userid);
             console.log(header,'userid '+ user.userid);
             console.log(header,'password '+ password);
-            console.log(header,md5('arya'+'game'+user.regTime));
-            var login_token_recieved = md5(user.userid+password+user.regTime);
+            var login_token_recieved = md5(user.userid+password+serverKey);
             var login_token = user.login_token;
             console.log(header,'Login token from database '+ login_token);
             console.log(header,'Login token generated '+ login_token_recieved);
