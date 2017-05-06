@@ -226,6 +226,13 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 	$scope.openMenu= menuWorker;
 	$scope.$watch(function(){return $mdMedia('gt-xs');}, function(value){$scope.enableMenuButton=value;});
 	$scope.logout = logout;
+	$scope.broadcastStyle =  true;
+	$scope.channelsStyle = false;
+	$scope.requestSendBroadcastStyle =  false;
+	$scope.requestStyle =  false;
+	$scope.composeMessageStyle =  false;
+	$scope.inboxStyle =  false;
+	$scope.sentItemStyle =  false;
 	
 	messaging.onMessage(function(payload){
 		console.log(payload);
@@ -245,6 +252,38 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 
 
 	$scope.changeView = function(view){
+		clearAllStyle($scope, function(){
+			switch(view){
+				case 'broadcast':
+					highlight =  "{'background-color':'lightgrey';}";
+					$scope.broadcastStyle =  true;
+					break;
+
+				case 'channels':
+					$scope.channelsStyle =  "{'background-color':'lightgrey'}";
+					break;
+
+				case 'requestSendBroadcast':
+					$scope.requestSendBroadcastStyle = true;
+					break;
+
+				case 'requests':
+					$scope.requestStyle = true;
+					break;
+
+				case 'composeMessage':
+					$scope.composeMessageStyle = true;
+					break;
+
+				case 'sentItems':
+					$scope.sentItemStyle = true;
+					break;
+
+				case 'inbox':
+					$scope.inboxStyle = true;
+					break;
+			}
+		});
 		$state.go(view);
 	}
     
@@ -344,3 +383,18 @@ function searchSubList(channel, subList){
     return subList.findIndex(function(item){return item==channel;}) != -1;
 }
 
+function clearAllStyle($scope, callBack){
+	$scope.broadcastStyle =  false;
+	$scope.channelsStyle = false;
+	$scope.requestSendBroadcastStyle =  false;
+	$scope.requestStyle =  false;
+	$scope.composeMessageStyle =  false;
+	$scope.inboxStyle =  false;
+	$scope.sentItemStyle =  false;
+	callBack();
+}
+
+function setStyle (view, $scope){
+	console.log(header,view);
+	
+}

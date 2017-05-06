@@ -164,7 +164,6 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
             $scope.currentMessage.message = res.data.message;
             $scope.currentMessage.timestamp = new Date($scope.currentMessage.timestamp);
             $scope.currentMessage.timeString = $scope.currentMessage.timestamp.toDateString();
-            
             callBack();
         })
         .catch(function(err){
