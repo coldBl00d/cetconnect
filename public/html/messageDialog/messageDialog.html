@@ -4,7 +4,7 @@
       <div layout="row" class="md-toolbar-tools">
         <h2 flex=50>{{currentMessage.senderName}}</h2>
         <div flex=50 layout="row" layout-align="end">
-          <h2>{{currentMessage.timestamp}}</h2>
+          <h2>{{currentMessage.timeString}}</h2>
         </div>
         <md-divider></md-divider>
         <span flex></span>
@@ -12,12 +12,14 @@
     </md-toolbar>
 
     <md-dialog-content flex="stretch" layout="column" >
-      <div layout="column" class="md-dialog-content">
-        <h2 style="border-style: solid; border-color: lightgrey; border-radius: 8px; padding: 16px" flex=10 >{{currentMessage.subject}}</h2>
+      <div flex layout="column" class="md-dialog-content">
+        <div layout="row" >
+          <h2 flex=100 style="border-style: solid; border-color: lightgrey; border-radius: 8px; padding: 16px"  >{{currentMessage.subject}}</h2>
+        </div>
         <div style="border-style: solid; border-color: lightgrey; border-radius: 8px" flex =90>
-            <p style="white-space: pre-wrap; ;padding: 8px">
+            <div style="white-space: pre-wrap; ;padding: 8px">
             {{currentMessage.message}}
-            </p>
+            </div>
         </div>
       </div>
     </md-dialog-content>

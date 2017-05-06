@@ -6,10 +6,17 @@
                     <h2 flex="95" class="md-title ContentTitle">Sent Item</h2>
         </md-toolbar>
 
-
-		<div layout="column"  flex=100 style="width:100%;"  layout-align="start">     
-            <md-content layout="row"  flex=100 md-whiteframe=7 > 
-                <md-list flex=100>
+		<md-content layout="column"  flex=100   layout-align="start">   
+			<md-card style="min-width:80%; border-radius: 6px;" layout="column">
+			<md-card-header flex="15">
+					<md-card-header-text >
+						<span class="md-title">Sent</span>
+						<span class="md-subhead">View your sent messages.</span>
+					</md-card-header-text>
+			</md-card-header>                   
+			<md-divider flex="noshrink" ></md-divider>
+			<md-content style="min-height: 425px" layout="row"  flex=100 md-whiteframe=7 > 
+				<md-list flex=100>
 					<md-list-item layout-align="start start" ng-repeat="message in messages" md-ink-ripple="#0000FF">
 							<div layout=row layout-align="start start" flex=80>
 								<md-icon style="color: mediumvioletred" flex class="InboxIcon">markunread</md-icon>
@@ -25,9 +32,12 @@
 							</div>
 						<md-divider></md-divider>
 					</md-list-item>
-                </md-list>
-            </md-content>
-        </div>
+				</md-list>
+			</md-content>
+
+			</md-card>
+		</md-content>
+
 </div>
 
 </div>

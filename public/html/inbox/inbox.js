@@ -162,7 +162,8 @@ application.factory('$messaging', function($http, $rootScope,$mdToast, $mdDialog
         $http.get(address+path+id)
         .then(function(res){
             $scope.currentMessage.message = res.data.message;
-            $scope.currentMessage.timestamp = new Date($scope.currentMessage.timestamp).toDateString();
+            $scope.currentMessage.timestamp = new Date($scope.currentMessage.timestamp);
+            $scope.currentMessage.timeString = $scope.currentMessage.timestamp.toDateString();
             
             callBack();
         })
