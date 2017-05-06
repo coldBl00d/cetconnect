@@ -1,16 +1,15 @@
 
-application.controller('bformController',function($scope,$http,$rootScope,$validateLogin) {
+application.controller('bformController',function($scope,$http,$rootScope,$validateLogin, $mdToast) {
     $validateLogin();
     $scope.bForm = {};
     $scope.bForm.adminApproved=false;
     $scope.bForm.message='';
     $scope.bForm.post=$rootScope.currentUser.post;
     $scope.bForm.department=$rootScope.currentUser.department;
-
-
+    $scope.sendWait = false;
     $scope.channelSelected = function(channelName){channelSelected(channelName, $rootScope, $scope);}
-    $scope.send = function () {send($rootScope, $scope,$http);}
-    $scope.request = function() {request($rootScope, $scope, $http);}
+    $scope.send = function () {send($rootScope, $scope,$http, $mdToast);}
+    $scope.request = function() {request($rootScope, $scope, $http, $mdToast);}
 });
 
 function channelSelected(channelName, rootScope, scope){
@@ -25,37 +24,60 @@ function channelSelected(channelName, rootScope, scope){
     scope.isAdmin = false;
 }
 
-function send($rootScope, $scope, $http){
+function send($rootScope, $scope, $http, mdToast){
     console.log($scope.bForm);
     $scope.bForm.userId = $rootScope.currentUser.userId;
     $scope.bForm.userName = $rootScope.currentUser.name;
     console.log($scope.bForm.channel);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
-          $http.post(address+"broadcast",{payload:$scope.bForm}).then(function(res){if(res.status==200){alert("Broadcast posted")}});
+          $scope.sendWait = true;
+          $http.post(address+"broadcast",{payload:$scope.bForm}).then(function(res){
+                console.log(header,'status recieved sending broadcast '+ res.status);
+                if(res.status==200){
+                    console.log(header,'status recieved');
+                    mdToast.show(mdToast.simple().textContent('Broadcast sent...'));
+                    $scope.sendWait = false;
+                    clearFields($scope);
+                }else{
+                    mdToast.show(mdToast.simple().textContent('Something went wrong'));
+                    $scope.sendWait = false;
+                    clearFields($scope);
+                }
+            });
     }else{
-        console.log('No message here');
-        alert("Check your message or channel");
+        $scope.sendWait = false;
+        mdToast.show(mdToast.simple().textContent('Check message form'));
         return;
     }
 }
 
-function request($rootScope, $scope, $http){
+function request($rootScope, $scope, $http, mdToast){
     $scope.bForm.userId = $rootScope.currentUser.userId;
     $scope.bForm.userName = $rootScope.currentUser.name;
     console.log($scope.bForm);
     if($scope.bForm.message && $scope.bForm.channel){
           $scope.bForm.timestamp=new Date();
+          $scope.sendWait = true;
           $http.post(address+"broadcast/request",{payload:$scope.bForm}).then(function(res){
               if(res.status == 200){
-                  alert ("Request Successfully posted");
+                  $scope.sendWait = false;
+                  clearFields($scope);
+                  mdToast.show(mdToast.simple().textContent('Request successfully posted'));
               }else {
-                  alert("Something messed up");
+                  $scope.sendWait = false;
+                  mdToast.show(mdToast.simple().textContent('Something went wrong, try again'));
               }
           });
     }else{
+        $scope.sendWait = false;
         console.log('No message here');
-        alert("Check your message or channel");
+        mdToast.show(mdToast.simple().textContent('Check message form'));
         return;
     }
+}
+
+function clearFields(scope){
+    scope.bForm.message = "";
+    scope.bForm.title="";
 }

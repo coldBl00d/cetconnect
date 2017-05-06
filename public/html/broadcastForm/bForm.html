@@ -1,5 +1,83 @@
 
-<div  layout="column" flex=100 layout-align="start">
+<div layout="row" style="height: 100%;background: lightgrey;" layout-align="start">
+
+     <!--<div layout="row" flex-xs="100" flex-gt-xs=100 show-xs style="height:100%">-->
+        <div layout="column"  layout-align="start stretch" flex>
+            <md-toolbar flex="nogrow" layout="row">
+					<md-icon style="padding:6px">volume_down</md-icon>
+                    <h2 flex="95" class="md-title ContentTitle">Send Broadcast</h2>
+        	</md-toolbar>
+
+             <md-content layout-align="center center" layout="row" flex style="margin: 0px"> 
+                 <md-card style="min-width:80%; margin-top:156px; border-radius: 6px;" layout="column">
+                     <md-card-header flex="15">
+                            <md-card-header-text >
+                              <span class="md-title">Broadcast Form</span>
+                              <span class="md-subhead">Post or request broadcast to a channel.</span>
+                            </md-card-header-text>
+                    </md-card-header>                   
+                    <md-divider flex="noshrink" ></md-divider>
+
+                    <md-card-content style="padding-top:0px" flex="80">
+                        <form flex layout="column">
+                                <div layout ="row" layout-align="start start" class = "form-group">
+                                    <md-icon class="FormIcon">perm_identity</md-icon>
+                                    <h2 class='md-title'>User ID:</h2>
+                                    <h2 class='md-subhead FormData'>{{currentUser.userId}}</h2>
+                                </div>
+                                <div layout ="row" layout-align="start start" class = "form-group">
+                                    <md-icon class="FormIcon">face</md-icon>
+                                    <h2 class='md-title'>User Name:</h2>
+                                    <h2 class='md-subhead FormData'>{{currentUser.name}}</h2>
+                                </div>
+
+                                <div  layout ="row" layout-align="start start" class = "form-group">
+                                    <md-icon class="FormIcon">volume_down</md-icon>
+                                    <md-input-container flex class="md-block" >
+                                        <label>Select Channel</label>
+                                        <md-select ng-change="channelSelected(channelName)" ng-model="channelName">
+                                        <md-option ng-repeat="channel in currentUser.subChannels" value="{{channel}}">
+                                            {{channel}}
+                                        </md-option>
+                                        </md-select>
+                                </md-input-container>
+                                </div>
+
+                                <div layout ="row" layout-align="start start" class = "form-group">
+                                    <md-icon class="FormIcon">edit</md-icon>
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label>Title</label>
+                                    <input ng-model="bForm.title">
+                                    </md-input-container> 
+                                </div>
+
+
+                                <div flex layout ="row" layout-align="start stretch" class = "form-group">
+                                    <md-icon class="FormIcon">email</md-icon>
+                                    <md-input-container flex class="md-block">
+                                        <label>Message</label>
+                                        <textarea ng-model="bForm.message" md-maxlength="1500" rows="6" md-select-on-focus></textarea>
+                                    </md-input-container>
+                                </div>
+
+                                
+                                <div class="form-group" layout="row" layout-align="end" >
+                                        <md-button ng-if="isAdmin" class="md-primary" ng-click='send()'>Send</md-button>
+                                        <md-button ng-if="!isAdmin" class="md-primary" ng-click='request()'>Request</md-button>
+                                        <md-button type="button" ng-click='cancel()'>Cancel</md-button>
+                                </div>
+                        </form>
+                    </md-card-content>
+                    <div ng-show="sendWait">
+                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                    </div>
+                 </md-card>
+         </md-content>           
+        </div>
+     <!--</div>-->
+</div>
+
+<!--<div  layout="column" flex=100 layout-align="start">
 
     <md-toolbar flex="nogrow" layout="row">
 					<md-icon style="padding:6px">forum</md-icon>
@@ -59,4 +137,4 @@
            </form>
          </md-content>
     </div>    
-</div>
+</div>-->

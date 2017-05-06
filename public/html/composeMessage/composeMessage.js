@@ -30,15 +30,18 @@ application.factory('$sendMessage', function($http, $mdToast){
                  if(res.status == 200){
                      $mdToast.show($mdToast.simple().textContent('Message Sent'));
                       $scope.message.recipientId = null;
-                        $scope.message.message = null;
-                        $scope.selectedItem = null;
-                        $scope.message.subject = null;
+                      $scope.message.message = null;
+                      $scope.selectedItem = null;
+                      $scope.message.subject = null;
+                      $scope.messageWait = false;
                  }else{
+                     $scope.messageWait = false;
                      console.log("message not sent");
                      $mdToast.show($mdToast.simple().textContent('Message not sent.'));
                  }
              })
              .catch(function(err){
+                 $scope.messageWait = false;
                  $mdToast.show($mdToast.simple().textContent('Message not sent.'));
                  
              });
@@ -56,7 +59,10 @@ application.controller('messageController',function($scope, $rootScope, $querySe
     $scope.querySearch = function(searchText){
         $querySearch(searchText, function (data){$scope.userList = data;});  
     }
+    $scope.messageWait = false;
+
     $scope.send = function(){
+        $scope.messageWait = true;
         $scope.message.recipientId = $scope.selectedItem.userId;
         $scope.message.senderId = $rootScope.currentUser.userId;
         $scope.message.timestamp = new Date();
