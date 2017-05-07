@@ -1,0 +1,90 @@
+<md-dialog layout-padding style="min-height: 600px" layout="row" layout-align="center center" >
+
+    <md-card layout-padding layout="column" style="min-height: 500px; min-width: 400px">
+
+        <div layout="row" layout-align="center">
+            <div layout="row" layout-align="center">
+            <md-icon flex=90 style="font-size: 125px; height: 125px; width:125px; margin-top:130px">account_circle</md-icon>
+            </div>
+        </div>
+
+        <div layout-padding layout="column" > <!--view -->
+
+            <div flex="10" layout-align="center" layout="row" layout-padding id="heading">
+                <h2 style="margin:0px" class="md-headline">{{currentUser.name}}</h2>
+            </div>
+
+
+            <div layout="row" layout-padding>
+                <div flex="nogrow" layout="column" layout-padding style="margin-left: 16px">
+                    <div layout="row" layout-padding>
+                        <md-icon style="margin: 0px">group_work</md-icon>
+                        <h4 style="margin: 0px" class="md-body-1">{{currentUser.department}}</h4>
+                    </div>
+                    <div layout="row" layout-padding>
+                        <md-icon style="margin: 0px">book</md-icon>
+                        <h4 style="margin: 0px" class="md-body-1">{{currentUser.post}}</h4>
+                    </div>
+                    <div layout="row" layout-padding>
+                        <md-icon style="margin: 0px">date_range</md-icon>
+                        <h4 style="margin: 0px" class="md-body-1">{{currentUser.batch+' Batch'}}</h4>
+                    </div>
+                </div>
+                <div layout="column" layout-padding>
+                
+                     <div layout="row" layout-padding>
+                        <md-icon style="margin: 0px">face</md-icon>
+                        <h4 style="margin: 0px" class="md-body-1">Moderator Of</h4>
+                    </div>
+                    <div layout="row" layout-padding ng-repeat="channel in currentUser.adminOf">
+                        <h4 style="margin: 0px; font-weight: bold;color: grey" class="md-body-1">{{channel}}</h4>
+                    </div>                    
+                </div>
+            </div>
+
+            <div layout="row" layout-padding>
+                <md-button ng-disabled="!viewMode" ng-click="edit()" flex class="md-raised md-primary">Edit</md-button>
+            </div>
+
+        </div>
+
+        <div layout="column" ng-show="!viewMode">
+            
+             <md-input-container class="md-block" flex>
+                        <label>Name</label>
+                        <input ng-model="editUser.name" placeholder="{{currentUser.name}}">
+            </md-input-container>
+
+             <md-input-container class="md-block" flex>
+                        <label>Batch(If Applicable)</label>
+                        <input ng-model="editUser.batch"  placeholder="{{currentUser.batch}}">
+            </md-input-container>
+
+            <md-input-container flex class="md-block" >
+                                <label>Select Department</label>
+                                <md-select ng-change="" ng-model="editUser.department">
+                                <md-option ng-repeat="department in departmentList" value="{{department}}">
+                                    {{department}}
+                                </md-option>
+                                </md-select>
+            </md-input-container>
+
+            <md-input-container flex class="md-block" >
+                <label>Select Designation</label>
+                <md-select ng-change="" ng-model="editUser.post">
+                <md-option ng-repeat="post in postList" value="{{post}}">
+                    {{post}}
+                </md-option>
+                </md-select>
+            </md-input-container>
+
+            <div layout="row">
+                <md-button ng-click="save(currentUser)" class="md-raised md-primary">Save</md-button>
+                <md-button ng-click="cancel()" class="md-raised">Cancel</md-button>
+            </div>
+        
+        </div>
+
+    </md-card>
+
+</md-dialog>

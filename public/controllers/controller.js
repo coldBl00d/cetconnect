@@ -45,7 +45,8 @@ application.factory('$packingService', function($rootScope){
 			'post':user.post,
 			'adminOf':user.adminOf,
 			'subChannels':user.subChannels,
-			'userToken':user.userToken
+			'userToken':user.userToken,
+			'batch':user.batch
 			}
 		
 			var packedUser = JSON.stringify(pack);
@@ -61,7 +62,8 @@ application.factory('$packingService', function($rootScope){
 				'department':user.department,
 				'post':user.post,
 				'adminOf':user.adminOf,
-				'subChannels':user.subChannels
+				'subChannels':user.subChannels,
+				'batch':user.batch
 			}
 			console.log('packed');
 			return JSON.stringify(pack);
@@ -131,7 +133,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 	var header = '[LoginController]';
 	console.log(header,'Starting login controller');
 	$rootScope.openRegistration = false;
-
+	$rootScope.editUser = {};
     $rootScope.loggedIn = false;
 	$rootScope.hidesidebar=true;
 	$rootScope.currentUser = {};
@@ -180,7 +182,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 					   $rootScope.loggedIn=true;
 					   $rootScope.currentUser = response.data;
                        console.log($rootScope.currentUser);
-
+					  
 					   //remember the user if remember me is selected 
 					   if($scope.rememberMe) $rememberMe.remember($scope.payload.userId, $scope.payload.password);
 					   else $rememberMe.forget();
@@ -219,7 +221,7 @@ application.controller("loginCon",function($scope,$http,$state,$rootScope, $reme
 
 
 /*sidebar routing controller*/
-application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $window){
+application.controller('sidebarcontroller', function($rootScope,$scope,$location,$state,$timeout,$mdSidenav,$mdMedia,$element, $myElementInkRipple, $notificationService, $mdToast, $http, $window, $mdDialog){
 	var header = "[sidebasrcontroller]";
 	$scope.toggleSideNav = buildToggler('left');
 	$scope.enableMenuButton = $mdMedia('gt-xs');
@@ -233,6 +235,12 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 	$scope.composeMessageStyle =  false;
 	$scope.inboxStyle =  false;
 	$scope.sentItemStyle =  false;
+	
+	$scope.postList = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'Faculty'];
+    $scope.departmentList = ['Applied Electronics' , 'Civil', 'Computer' , 'Electrical', 'Electronics' , 'Industrial' , 'Mechanical' ];
+
+	$rootScope.viewMode = true;
+	
 	
 	messaging.onMessage(function(payload){
 		console.log(payload);
@@ -312,6 +320,37 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 		//$socket.getSocket().disconnect();
 
 	}
+
+	$scope.showProfile = function(){
+
+			$mdDialog.show({
+                templateUrl: 'html/profile/profile.html',
+                clickOutsideToClose:true,
+                scope:$scope,
+                preserveScope:true,
+                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+            })
+            .then(function(answer) {
+            },function() {
+               console.log("cancelled dialog");
+            });
+
+	}
+
+	$scope.edit = function(){
+		$rootScope.viewMode = false;
+	}
+
+	$scope.cancel = function(){
+		$rootScope.viewMode = true;
+	}
+
+	$scope.save = function(user){
+		if(!$rootScope.editUser.name)
+			$rootScope.editUser.name = $rootScope.currentUser.name;
+		console.log(header,$rootScope.editUser);
+	}
+
 	console.log(header);
 });
 
@@ -394,7 +433,3 @@ function clearAllStyle($scope, callBack){
 	callBack();
 }
 
-function setStyle (view, $scope){
-	console.log(header,view);
-	
-}

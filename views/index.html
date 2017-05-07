@@ -37,7 +37,7 @@
 											<md-button ng-hide="!loggedIn" ng-click="openMenu($mdMenu,$event)">{{currentUser.name}}<md-icon>arrow_drop_down</md-icon></md-button>
 											<md-menu-content width="4">
 													<md-menu-item>
-														<md-button ng-click="ctrl.redial($event)">
+														<md-button ng-click="showProfile()">
 															<md-icon class="material-icons md-light md-48" md-menu-align-target>perm_identity</md-icon>
 															Profile
 														</md-button>
@@ -75,7 +75,7 @@
 							</md-toolbar>
                             <div class="SideNavContainer">
                                 <div class="SideNavEntry" ng-style="{{broadcastStyle}}" layout="row" layout-align="start center" ng-click="changeView('broadcast')">
-                                    
+
                                     <md-icon class="SideNavIcon md-dark NoMargin">volume_down</md-icon>
                                     <label class="md-title SideNavText">Broadcasts</label>
                                 </div>

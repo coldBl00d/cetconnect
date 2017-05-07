@@ -129,7 +129,8 @@ function login(user, password, deviceToken, res){
                     'adminOf':user.adminOf,
                     'subChannels':user.subbedChannels,
                     'department':user.department,
-                    'post':user.post
+                    'post':user.post,
+                    'batch':user.batch
                 }
                 console.log("Sending data back");
                 if(deviceToken != null){
