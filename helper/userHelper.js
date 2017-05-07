@@ -188,5 +188,24 @@ userHelper.getSize = function(callBack){
     });
 }
 
+userHelper.updateUser = function(edits, callBack){
+    userHelper.ifUserToken(edits.userToken, function(result, user){
+        if(result){
+            user.name = edits.name;
+            user.batch = edits.batch;
+            user.department = edits.department;
+            user.post = edits.post;
+            user.save(function(err){
+                if(err){
+                    return callBack(false);
+                }else{
+                    return callBack(true);
+                }
+            });
+        }else{
+            callBack(false);
+        }
+    });
+}
 
 module.exports = userHelper;

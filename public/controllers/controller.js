@@ -235,7 +235,7 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 	$scope.composeMessageStyle =  false;
 	$scope.inboxStyle =  false;
 	$scope.sentItemStyle =  false;
-	
+	$rootScope.editWait = false;
 	$scope.postList = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'Faculty'];
     $scope.departmentList = ['Applied Electronics' , 'Civil', 'Computer' , 'Electrical', 'Electronics' , 'Industrial' , 'Mechanical' ];
 
@@ -339,16 +339,52 @@ application.controller('sidebarcontroller', function($rootScope,$scope,$location
 
 	$scope.edit = function(){
 		$rootScope.viewMode = false;
+		console.log(header,$rootScope.currentUser);
 	}
 
 	$scope.cancel = function(){
 		$rootScope.viewMode = true;
 	}
 
-	$scope.save = function(user){
-		if(!$rootScope.editUser.name)
-			$rootScope.editUser.name = $rootScope.currentUser.name;
-		console.log(header,$rootScope.editUser);
+	$scope.save = function(edits){
+		$rootScope.editWait = true;
+		console.log(header,'edits' );
+		
+		if(!edits.name)
+			edits.name = $rootScope.currentUser.name;
+		if(!edits.batch)
+			edits.batch = $rootScope.currentUser.batch;
+		if(!edits.department)
+			edits.department = $rootScope.currentUser.department;
+		if(!edits.post)
+			edits.post = $rootScope.currentUser.post;
+
+		edits.userToken = $rootScope.currentUser.userToken;
+
+		console.log(header,edits);
+
+		$http.post(address+'updateUser', {payload:edits})
+			.then(function(res){
+				if(res.status == 200){
+					$mdToast.show($mdToast.simple().textContent('Data updated'));
+					$rootScope.currentUser.name = edits.name;
+					$rootScope.currentUser.post = edits.post;
+					$rootScope.currentUser.department = edits.department;
+					$rootScope.currentUser.batch = edits.batch;
+					console.log(header,$rootScope.currentUser);
+					sessionStorage.removeItem('currentUser');
+					
+					sessionStorage.setItem('currentUser', JSON.stringify($rootScope.currentUser));
+					$rootScope.viewMode = false;
+				}
+				$rootScope.editWait = false;
+				$rootScope.viewMode = true;
+			})
+			.catch(function(err){
+				$rootScope.editWait = false;
+				$mdToast.show($mdToast.simple().textContent('Something went wrong'));
+				console.log(header,err);
+			});
 	}
 
 	console.log(header);

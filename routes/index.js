@@ -4,6 +4,7 @@ var router = express.Router();
 var path = require('path');
 var userModel = require("../models/users");
 var deviceHelper = require('../helper/deviceHelper');
+var userHelper = require('../helper/userHelper');
 var md5 = require('md5');
 var serverKey = '7182af9b755a72f6f7c5fe88bb3d6dd2ecc5b99b';
 /* GET home page. */
@@ -63,6 +64,19 @@ router.post('/', function(req, res, next){
         res.status(304);
     });
 
+});
+
+router.post('/updateUser', function(req, res, next){
+
+    console.log(header,'updateUser');
+    var editUser = req.body.payload;
+    userHelper.updateUser(editUser, function(result){
+        if(result){
+            res.status(200).json({message:'Edit successfull'}).end();
+        }else{
+            res.status(201).json({message:'Edit failed'}).end();
+        }
+    });
 });
 
 router.post('/newDevice', function(req, res, next){
