@@ -7,6 +7,8 @@ function getClientSockets(clientId, callBack){
         if(value == clientId){
             console.log('Found socket for '+ clientId);
             callBack(key);
+        }else{
+            callBack(null);
         }
     });
 }

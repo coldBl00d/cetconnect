@@ -3,6 +3,7 @@ var path = require('path');
 var userHelper = require('../helper/userHelper')
 var channelHelper = require('../helper/channelHelper');
 var messageHelper = require('../helper/messagesHelper');
+var deviceHelper = require('../helper/deviceHelper');
 var router = express.Router();
 var appDir = path.dirname(require.main.filename);
 var header = "[Messaging Router]";
@@ -24,8 +25,16 @@ router.post('/send', function(req, res, next){
   messageHelper.sendMessage(payload, function(code){
     console.log(header, "Code: "+code);
     if(code==103){
+      console.log(header,'looking for socket');
       clientHelper.getClientSockets(payload.recipientId, function(socket){
-        socketHelper.emitToClient(socket, 'newMessage');
+        if(socket){
+          socketHelper.emitToClient(socket, 'newMessage');
+          console.log(header,'Found socket notifying user about the message');
+        }
+        else{
+          console.log(header,'FCM for message');
+          deviceHelper.notifyUser(payload.recipientId, payload);
+        }
       });
       res.status(200).end();
     }else{

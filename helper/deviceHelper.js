@@ -108,8 +108,8 @@ var message = {
     notification: {
         title: '',
         body: '',
-        icon: 'http://localhost:3000/res/icon_place_holder.png',
-        'click_action': 'http://localhost:3000'
+        icon: 'https://blooming-reaches-58473.herokuapp.com/res/icon_place_holder.png',
+        'click_action': 'https://blooming-reaches-58473.herokuapp.com'
     }
 };
 
@@ -138,6 +138,30 @@ deviceHelper.getSize = function(callBack){
             callBack(0);
         }else{
             callBack(stat.storageSize);
+        }
+    });
+}
+
+
+
+deviceHelper.notifyUser = function(userId, payload){
+    var header = '[notify user]';
+    console.log(header,payload);
+    console.log(header,'Passed user id '+ userId);
+    userHelper.ifUser(userId, function(result, user){
+        if(result){
+            console.log(header,'Found user '+ user);
+            var userToken = user.user_token;
+            deviceHelper.getDeviceToken(userToken, function(deviceToken){
+                if(deviceToken){
+                    console.log(header,'Found device');
+                    console.log(header,deviceToken);
+                   message.to = deviceToken;
+                   message.notification.title ="New Message from "+payload.senderName;
+                   message.notification.body = payload.subject;
+                   fcm.send(message, function(err, res){console.log(res);}); 
+                }  
+            });
         }
     });
 }
