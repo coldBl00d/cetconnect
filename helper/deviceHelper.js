@@ -158,7 +158,7 @@ deviceHelper.notifyUser = function(userId, payload){
                     console.log(header,deviceToken);
                    message.to = deviceToken;
                    message.notification.title ="New Message from "+payload.senderName;
-                   message.notification.body = payload.subject;
+                   message.notification.body=payload.senderName+'-'+payload.subject;
                    fcm.send(message, function(err, res){console.log(res);}); 
                 }  
             });
